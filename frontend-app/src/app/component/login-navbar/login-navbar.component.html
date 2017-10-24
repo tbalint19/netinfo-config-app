@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default">
+  <navbar-logo></navbar-logo>
+  <div class="navbar-form navbar-right" id="navbar-margin-fix">
+    <div class="form-group">
+      <input
+        [(ngModel)]="user.credential"
+        type="text"
+        class="form-control"
+        placeholder="Username">
+
+      <input
+        [(ngModel)]="user.password"
+        type="password"
+        class="form-control"
+        placeholder="Password">
+    </div>
+    <button
+      class="btn btn-default"
+      [disabled]="!status.isPossible()"
+      (click)="attemptLogin()">
+      Login
+    </button>
+
+    <button
+      class="btn btn-default"
+      (click)="toggleReset()">
+      Forgotten password
+    </button>
+  </div>
+</nav>

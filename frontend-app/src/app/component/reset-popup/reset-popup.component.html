@@ -1,0 +1,20 @@
+<div *ngIf="status.resetIsActive()" class="reset-modal-background"></div>
+<div *ngIf="status.resetIsActive()" class="reset-modal-container">
+<h3>Forgotten password</h3>
+  <input
+    class="form-control"
+    [(ngModel)]="params.credential"
+    placeholder="Username or email address"/>
+
+  <button
+    class="btn btn-success"
+    (click)="requestReset()">
+    Reset
+  </button>
+
+  <button
+    class="btn btn-default"
+    (click)="closeReset()">
+    Back
+  </button>
+</div>

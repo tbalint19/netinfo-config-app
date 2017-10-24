@@ -1,0 +1,21 @@
+.reset-modal-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #555;
+  opacity:0.5;
+  z-index: 10;
+}
+
+.reset-modal-container {
+  position: fixed;
+  top: 10vh;
+  left: 30%;
+  width: 40%;
+  background-color: white;
+  z-index: 11;
+  box-shadow: 0 0 10px black;
+  padding: 20px;
+}

@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="col-xs-6 col-xs-offset-3 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3 block-container">
+    <div class="well">
+      <h3>Confirm</h3>
+      <p>Welcome</p>
+      <p>You are here to confirm {{ getReason() }}.</p>
+      <p>(Not you? <button (click)="getStart()" class="btn btn-link">&lt;&nbsp;Back home</button>)</p>
+      <p>
+        Please confirm your account before continuing to the site.
+        Check your email for the confirmation code.
+      </p>
+
+      <input class="form-control" [(ngModel)]="confirmation.code" placeholder="Confirmation code"/>
+      <button class="btn btn-success" (click)="attemptConfirm()">Confirm</button>
+
+      <p>
+        In case you did not receive it, you can <button class="btn btn-link" (click)="resendRequest()">ask for a resend</button>.
+      </p>
+      <p>
+        Please be aware that you have approx. 5-10 minutes to complete this step, afterwards
+        not confirmed accounts are deleted.
+      </p>
+    </div>
+  </div>
+</div>

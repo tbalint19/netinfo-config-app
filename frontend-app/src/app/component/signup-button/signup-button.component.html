@@ -1,0 +1,8 @@
+<div class="signup-button-container">
+  <button
+    class="btn btn-success"
+    (click)="attemptSignup()"
+    [disabled]="!status.isPossible() || status.isPending()">
+    Signup
+  </button>
+</div>

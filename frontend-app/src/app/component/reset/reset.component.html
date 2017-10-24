@@ -1,0 +1,17 @@
+<div>
+  <h1>Reset</h1>
+  <p>Reseting the password of {{ reset.username }}</p>
+  <p>
+    This right is granted to you because you accessed this page via a link sent to
+    the owner of this account in email.
+  </p>
+
+  <input [(ngModel)]="reset.password" placeholder="New password"/>
+  <input [(ngModel)]="reset.passwordAgain" placeholder="New password again"/>
+  <button (click)="attemptReset()">Reset password</button>
+
+  <p>
+    Please be aware that you have approx. 5-10 minutes to complete this step, afterwards
+    your granted right to reset the password is lost, and you must apply for reset again.
+  </p>
+</div>
