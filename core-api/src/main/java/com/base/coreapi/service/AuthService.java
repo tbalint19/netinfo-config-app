@@ -1,6 +1,6 @@
 package com.base.coreapi.service;
 
-import com.base.coreapi.model.ApplicationUser;
+import com.base.coreapi.model.auth.ApplicationUser;
 import com.base.coreapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

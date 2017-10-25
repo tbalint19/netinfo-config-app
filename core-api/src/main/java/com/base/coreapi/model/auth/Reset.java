@@ -1,4 +1,4 @@
-package com.base.coreapi.model;
+package com.base.coreapi.model.auth;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +15,6 @@ public class Reset {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long Id;
 
     private Long userId;

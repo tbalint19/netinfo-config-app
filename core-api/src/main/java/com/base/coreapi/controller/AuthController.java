@@ -1,7 +1,7 @@
 package com.base.coreapi.controller;
 
-import com.base.coreapi.model.ApplicationUser;
-import com.base.coreapi.model.Confirmation;
+import com.base.coreapi.model.auth.ApplicationUser;
+import com.base.coreapi.model.auth.Confirmation;
 import com.base.coreapi.model.request.LoginRequest;
 import com.base.coreapi.model.response.SuccessResponse;
 import com.base.coreapi.model.response.TokenResponse;

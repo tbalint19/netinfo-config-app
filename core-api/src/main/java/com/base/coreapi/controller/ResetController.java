@@ -1,15 +1,12 @@
 package com.base.coreapi.controller;
 
 
-import com.base.coreapi.controller.microservice.EmailServiceController;
-import com.base.coreapi.model.ApplicationUser;
-import com.base.coreapi.model.Reset;
+import com.base.coreapi.model.auth.ApplicationUser;
+import com.base.coreapi.model.auth.Reset;
 import com.base.coreapi.model.request.ResetRequest;
 import com.base.coreapi.model.response.SuccessResponse;
-import com.base.coreapi.repository.UserRepository;
 import com.base.coreapi.service.AuthService;
 import com.base.coreapi.service.ResetService;
-import com.base.coreapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

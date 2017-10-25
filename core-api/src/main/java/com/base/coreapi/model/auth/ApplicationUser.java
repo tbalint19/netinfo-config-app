@@ -1,4 +1,4 @@
-package com.base.coreapi.model;
+package com.base.coreapi.model.auth;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;

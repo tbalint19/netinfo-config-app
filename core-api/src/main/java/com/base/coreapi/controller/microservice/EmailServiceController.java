@@ -1,8 +1,7 @@
 package com.base.coreapi.controller.microservice;
 
-import com.base.coreapi.model.ApplicationUser;
-import com.base.coreapi.model.Confirmation;
-import com.base.coreapi.model.Reset;
+import com.base.coreapi.model.auth.ApplicationUser;
+import com.base.coreapi.model.auth.Reset;
 import com.base.coreapi.model.request.ConfirmEmailRequest;
 import com.base.coreapi.model.request.ResetEmailRequest;
 import com.base.coreapi.model.response.AttemptResponse;

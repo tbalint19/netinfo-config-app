@@ -1,4 +1,4 @@
-package com.base.coreapi.model;
+package com.base.coreapi.model.auth;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
