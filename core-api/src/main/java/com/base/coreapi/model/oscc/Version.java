@@ -1,4 +1,4 @@
-package com.base.coreapi.model.roaming;
+package com.base.coreapi.model.oscc;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +19,11 @@ public class Version {
 
     private String name;
 
+    @Column(columnDefinition = "TEXT")
     private String serializedObjects;
 
     private Integer orderInBundle;
 
-    @OneToMany(mappedBy = "versionSystemId", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
     private List<VodaObject> objects;
 }

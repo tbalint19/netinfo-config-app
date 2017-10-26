@@ -1,6 +1,6 @@
 package com.base.coreapi.security;
 
-import com.base.coreapi.service.TokenService;
+import com.base.coreapi.service.auth.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

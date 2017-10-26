@@ -1,4 +1,4 @@
-package com.base.coreapi.controller;
+package com.base.coreapi.controller.auth;
 
 
 import com.base.coreapi.model.auth.ApplicationUser;
@@ -8,7 +8,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("/api/users")
-public class UserController extends API {
+public class UserController extends AuthAPI {
 
     @GetMapping("/me")
     public ApplicationUser getMe(Principal principal){

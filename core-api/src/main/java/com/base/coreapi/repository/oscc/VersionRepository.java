@@ -1,6 +1,6 @@
-package com.base.coreapi.repository;
+package com.base.coreapi.repository.oscc;
 
-import com.base.coreapi.model.roaming.Version;
+import com.base.coreapi.model.oscc.Version;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

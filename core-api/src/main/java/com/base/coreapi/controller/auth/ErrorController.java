@@ -1,4 +1,4 @@
-package com.base.coreapi.controller;
+package com.base.coreapi.controller.auth;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

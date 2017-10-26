@@ -1,12 +1,9 @@
-package com.base.coreapi.model.roaming;
+package com.base.coreapi.model.oscc;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -19,10 +16,15 @@ public class VodaObject {
 
     private String id;
 
+    @ManyToOne
+    private OsccType osccType;
+
     private String objectType;
 
+    @Column(columnDefinition = "TEXT")
     private String serializedData;
 
-    private Long versionSystemId;
+    @ManyToOne
+    private Version version;
 
 }

@@ -1,4 +1,4 @@
-package com.base.coreapi.service;
+package com.base.coreapi.service.auth;
 
 import org.springframework.stereotype.Service;
 

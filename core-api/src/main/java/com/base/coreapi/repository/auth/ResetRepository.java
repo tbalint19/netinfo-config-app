@@ -1,4 +1,4 @@
-package com.base.coreapi.repository;
+package com.base.coreapi.repository.auth;
 
 import com.base.coreapi.model.auth.Reset;
 import org.springframework.data.repository.CrudRepository;

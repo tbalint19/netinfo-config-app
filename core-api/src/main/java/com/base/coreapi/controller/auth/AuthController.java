@@ -1,17 +1,17 @@
-package com.base.coreapi.controller;
+package com.base.coreapi.controller.auth;
 
 import com.base.coreapi.model.auth.ApplicationUser;
 import com.base.coreapi.model.auth.Confirmation;
 import com.base.coreapi.model.request.LoginRequest;
 import com.base.coreapi.model.response.SuccessResponse;
 import com.base.coreapi.model.response.TokenResponse;
-import com.base.coreapi.service.ConfirmationService;
+import com.base.coreapi.service.auth.ConfirmationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
-public class AuthController extends API {
+public class AuthController extends AuthAPI {
 
     @Autowired
     private ConfirmationService confirmationService;

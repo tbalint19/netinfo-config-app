@@ -1,7 +1,7 @@
-package com.base.coreapi.model.roaming.dto;
+package com.base.coreapi.model.oscc.dto;
 
-import com.base.coreapi.model.roaming.Version;
-import com.base.coreapi.model.roaming.VodaObject;
+import com.base.coreapi.model.oscc.Version;
+import com.base.coreapi.model.oscc.VodaObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

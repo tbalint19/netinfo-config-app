@@ -1,18 +1,19 @@
-package com.base.coreapi.controller;
+package com.base.coreapi.controller.auth;
 
 
+import com.base.coreapi.controller.auth.AuthAPI;
 import com.base.coreapi.model.auth.ApplicationUser;
 import com.base.coreapi.model.auth.Reset;
 import com.base.coreapi.model.request.ResetRequest;
 import com.base.coreapi.model.response.SuccessResponse;
-import com.base.coreapi.service.AuthService;
-import com.base.coreapi.service.ResetService;
+import com.base.coreapi.service.auth.AuthService;
+import com.base.coreapi.service.auth.ResetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/reset")
-public class ResetController extends API {
+public class ResetController extends AuthAPI {
     @Autowired
     private ResetService resetService;
 

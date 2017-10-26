@@ -1,8 +1,7 @@
-package com.base.coreapi.controller;
+package com.base.coreapi.controller.auth;
 
+import com.base.coreapi.controller.auth.AuthAPI;
 import com.base.coreapi.model.response.CheckResponse;
-import com.base.coreapi.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/check")
-public class CheckController extends API {
+public class CheckController extends AuthAPI {
 
     @GetMapping("/username")
     public CheckResponse checkUsername(@RequestParam String username){

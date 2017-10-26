@@ -1,8 +1,8 @@
-package com.base.coreapi.service;
+package com.base.coreapi.service.auth;
 
 import com.base.coreapi.model.auth.ApplicationUser;
 import com.base.coreapi.model.auth.Reset;
-import com.base.coreapi.repository.ResetRepository;
+import com.base.coreapi.repository.auth.ResetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
