@@ -1,7 +1,7 @@
 package com.base.coreapi.model.oscc.dto;
 
 import com.base.coreapi.model.oscc.Version;
-import com.base.coreapi.model.oscc.VodaObject;
+import com.base.coreapi.model.oscc.OsccObject;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,5 +13,5 @@ public class StructureUpdateDTO {
 
     private Version version;
 
-    private List<VodaObject> vodaObjects;
+    private List<OsccObject> osccObjects;
 }

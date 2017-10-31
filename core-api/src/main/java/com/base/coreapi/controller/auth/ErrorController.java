@@ -7,10 +7,10 @@ import org.springframework.web.context.request.WebRequest;
 @RestControllerAdvice
 public class ErrorController {
 
-    @ExceptionHandler(value = { Exception.class })
-    public void error(Exception e, WebRequest req){
-        System.out.println(e.toString());
-        System.out.println(e.getMessage());
-        System.out.println(req.toString());
-    }
+//    @ExceptionHandler(value = { Exception.class })
+//    public void error(Exception e, WebRequest req){
+//        System.out.println(e.toString());
+//        System.out.println(e.getMessage());
+//        System.out.println(req.toString());
+//    }
 }

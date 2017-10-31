@@ -9,9 +9,7 @@ import java.util.List;
 @Repository
 public interface VersionRepository extends JpaRepository<Version, Long> {
 
-    Version findBySystemId(Long systemId);
-
     Version findByOrderInBundle(Integer orderInBundle);
 
-    List<Version> findByOrderInBundleGreaterThanEqual(Integer orderInBundle);
+    List<Version> findByOrderInBundleGreaterThan(Integer orderInBundle);
 }

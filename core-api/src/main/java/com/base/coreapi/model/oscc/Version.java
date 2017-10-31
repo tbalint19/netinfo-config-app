@@ -1,7 +1,10 @@
 package com.base.coreapi.model.oscc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,11 +22,10 @@ public class Version {
 
     private String name;
 
-    @Column(columnDefinition = "TEXT")
-    private String serializedObjects;
-
     private Integer orderInBundle;
 
-    @OneToMany(mappedBy = "version", cascade = CascadeType.ALL)
-    private List<VodaObject> objects;
+    @JsonIgnore
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToMany(mappedBy = "version")
+    private List<VersionOfType> versionOfTypes;
 }

@@ -12,21 +12,22 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class OsccType {
+public class VersionOfType {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long systemId;
 
-    private String name;
-
-    private Boolean complex;
+    private String structure;
 
     @ManyToOne
-    private OsccNamespace namespace;
+    private Version version;
+
+    @ManyToOne
+    private OsccType type;
 
     @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "type")
-    private List<VersionOfType> versionOfTypes;
+    @OneToMany(mappedBy = "versionOfType")
+    private List<OsccObject> objects;
 }

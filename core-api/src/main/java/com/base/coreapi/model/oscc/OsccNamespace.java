@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Entity
 @NoArgsConstructor
-public class OsccType {
+public class OsccNamespace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,13 +20,8 @@ public class OsccType {
 
     private String name;
 
-    private Boolean complex;
-
-    @ManyToOne
-    private OsccNamespace namespace;
-
     @JsonIgnore
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @OneToMany(mappedBy = "type")
-    private List<VersionOfType> versionOfTypes;
+    @OneToMany(mappedBy = "namespace")
+    private List<OsccType> types;
 }

@@ -1,14 +1,19 @@
 package com.base.coreapi.model.oscc;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Data
 @Entity
 @NoArgsConstructor
-public class VodaObject {
+@EqualsAndHashCode(exclude = "versionOfType")
+@ToString(exclude = "versionOfType")
+public class OsccObject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,15 +21,9 @@ public class VodaObject {
 
     private String id;
 
-    @ManyToOne
-    private OsccType osccType;
-
-    private String objectType;
-
     @Column(columnDefinition = "TEXT")
     private String serializedData;
 
     @ManyToOne
-    private Version version;
-
+    private VersionOfType versionOfType;
 }
