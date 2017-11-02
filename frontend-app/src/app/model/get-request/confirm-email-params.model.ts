@@ -1,8 +1,17 @@
 export class ConfirmEmailParams {
 
-  credentials: string;
+  credential: string;
 
-  constructor(credentials: string){
-    this.credentials = credentials;
+  private initialize(){
+    this.credential = "";
   }
+
+  constructor(){
+    this.initialize();
+  }
+
+  reset(){
+    this.initialize();
+  }
+
 }

@@ -10,6 +10,7 @@ export class LoginStatus {
 
   private _user: LoginUser;
   private _resetActive: boolean;
+  private _isSuspended: boolean;
 
   constructor(
     private _requestObserver: HttpClient,
@@ -19,6 +20,10 @@ export class LoginStatus {
 
   public setUser(user: LoginUser){
       this._user = user;
+  }
+
+  public setSuspended(isSuspended: boolean): void {
+    this._isSuspended = isSuspended;
   }
 
   public resetIsActive(): boolean {
@@ -40,6 +45,14 @@ export class LoginStatus {
   public isPending(): boolean {
     return this._requestObserver.findPending(
       this._factory.createLoginRequest(this._user));
+  }
+
+  public isSuspended(): boolean {
+    return this._isSuspended;
+  }
+
+  public isDisabled(): boolean {
+    return this.isSuspended() || this.isPending();
   }
 
   public isPossible(): boolean {

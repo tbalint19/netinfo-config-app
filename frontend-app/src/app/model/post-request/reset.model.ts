@@ -8,4 +8,19 @@ export class Reset {
 
   passwordAgain: string;
 
+  initialize(){
+    this.username = "";
+    this.code = "";
+    this.password = "";
+    this.passwordAgain = "";
+  }
+
+  constructor(){
+    this.initialize();
+  }
+
+  reset(){
+    this.initialize();
+  }
+
 }

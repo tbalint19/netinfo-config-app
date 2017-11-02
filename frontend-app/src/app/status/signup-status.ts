@@ -15,6 +15,7 @@ export class SignupStatus {
   private _user: SignupUser;
   private _usernameIsAvailable: boolean;
   private _emailIsAvailable: boolean;
+  private _isSuspended: boolean;
 
   constructor(
     private _requestObserver: HttpClient,
@@ -25,6 +26,10 @@ export class SignupStatus {
 
   public setUser(user: SignupUser){
       this._user = user;
+  }
+
+  public setSuspended(isSuspended: boolean): void {
+    this._isSuspended = isSuspended;
   }
 
   public usernameIsValid(): boolean {
@@ -74,6 +79,14 @@ export class SignupStatus {
   public isPending(): boolean {
     return this._requestObserver.findPending(
       this._factory.createSignupRequest(this._user));
+  }
+
+  public isSuspended(): boolean {
+    return this._isSuspended;
+  }
+
+  public isDisabled(): boolean {
+    return this.isPending() || this.isSuspended();
   }
 
   public isPossible(): boolean {

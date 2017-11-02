@@ -5,7 +5,10 @@ import {Location} from '@angular/common';
 import {ResetService} from "../../service/reset.service";
 import {SuccessResponse} from "../../model/response/success-response.model";
 import {MessageService} from "../../service/message.service";
-import {Message} from "../../model/message.model";
+import {Message} from "../../model/message/message.model";
+import {ResetStatus} from "../../status/reset-status";
+import {Error} from "../../model/message/error.model";
+import {Success} from "../../model/message/success.model";
 
 @Component({
   selector: 'app-reset',
@@ -21,8 +24,10 @@ export class ResetComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private messages: MessageService,
+    protected status: ResetStatus,
     private location: Location) {
     this.reset = new Reset();
+    this.status.setReset(this.reset);
   }
 
   ngOnInit() {
@@ -37,18 +42,28 @@ export class ResetComponent implements OnInit {
     );
   }
 
-  public initResetFromParams(params: Params): void {
+  public attemptReset(): void {
+    if (!this.status.isPossible()) {
+      this.suspend();
+      return;
+    }
+    this.resetService.attemptReset(this.reset).subscribe(
+      (response: SuccessResponse) => this.handleResetResponse(response.successful)
+    )
+  }
+
+  private suspend(): void {
+    this.messages.add(new Error("Error", "Unsuccessful password reset attempt"));
+    this.status.setSuspended(true);
+    setTimeout(()=>{
+      this.status.setSuspended(false);
+    }, 5000)
+  }
+
+  private initResetFromParams(params: Params): void {
     this.reset.username = params['user'];
     this.reset.code = params['code'];
     this.location.replaceState("reset");
-  }
-
-  public attemptReset(): void {
-    this.resetService.attemptReset(this.reset).subscribe(
-      (response: SuccessResponse) => this.handleResetResponse(response.successful),
-      (error) => console.log(error),
-      () => console.log("Reset attempt finished")
-    )
   }
 
   private handleResetResponse(successful: boolean): void {
@@ -60,12 +75,12 @@ export class ResetComponent implements OnInit {
   }
 
   private handleSuccess(): void {
-    this.messages.add(new Message("success", "Successful reset", "You can log in now with your new password"));
+    this.messages.add(new Success("Successful reset", "You can log in now with your new password"));
     this.router.navigate(['start']);
   }
 
   private handleError(): void {
-    this.messages.add(new Message("error", "Error", "Unsuccessful password reset attempt"));
+    this.messages.add(new Error("Error", "Unsuccessful password reset attempt"));
   }
 
 }

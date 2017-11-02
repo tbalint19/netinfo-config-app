@@ -11,8 +11,8 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = "versionOfType")
 @ToString(exclude = "versionOfType")
+@EqualsAndHashCode(exclude = "versionOfType")
 public class OsccObject {
 
     @Id

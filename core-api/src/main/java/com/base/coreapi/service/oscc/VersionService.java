@@ -8,6 +8,7 @@ import com.base.coreapi.repository.oscc.VersionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -50,6 +51,13 @@ public class VersionService {
 
     public List<Version> getAllNext(Version version) {
         return repository.findByOrderInBundleGreaterThan(version.getOrderInBundle());
+    }
+
+    public List<Version> getWithAllNext(Version version){
+        List<Version> versions = new ArrayList<>();
+        versions.add(version);
+        versions.addAll(getAllNext(version));
+        return versions;
     }
 
     private void copy(Version base, Version target) {

@@ -5,15 +5,13 @@ import {Message} from "../../model/message/message.model";
 import {Note} from "../../model/message/note.model";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'menu-navbar',
+  templateUrl: './menu-navbar.component.html',
+  styleUrls: ['./menu-navbar.component.css']
 })
-export class HomeComponent implements OnInit {
+export class MenuNavbarComponent implements OnInit {
 
-  constructor(
-    private router: Router,
-    private messages: MessageService) { }
+  constructor(private router: Router, private messages: MessageService) { }
 
   ngOnInit() {
     sessionStorage.removeItem("credential");
@@ -24,5 +22,4 @@ export class HomeComponent implements OnInit {
     this.messages.add(new Note("Logout completed", "Be back soon"));
     this.router.navigate(['start']);
   }
-
 }

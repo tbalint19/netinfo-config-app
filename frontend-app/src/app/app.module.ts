@@ -35,6 +35,13 @@ import {LoginStatus} from "./status/login-status";
 import {CredentialValidator} from "./validator/credential-validator";
 import { NavbarLogoComponent } from './component/navbar-logo/navbar-logo.component';
 import { ResetPopupComponent } from './component/reset-popup/reset-popup.component';
+import {ResetStartStatus} from "./status/reset-start-status";
+import { MenuNavbarComponent } from './component/menu-navbar/menu-navbar.component';
+import { InfoNavbarComponent } from './component/info-navbar/info-navbar.component';
+import {ResetStatus} from "./status/reset-status";
+import {ResetCodeValidator} from "./validator/reset-code-validator";
+import {ConfirmStatus} from "./status/confirm-status";
+import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
 
 @NgModule({
   declarations: [
@@ -53,7 +60,9 @@ import { ResetPopupComponent } from './component/reset-popup/reset-popup.compone
     WelcomeContentComponent,
     LoginNavbarComponent,
     NavbarLogoComponent,
-    ResetPopupComponent
+    ResetPopupComponent,
+    MenuNavbarComponent,
+    InfoNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +85,12 @@ import { ResetPopupComponent } from './component/reset-popup/reset-popup.compone
     RequestFactory,
     SignupStatus,
     LoginStatus,
-    ConfirmService
+    ResetStartStatus,
+    ResetStatus,
+    ResetCodeValidator,
+    ConfirmService,
+    ConfirmStatus,
+    ConfirmCodeValidator
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

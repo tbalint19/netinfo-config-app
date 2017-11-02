@@ -5,7 +5,7 @@ export class Message {
   text: string;
   isRelevant: boolean;
 
-  constructor(severity: string, title: string, text: string){
+  constructor(severity: string = "default", title: string, text: string){
     this.severity = severity;
     this.title = title;
     this.text = text;

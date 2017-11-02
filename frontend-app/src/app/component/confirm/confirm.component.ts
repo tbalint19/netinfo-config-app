@@ -5,7 +5,11 @@ import {TokenResponse} from '../../model/response/token-response';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {MessageService} from "../../service/message.service";
-import {Message} from "../../model/message.model";
+import {ConfirmStatus} from "../../status/confirm-status";
+import {ConfirmEmailParams} from "../../model/get-request/confirm-email-params.model";
+import {SuccessResponse} from "../../model/response/success-response.model";
+import {Success} from "../../model/message/success.model";
+import {Error} from "../../model/message/error.model";
 
 @Component({
   selector: 'app-confirm',
@@ -15,14 +19,18 @@ import {Message} from "../../model/message.model";
 export class ConfirmComponent implements OnInit {
 
   public confirmation: Confirmation;
+  public resendParams: ConfirmEmailParams;
 
   constructor(
     private confirmService: ConfirmService,
+    protected status: ConfirmStatus,
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private messages: MessageService,
     private router: Router) {
+    this.resendParams = new ConfirmEmailParams();
     this.confirmation = new Confirmation();
+    this.status.setConfirm(this.confirmation);
   }
 
   ngOnInit() {
@@ -39,27 +47,52 @@ export class ConfirmComponent implements OnInit {
     );
   }
 
-  public attemptConfirmFromParams(params: Params): void {
+  public attemptConfirm(): void {
+    if (!this.status.isPossible()){
+      this.suspendConfirm();
+      return;
+    }
+    this.confirmService.attemptConfirm(this.confirmation).subscribe(
+      (response: TokenResponse) => this.handleConfirmResponse(response)
+    );
+  }
+
+  public resendRequest(): void {
+    this.confirmService.requestConfirm(this.resendParams).subscribe(
+      (response: SuccessResponse) => this.handleResendResponse(response)
+    );
+  }
+
+  private attemptConfirmFromParams(params: Params): void {
     this.location.replaceState('confirm');
     this.confirmation.code = params['code'];
     this.confirmation.credential = params['user'];
     this.attemptConfirm();
   }
 
-  public initConfirmFromLogin(): void {
+  private initConfirmFromLogin(): void {
     this.confirmation.credential = sessionStorage.getItem('credential');
+    this.resendParams.credential = sessionStorage.getItem('credential');
     sessionStorage.removeItem('credential');
   }
 
-  public attemptConfirm(): void {
-    this.confirmService.attemptConfirm(this.confirmation).subscribe(
-      (response: TokenResponse) => this.handleConfirmResponse(response),
-      (error) => console.log(error),
-      () => console.log('Finished attempt request')
-    );
+  private suspendConfirm(): void {
+    this.status.setSuspended(true);
+    this.messages.add(new Error("Error", "Invalid data"));
+    setTimeout(() => {
+      this.status.setSuspended(false);
+    }, 5000)
   }
 
-  public handleConfirmResponse(response: TokenResponse): void {
+  private handleResendResponse(response: SuccessResponse): void {
+    if (response.successful){
+      this.messages.add(new Success("Email sent", "Check inbox for the code"));
+    } else {
+      this.messages.add(new Error("No email sent", "Invalid email or out of time"));
+    }
+  }
+
+  private handleConfirmResponse(response: TokenResponse): void {
     if (response.token) {
       this.handleSuccessfulConfirm(response.token);
     } else {
@@ -69,28 +102,12 @@ export class ConfirmComponent implements OnInit {
 
   private handleSuccessfulConfirm(token: string): void {
     localStorage.setItem('auth-token', token);
-    this.messages.add(new Message("success","Successful confirmation" , "Your account is confirmed"))
+    this.messages.add(new Success("Welcome" , "Your account is confirmed"))
     this.router.navigate(['']);
   }
 
   private handleFailedConfirm(): void {
-    this.messages.add(new Message("error", "Error", "Unsuccessful confirmation"));
-  }
-
-  public resendRequest(): void {
-
-  }
-
-  public getStart(){
-    this.router.navigate(['start']);
-  }
-
-  public getReason(){
-    let cred = this.confirmation.credential;
-    if (!cred) {
-      return "";
-    }
-    return cred.includes("@") ? "this account belongs to " + cred : "the account created for " + cred + " is valid"
+    this.messages.add(new Error("Unsuccessful confirmation", "Invalid code or out of time"));
   }
 
 }
