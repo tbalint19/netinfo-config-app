@@ -8,6 +8,8 @@ import {ResetEmailParams} from "../model/get-request/reset-email-params.model";
 import {ConfirmEmailParams} from "../model/get-request/confirm-email-params.model";
 import {CheckUsernameParams} from "../model/get-request/check-username-params.model";
 import {CheckEmailParams} from "../model/get-request/check-email-params.model";
+import {Namespace} from "../model/namespace.model";
+import {Version} from "../model/version.model";
 
 @Injectable()
 export class RequestFactory {
@@ -42,5 +44,21 @@ export class RequestFactory {
 
   public createResetRequest(reset: Reset): HttpRequest{
     return new HttpRequest("/api/reset/finish", "POST", reset);
+  }
+
+  public createGetNamespacesRequest(): HttpRequest {
+    return new HttpRequest("/api/oscc/namespace/all", "GET", null);
+  }
+
+  public createNamespaceCreateRequest(namespace: Namespace): HttpRequest {
+    return new HttpRequest("/api/oscc/namespace/create", "POST", namespace);
+  }
+
+  public createGetVersionRequest(): HttpRequest {
+    return new HttpRequest("/api/oscc/version/all", "GET", null);
+  }
+
+  public createVersionCreateRequest(version: Version): HttpRequest {
+    return new HttpRequest("/api/oscc/version/create", "POST", version);
   }
 }

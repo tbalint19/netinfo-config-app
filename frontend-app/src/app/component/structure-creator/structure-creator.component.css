@@ -1,0 +1,58 @@
+.structure-creator-background {
+  z-index: 2;
+  position: fixed;
+  top:0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: whitesmoke;
+  animation: appear 0.5s ease forwards;
+}
+
+.structure-creator-container {
+  z-index: 3;
+  position: fixed;
+  top:0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: transparent;
+  padding-right: 10px;
+  padding-top: 65px;
+}
+
+@keyframes appear {
+  0% {opacity: 0;}
+  100% {opacity: 0.5;}
+}
+
+.structure-creator {
+  border-radius: 3px;
+  background-color: white;
+  min-height: 10vh;
+  animation: slide 0.7s ease forwards;
+  box-shadow: 0 0 10px #555;
+}
+
+@keyframes slide {
+  0% {transform: translateX(2500px)}
+  100% {transform: translateX(0)}
+}
+
+.disappear {
+  animation: disappear 0.5s ease forwards;
+}
+
+@keyframes disappear {
+  0% {opacity: 0.5;}
+  100% {opacity: 0;}
+}
+
+.slideaway {
+  animation: slideaway 0.5s ease forwards;
+}
+
+@keyframes slideaway {
+  0% {transform: translateX(0)}
+  100% {transform: translateX(2500px)}
+}

@@ -1,0 +1,18 @@
+<button
+  class="btn btn-default btn-block"
+  (click)="openCreator()">
+  Edit structure&nbsp;
+  <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
+</button>
+
+<div *ngIf="status.isOpen()" class="structure-creator-background" id="background"></div>
+
+<div *ngIf="status.isOpen()" class="structure-creator-container">
+  <div class="row">
+    <div class="col-xs-10 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+      <div class="structure-creator" id="creator">
+        <button class="close-button" (click)="closeCreator()">x</button>
+      </div>
+    </div>
+  </div>
+</div>

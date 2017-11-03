@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from "@angular/router";
 import {MessageService} from "../../service/message.service";
-import {Message} from "../../model/message/message.model";
 import {Note} from "../../model/message/note.model";
+import {NamespaceStatus} from "../../status/namespace-status";
+import {VersionStatus} from "../../status/version-status";
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,11 @@ import {Note} from "../../model/message/note.model";
 export class HomeComponent implements OnInit {
 
   constructor(
+    public namespaceStatus: NamespaceStatus,
+    public versionStatus: VersionStatus,
     private router: Router,
-    private messages: MessageService) { }
+    private messages: MessageService) {
+  }
 
   ngOnInit() {
     sessionStorage.removeItem("credential");

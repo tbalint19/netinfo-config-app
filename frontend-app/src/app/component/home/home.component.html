@@ -1,5 +1,32 @@
 <menu-navbar></menu-navbar>
 
-<div class="container">
-  Home
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+      <h3 class="title">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+        &nbsp;Menu
+      </h3>
+
+      <hr>
+
+      <version-selector
+        [status]="versionStatus">
+      </version-selector>
+
+      <hr>
+
+      <namespace-selector
+        [status]="namespaceStatus">
+      </namespace-selector>
+
+      <hr>
+
+      <structure-creator>
+
+      </structure-creator>
+
+    </div>
+  </div>
+
 </div>

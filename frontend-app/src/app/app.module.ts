@@ -42,6 +42,16 @@ import {ResetStatus} from "./status/reset-status";
 import {ResetCodeValidator} from "./validator/reset-code-validator";
 import {ConfirmStatus} from "./status/confirm-status";
 import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
+import { NamespaceSelectorComponent } from './component/namespace-selector/namespace-selector.component';
+import {NamespaceService} from "./service/namespace.service";
+import {NamespaceStatus} from "./status/namespace-status";
+import {NamespaceValidator} from "./validator/namespace-validator";
+import { VersionSelectorComponent } from './component/version-selector/version-selector.component';
+import {VersionStatus} from "./status/version-status";
+import {VersionValidator} from "./validator/version-validator";
+import {VersionService} from "./service/version.service";
+import { StructureCreatorComponent } from './component/structure-creator/structure-creator.component';
+import {StructureStatus} from "./status/structure-status";
 
 @NgModule({
   declarations: [
@@ -62,7 +72,10 @@ import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
     NavbarLogoComponent,
     ResetPopupComponent,
     MenuNavbarComponent,
-    InfoNavbarComponent
+    InfoNavbarComponent,
+    NamespaceSelectorComponent,
+    VersionSelectorComponent,
+    StructureCreatorComponent
   ],
   imports: [
     BrowserModule,
@@ -78,6 +91,7 @@ import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
     LoginService,
     ResetService,
     MessageService,
+    NamespaceService,
     UsernameValidator,
     EmailValidator,
     CredentialValidator,
@@ -85,9 +99,15 @@ import {ConfirmCodeValidator} from "./validator/confirm-code-validator";
     RequestFactory,
     SignupStatus,
     LoginStatus,
+    NamespaceStatus,
+    NamespaceValidator,
     ResetStartStatus,
     ResetStatus,
     ResetCodeValidator,
+    VersionStatus,
+    VersionValidator,
+    VersionService,
+    StructureStatus,
     ConfirmService,
     ConfirmStatus,
     ConfirmCodeValidator

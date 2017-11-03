@@ -1,0 +1,49 @@
+<select
+  class="btn {{ status.chosenVersion ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
+  [(ngModel)]="status.chosenVersion">
+  <option
+    [ngValue]="null"
+    hidden="true"
+    [selected]="!status.chosenVersion">Select a version</option>
+  <option
+    *ngFor="let version of status.versions"
+    [ngValue]="version">
+    {{ version.name }}
+  </option>
+</select>
+
+<input
+  class="form-control"
+  type="text"
+  placeholder="New version - name"
+  [(ngModel)]="status.createdVersion.name">
+
+<input
+  class="form-control"
+  type="text"
+  placeholder="New version - number"
+  [(ngModel)]="status.createdVersion.number">
+
+<select
+  class="btn btn-default dropdown-toggle btn-block"
+  [(ngModel)]="status.createdVersionsBase"
+  (ngModelChange)="updateCreatedVersion()">
+  <option
+    [ngValue]="null"
+    hidden="true"
+    [selected]="!status.createdVersionsBase">Select base</option>
+  <option
+    *ngFor="let version of status.versions"
+    [ngValue]="version">
+    {{ version.name }}
+  </option>
+</select>
+
+<button
+  class="btn btn-default btn-block"
+  (click)="createVersion()"
+  [disabled]="status.isPendingCreate() || status.isSuspended()">
+  Create version&nbsp;
+  <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+</button>
+

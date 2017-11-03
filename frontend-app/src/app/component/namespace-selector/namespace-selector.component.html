@@ -1,0 +1,28 @@
+<select
+  class="btn {{ status.chosenNamespace ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
+  [(ngModel)]="status.chosenNamespace">
+  <option
+    [ngValue]="null"
+    hidden="true"
+    [selected]="!status.chosenNamespace">Select a namespace</option>
+  <option
+    *ngFor="let namespace of status.namespaces"
+    [ngValue]="namespace">
+    {{ namespace.name }}
+  </option>
+</select>
+
+<input
+    class="form-control"
+    type="text"
+    placeholder="New namespace"
+    [(ngModel)]="status.createdNamespace.name">
+
+<button
+    class="btn btn-default btn-block"
+    (click)="createNamespace()"
+    [disabled]="status.isPending() || status.isSuspended()">
+    Create namespace&nbsp;
+    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+</button>
+

@@ -61,6 +61,7 @@ export class HttpClient {
 
   private buildUrl(obj: any): string {
     let url = "";
+    if (obj == null) { return url; }
     for (let key of Object.keys(obj)) {
       url = url == "" ? "?" : url + "&";
       url = url + key + "=" + obj[key];
