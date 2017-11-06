@@ -52,6 +52,7 @@ import {VersionValidator} from "./validator/version-validator";
 import {VersionService} from "./service/version.service";
 import { StructureCreatorComponent } from './component/structure-creator/structure-creator.component';
 import {StructureStatus} from "./status/structure-status";
+import { ObjectEditorComponent } from './component/object-editor/object-editor.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +76,8 @@ import {StructureStatus} from "./status/structure-status";
     InfoNavbarComponent,
     NamespaceSelectorComponent,
     VersionSelectorComponent,
-    StructureCreatorComponent
+    StructureCreatorComponent,
+    ObjectEditorComponent
   ],
   imports: [
     BrowserModule,

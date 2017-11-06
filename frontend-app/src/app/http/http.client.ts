@@ -3,6 +3,7 @@ import {Http, Headers, RequestOptions, Response, ResponseContentType} from '@ang
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/throw';
 import {HttpRequest} from "../model/http-request.model";
 import _ from 'lodash';
 

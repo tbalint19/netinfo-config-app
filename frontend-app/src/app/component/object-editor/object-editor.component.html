@@ -1,0 +1,39 @@
+<div>
+
+  <div *ngFor="let key of objectKeys">
+    <hr>
+    <div *ngIf="shouldRenderTextField(key)">
+      <p>{{ key }}</p>
+      <input type="text" [(ngModel)]="object[key]">
+    </div>
+
+    <div *ngIf="shouldRenderNumberField(key)">
+      <p>{{ key }}</p>
+      <input type="number" [(ngModel)]="object[key]">
+    </div>
+
+    <div *ngIf="shouldRenderCheckbox(key)">
+      <p>{{ key }}</p>
+      <input type="checkbox" [(ngModel)]="object[key]">
+    </div>
+
+    <div *ngIf="shouldRenderList(key)">
+
+    </div>
+
+    <div *ngIf="shouldRenderComplexType(key)">
+      <p>{{ key }}</p>
+      <div *ngFor="let innerkey of getInnerKeys(key)">
+        <div *ngIf="shouldRenderTextFieldInComplex(key, innerkey)">
+          <p>{{ innerkey }}</p>
+          <input [(ngModel)]="object[key][innerkey]">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="mockSend()">
+    Save
+  </button>
+
+</div>
