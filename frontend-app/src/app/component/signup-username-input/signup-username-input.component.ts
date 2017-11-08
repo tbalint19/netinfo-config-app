@@ -12,16 +12,14 @@ import {SignupUser} from "../../model/post-request/signup-user.model";
 })
 export class SignupUsernameInputComponent implements OnInit {
 
-  constructor(private service: SignupService) { }
+  public user: SignupUser;
+
+  constructor(private service: SignupService, protected status: SignupStatus) {
+    this.user = this.status.user;
+  }
 
   ngOnInit() {
   }
-
-  @Input()
-  public status: SignupStatus;
-
-  @Input()
-  public user: SignupUser;
 
   protected checkUsername(): void {
     if (!this.status.usernameIsValid()){ return; }

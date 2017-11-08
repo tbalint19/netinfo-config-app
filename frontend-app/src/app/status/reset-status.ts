@@ -9,7 +9,7 @@ import {PasswordValidator} from "../validator/password-validator";
 @Injectable()
 export class ResetStatus {
 
-  private _reset: Reset;
+  public reset: Reset;
   private _suspended: boolean;
 
   constructor(
@@ -18,10 +18,7 @@ export class ResetStatus {
     private _passwordValidator: PasswordValidator,
     private _requestObserver: HttpClient,
     private _factory: RequestFactory){
-  }
-
-  public setReset(reset: Reset): void {
-    this._reset = reset;
+    this.reset = new Reset();
   }
 
   public setSuspended(isSuspended: boolean): void {
@@ -29,23 +26,23 @@ export class ResetStatus {
   }
 
   public usernameIsValid(): boolean {
-    return this._usernameValidator.validFormat(this._reset.username);
+    return this._usernameValidator.validFormat(this.reset.username);
   }
 
   public resetIsValid(): boolean {
-    return this._codeValidator.validFormat(this._reset.code);
+    return this._codeValidator.validFormat(this.reset.code);
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._reset.password);
+    return this._passwordValidator.validFormat(this.reset.password);
   }
 
   public passwordMatches(): boolean {
-    return this._reset.password == this._reset.passwordAgain;
+    return this.reset.password == this.reset.passwordAgain;
   }
 
   public isPending(): boolean {
-    return this._requestObserver.findPending(this._factory.createResetRequest(this._reset));
+    return this._requestObserver.findPending(this._factory.createResetRequest(this.reset));
   }
 
   public isPossible(): boolean {

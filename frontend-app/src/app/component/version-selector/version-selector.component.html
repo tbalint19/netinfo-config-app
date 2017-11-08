@@ -26,12 +26,12 @@
 
 <select
   class="btn btn-default dropdown-toggle btn-block"
-  [(ngModel)]="status.createdVersionsBase"
+  [(ngModel)]="status.createdVersionsBaseVersion"
   (ngModelChange)="updateCreatedVersion()">
   <option
     [ngValue]="null"
     hidden="true"
-    [selected]="!status.createdVersionsBase">Select base</option>
+    [selected]="!status.createdVersionsBaseVersion">Select base</option>
   <option
     *ngFor="let version of status.versions"
     [ngValue]="version">

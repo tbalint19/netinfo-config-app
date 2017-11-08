@@ -1,0 +1,20 @@
+p {
+  margin: 10px 70px;
+  padding: 5px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 3px;
+  box-shadow: 0 0 2px #555;
+}
+
+.structure-name {
+  padding: 6px 0px;
+  font-weight: bold;
+  color: #555;
+}
+
+.type {
+  font-style: italic;
+  font-weight: lighter;
+  opacity: 0.7;
+}

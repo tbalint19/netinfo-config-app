@@ -9,15 +9,13 @@ import {SignupStatus} from "../../status/signup-status";
 })
 export class SignupPasswordInputComponent implements OnInit {
 
-  constructor() { }
+  public user: SignupUser;
+
+  constructor(protected status: SignupStatus) {
+    this.user = this.status.user
+  }
 
   ngOnInit() {
   }
-
-  @Input()
-  public user: SignupUser;
-
-  @Input()
-  public status: SignupStatus;
 
 }

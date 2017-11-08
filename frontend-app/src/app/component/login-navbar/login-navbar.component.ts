@@ -16,19 +16,18 @@ import {Success} from "../../model/message/success.model";
 })
 export class LoginNavbarComponent implements OnInit {
 
+  public user: LoginUser;
+
   constructor(
     private router: Router,
     private service: LoginService,
-    private messages: MessageService) { }
+    private messages: MessageService,
+    protected status: LoginStatus) {
+    this.user = status.user;
+  }
 
   ngOnInit() {
   }
-
-  @Input()
-  public user: LoginUser;
-
-  @Input()
-  public status: LoginStatus;
 
   public attemptLogin(): void {
     if (!this.status.isPossible()){
@@ -37,7 +36,7 @@ export class LoginNavbarComponent implements OnInit {
     }
     this.service.attemptLogin(this.user).subscribe(
       (response: TokenResponse) => this.handleLoginResponse(
-        response.token, this.user.credential)
+        response.token, this.status.user.credential)
     );
   }
 

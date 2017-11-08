@@ -14,19 +14,11 @@ export class HomeComponent implements OnInit {
 
   constructor(
     public namespaceStatus: NamespaceStatus,
-    public versionStatus: VersionStatus,
-    private router: Router,
-    private messages: MessageService) {
+    public versionStatus: VersionStatus) {
   }
 
   ngOnInit() {
     sessionStorage.removeItem("credential");
-  }
-
-  logout(){
-    localStorage.removeItem("auth-token");
-    this.messages.add(new Note("Logout completed", "Be back soon"));
-    this.router.navigate(['start']);
   }
 
 }

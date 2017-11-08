@@ -31,7 +31,14 @@ export class StructureManagerComponent implements OnInit {
   }
 
   private handleArrivedStructures(response: VersionOfType[]): void {
-    console.log(response);
+    for (let versionOfType of response) {
+      let structure = JSON.parse(versionOfType.structure);
+      if (versionOfType.type.complex) {
+        this.status.objectStructures.push(structure);
+      } else {
+        this.status.complexStructures.push(structure);
+      }
+    }
   }
 
 }

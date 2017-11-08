@@ -1,3 +1,45 @@
-<p>
-  structure-editor works!
-</p>
+<div>
+  <p>
+    <input [(ngModel)]="creator.type.name" placeholder="Name">
+  </p>
+  <p>
+    Is complex:
+    <input type="checkbox" [(ngModel)]="creator.type.complex">
+  </p>
+  <p>
+    Is common:
+    <input type="checkbox" [(ngModel)]="creator.isCommon">
+  </p>
+
+  <div *ngFor="let key of getKeys(creator.structure)">
+    <p>
+      <span>{{ key }}</span>
+      <span>{{ creator.structure[key] }}</span>
+      <span><button (click)="deleteRow(key)">Delete</button></span>
+    </p>
+  </div>
+
+  <div>
+    <button
+      (click)="status.toggleNewRow(true)">
+      Add
+    </button>
+  </div>
+
+  <div *ngIf="status.isEdited()">
+    <p>Name: <input [(ngModel)]="row.name"></p>
+    <p>Value:
+      <select [(ngModel)]="row.value">
+        <option *ngFor="let structure of status.complexStructures" [ngValue]="getName(structure)">
+          {{ getName(structure) }}
+        </option>
+        <option *ngFor="let structure of status.primitiveStrucutres" [ngValue]="getName(structure)">
+          {{ getName(structure) }}
+        </option>
+      </select>
+    </p>
+    <button (click)="saveRow()">Save</button>
+    <button (click)="status.toggleNewRow(false)">Cancel</button>
+  </div>
+  <button (click)="saveStructure()">Save</button>
+</div>

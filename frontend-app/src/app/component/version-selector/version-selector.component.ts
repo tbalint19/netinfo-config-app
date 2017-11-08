@@ -56,12 +56,12 @@ export class VersionSelectorComponent implements OnInit {
     this.messages.add(new Success("Success", "Version created"));
     this.updateVersions();
     this.status.createdVersion.reset();
-    this.status.createdVersionsBase = null;
+    this.status.createdVersionsBaseVersion = null;
     this.status.createdVersion.orderInBundle = 1;
   }
 
   updateCreatedVersion() {
-    this.status.createdVersion.orderInBundle = this.status.createdVersionsBase.orderInBundle + 1;
+    this.status.createdVersion.orderInBundle = this.status.createdVersionsBaseVersion.orderInBundle + 1;
   }
 
 }

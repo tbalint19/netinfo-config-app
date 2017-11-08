@@ -7,25 +7,22 @@ import {ResetEmailParams} from "../model/get-request/reset-email-params.model";
 @Injectable()
 export class ResetStartStatus {
 
-  private _params: ResetEmailParams;
+  public params: ResetEmailParams;
 
   constructor(
     private _validator: CredentialValidator,
     private _requestObserver: HttpClient,
     private _factory: RequestFactory){
-  }
-
-  public setParams(params: ResetEmailParams): void {
-    this._params = params;
+    this.params = new ResetEmailParams();
   }
 
   public credentialIsValid(): boolean {
-    return this._validator.validFormat(this._params.credential);
+    return this._validator.validFormat(this.params.credential);
   }
 
   public isPending(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createResetEmailRequest(this._params));
+      this._factory.createResetEmailRequest(this.params));
   }
 
   public isPossible(): boolean {

@@ -8,7 +8,7 @@ import {PasswordValidator} from "../validator/password-validator";
 @Injectable()
 export class LoginStatus {
 
-  private _user: LoginUser;
+  public user: LoginUser;
   private _resetActive: boolean;
   private _isSuspended: boolean;
 
@@ -16,10 +16,8 @@ export class LoginStatus {
     private _requestObserver: HttpClient,
     private _factory: RequestFactory,
     private _credentialValidator: CredentialValidator,
-    private _passwordValidator: PasswordValidator){}
-
-  public setUser(user: LoginUser){
-      this._user = user;
+    private _passwordValidator: PasswordValidator){
+    this.user = new LoginUser();
   }
 
   public setSuspended(isSuspended: boolean): void {
@@ -35,16 +33,16 @@ export class LoginStatus {
   }
 
   public credentialIsValid(): boolean{
-    return this._credentialValidator.validFormat(this._user.credential);
+    return this._credentialValidator.validFormat(this.user.credential);
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._user.password);
+    return this._passwordValidator.validFormat(this.user.password);
   }
 
   public isPending(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createLoginRequest(this._user));
+      this._factory.createLoginRequest(this.user));
   }
 
   public isSuspended(): boolean {

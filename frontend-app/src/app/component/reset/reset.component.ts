@@ -26,8 +26,7 @@ export class ResetComponent implements OnInit {
     private messages: MessageService,
     protected status: ResetStatus,
     private location: Location) {
-    this.reset = new Reset();
-    this.status.setReset(this.reset);
+    this.reset = this.status.reset;
   }
 
   ngOnInit() {

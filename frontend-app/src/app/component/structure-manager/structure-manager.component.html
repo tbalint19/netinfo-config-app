@@ -1,9 +1,14 @@
-<div *ngIf="!status.isActive()">
-  <button (click)="status.activateEditor()">New</button>
+<div *ngIf="!status.isActive()" class="manager-container">
+
+  <button (click)="status.activateEditor()" class="btn btn-info">
+    Create new type
+    <span class="glyphicon glyphicon-plus-sign"></span>
+  </button>
+
   <structure-selector
     *ngFor="let structure of status.primitiveStrucutres"
-    [structure]="structure"
-    [status]="status">
+    [type]="'primitive'"
+    [structure]="structure">
   </structure-selector>
 
   <structure-selector

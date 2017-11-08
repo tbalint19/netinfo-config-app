@@ -10,7 +10,7 @@ export class VersionStatus {
   public versions: Version[];
   public chosenVersion: Version;
   public createdVersion: Version;
-  public createdVersionsBase: Version;
+  public createdVersionsBaseVersion: Version;
 
   constructor(
     private _validator: VersionValidator,
@@ -18,9 +18,8 @@ export class VersionStatus {
     private _factory: RequestFactory){
     this.versions = [];
     this.createdVersion = new Version();
-    this.createdVersion.orderInBundle = 1;
     this.chosenVersion = null;
-    this.createdVersionsBase = null;
+    this.createdVersionsBaseVersion = null;
   }
 
   public nameIsValid(): boolean {

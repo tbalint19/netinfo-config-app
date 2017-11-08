@@ -12,7 +12,12 @@
   <div class="row">
     <div class="col-xs-10 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
       <div class="structure-creator" id="creator">
-        <button class="close-button" (click)="closePopup()">x</button>
+        <div class="modal-header">
+          <button  type="button" class="close" aria-label="Close" (click)="closePopup()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Structure manager</h4>
+        </div>
 
         <structure-manager
           *ngIf="status.isOpen()">

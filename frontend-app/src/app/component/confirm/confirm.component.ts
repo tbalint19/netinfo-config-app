@@ -28,9 +28,8 @@ export class ConfirmComponent implements OnInit {
     private location: Location,
     private messages: MessageService,
     private router: Router) {
-    this.resendParams = new ConfirmEmailParams();
-    this.confirmation = new Confirmation();
-    this.status.setConfirm(this.confirmation);
+    this.resendParams = this.status.params;
+    this.confirmation = this.status.confirmation;
   }
 
   ngOnInit() {

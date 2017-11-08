@@ -10,4 +10,18 @@ export class Type {
 
   namespace: Namespace;
 
+  constructor() {
+    this.initialize();
+  }
+
+  public reset(): void {
+    this.initialize();
+  }
+
+  private initialize(): void {
+    this.systemId = null;
+    this.name = '';
+    this.complex = false;
+    this.namespace = null;
+  }
 }

@@ -11,6 +11,7 @@ import {CheckEmailParams} from "../model/get-request/check-email-params.model";
 import {Namespace} from "../model/namespace.model";
 import {Version} from "../model/version.model";
 import {StructureParams} from "../model/get-request/structure-params.model";
+import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
 
 @Injectable()
 export class RequestFactory {
@@ -65,5 +66,9 @@ export class RequestFactory {
 
   createGetStructuresRequest(params: StructureParams): HttpRequest {
     return new HttpRequest("/api/oscc/versionoftype/all", "GET", params);
+  }
+
+  createStructureCreateRequest(dto: TypeCreateDto): HttpRequest {
+    return new HttpRequest('/api/oscc/type/create', 'POST', dto);
   }
 }

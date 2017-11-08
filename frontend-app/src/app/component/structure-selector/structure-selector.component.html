@@ -1,4 +1,12 @@
-<div>
-  <p>{{ structure }}</p>
-  <button (click)="activate()">Edit</button>
-</div>
+<p>
+  <span class="structure-name">
+    Name:&nbsp;{{ getName(structure) }}&nbsp;
+    <span class="type">({{ type }})</span>
+  </span>
+  <span>
+    <button (click)="activate()" [disabled]="type == 'primitive'" class="btn btn-default">
+      Edit structure
+      <span class="glyphicon glyphicon-wrench"></span>
+    </button>
+  </span>
+</p>

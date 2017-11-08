@@ -1,45 +1,34 @@
 import {Injectable} from "@angular/core";
 import {RenderElements} from "../model/render-elements.enum";
 import {StructureParams} from "../model/get-request/structure-params.model";
+import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
+import {NewRow} from "../model/new-row.model";
+import {StructureCreator} from "../model/structure-creator.model";
 
 @Injectable()
 export class StructureStatus {
 
-  private _open: boolean;
   private _editorActive: boolean;
-  public primitiveStrucutres: any;
-  public complexStructures: any;
-  public objectStructures: any;
-  public structure: any;
+  private _newRowIsEdited: boolean;
+
+  public primitiveStrucutres: any[];
+  public complexStructures: any[];
+  public objectStructures: any[];
+
   public editedStructure: any;
+
+  public creator: StructureCreator;
   public params: StructureParams;
+  public row: NewRow;
 
   constructor(){
-    this.editedStructure = null;
+    this.initializeDefaultTypes();
+    this.creator = new StructureCreator();
     this.params = new StructureParams();
-    this.primitiveStrucutres = [
-      {"string": RenderElements.TEXT_INPUT},
-      {"number": RenderElements.NUMBER_INPUT},
-      {"boolean": RenderElements.CHECK_BOX},
-      {"list": RenderElements.SELECT_LIST}
-    ];
     this.complexStructures = [];
     this.objectStructures = [];
-    this.complexStructures.push({"multilanguage": {"eng": "string", "hun": "string"}});
-    this.complexStructures.push({"psmcodes": {"activation": "string", "deactivation": "string"}});
-    this.objectStructures.push(
-      {"offer": {
-        "id": "string",
-        "active": "boolean",
-        "price": "number",
-        "name": "multilanguage"
-        }
-      }
-    )
-  }
-
-  public isOpen(): boolean {
-    return this._open;
+    this.row = new NewRow();
+    this.editedStructure = {};
   }
 
   public isActive(): boolean {
@@ -50,18 +39,35 @@ export class StructureStatus {
     this._editorActive = true;
   }
 
-  public toggle(to: boolean): void {
-    this._open = to;
+  public isEdited(): boolean {
+    return this._newRowIsEdited;
   }
 
-  public setStructure(): void {
-    this.structure = {
-      "id": "string",
-      "active": "boolean",
-      "price": "number",
-      "name": "multilanguage",
-      "ugrade_offer_ids": "offer-list"
-    };
+  public toggleNewRow(to: boolean): void {
+    this._newRowIsEdited = to;
+  }
+
+  private initializeDefaultTypes(): void {
+    this.primitiveStrucutres = [
+      {"string": RenderElements.TEXT_INPUT},
+      {"number": RenderElements.NUMBER_INPUT},
+      {"boolean": RenderElements.CHECK_BOX},
+      {"list": RenderElements.SELECT_LIST}
+    ];
+  }
+
+  private mockDataLoad(): void {
+    this.complexStructures.push({"multilanguage": {"eng": "string", "hun": "string"}});
+    this.complexStructures.push({"psmcodes": {"activation": "string", "deactivation": "string"}});
+    this.objectStructures.push(
+      {"offer": {
+        "id": "string",
+        "active": "boolean",
+        "price": "number",
+        "name": "multilanguage"
+      }
+      }
+    )
   }
 
 }

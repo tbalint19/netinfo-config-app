@@ -58,6 +58,9 @@ import { StructureEditorComponent } from './component/structure-editor/structure
 import {StructureService} from "./service/structure.service";
 import { StructureManagerComponent } from './component/structure-manager/structure-manager.component';
 import {PopupStatus} from "./status/popup-status";
+import {ObjectEditorStatus} from "./status/object-editor-status";
+import {KeyPipe} from './pipe/key.pipe';
+import {DtoFactory} from "./factory/dto-factory";
 
 @NgModule({
   declarations: [
@@ -85,7 +88,8 @@ import {PopupStatus} from "./status/popup-status";
     ObjectEditorComponent,
     StructureSelectorComponent,
     StructureEditorComponent,
-    StructureManagerComponent
+    StructureManagerComponent,
+    KeyPipe
   ],
   imports: [
     BrowserModule,
@@ -122,7 +126,9 @@ import {PopupStatus} from "./status/popup-status";
     ConfirmService,
     ConfirmStatus,
     PopupStatus,
-    ConfirmCodeValidator
+    ObjectEditorStatus,
+    ConfirmCodeValidator,
+    DtoFactory,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

@@ -12,7 +12,7 @@ export class Version {
     this.systemId = null;
     this.name = "";
     this.number = "";
-    this.orderInBundle = null;
+    this.orderInBundle = 1;
   }
 
   constructor(){

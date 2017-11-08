@@ -22,8 +22,7 @@ export class ResetPopupComponent implements OnInit {
     private service: ResetService,
     private messages: MessageService,
     protected resetStatus: ResetStartStatus) {
-    this.params = new ResetEmailParams();
-    this.resetStatus.setParams(this.params);
+    this.params = resetStatus.params;
   }
 
   ngOnInit() {

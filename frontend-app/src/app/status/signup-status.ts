@@ -12,7 +12,7 @@ import {CheckEmailParams} from "../model/get-request/check-email-params.model";
 @Injectable()
 export class SignupStatus {
 
-  private _user: SignupUser;
+  public user: SignupUser;
   private _usernameIsAvailable: boolean;
   private _emailIsAvailable: boolean;
   private _isSuspended: boolean;
@@ -22,10 +22,8 @@ export class SignupStatus {
     private _factory: RequestFactory,
     private _usernameValidator: UsernameValidator,
     private _emailValidator: EmailValidator,
-    private _passwordValidator: PasswordValidator){}
-
-  public setUser(user: SignupUser){
-      this._user = user;
+    private _passwordValidator: PasswordValidator){
+    this.user = new SignupUser()
   }
 
   public setSuspended(isSuspended: boolean): void {
@@ -33,13 +31,13 @@ export class SignupStatus {
   }
 
   public usernameIsValid(): boolean {
-    return this._usernameValidator.validFormat(this._user.username);
+    return this._usernameValidator.validFormat(this.user.username);
   }
 
   public usernameIsChecked(): boolean {
     return this._requestObserver.findPending(
       this._factory.createUsernameCheckRequest(
-        new CheckUsernameParams(this._user.username)));
+        new CheckUsernameParams(this.user.username)));
   }
 
   public usernameIsAvailable(): boolean {
@@ -51,13 +49,13 @@ export class SignupStatus {
   }
 
   public emailIsValid(): boolean {
-    return this._emailValidator.validFormat(this._user.email);
+    return this._emailValidator.validFormat(this.user.email);
   }
 
   public emailIsChecked(): boolean {
     return this._requestObserver.findPending(
       this._factory.createEmailCheckRequest(
-        new CheckEmailParams(this._user.email)));
+        new CheckEmailParams(this.user.email)));
   }
 
   public emailIsAvailable(): boolean {
@@ -69,16 +67,16 @@ export class SignupStatus {
   }
 
   public passwordIsValid(): boolean {
-    return this._passwordValidator.validFormat(this._user.password);
+    return this._passwordValidator.validFormat(this.user.password);
   }
 
   public passwordMatches(): boolean {
-    return this._user.password == this._user.passwordAgain;
+    return this.user.password == this.user.passwordAgain;
   }
 
   public isPending(): boolean {
     return this._requestObserver.findPending(
-      this._factory.createSignupRequest(this._user));
+      this._factory.createSignupRequest(this.user));
   }
 
   public isSuspended(): boolean {

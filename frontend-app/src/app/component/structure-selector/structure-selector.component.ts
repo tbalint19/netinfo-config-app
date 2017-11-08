@@ -8,16 +8,20 @@ import {StructureStatus} from "../../status/structure-status";
 })
 export class StructureSelectorComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected status: StructureStatus) { }
 
   ngOnInit() {
   }
 
   @Input()
-  public status: StructureStatus;
+  public structure: any;
 
   @Input()
-  public structure: any;
+  public type: string;
+
+  protected getName(obj: any){
+      return Object.keys(obj)[0];
+  }
 
   public activate(): void {
     this.status.editedStructure = this.structure;
