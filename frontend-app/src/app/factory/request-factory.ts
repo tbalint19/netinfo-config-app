@@ -10,6 +10,7 @@ import {CheckUsernameParams} from "../model/get-request/check-username-params.mo
 import {CheckEmailParams} from "../model/get-request/check-email-params.model";
 import {Namespace} from "../model/namespace.model";
 import {Version} from "../model/version.model";
+import {StructureParams} from "../model/get-request/structure-params.model";
 
 @Injectable()
 export class RequestFactory {
@@ -60,5 +61,9 @@ export class RequestFactory {
 
   public createVersionCreateRequest(version: Version): HttpRequest {
     return new HttpRequest("/api/oscc/version/create", "POST", version);
+  }
+
+  createGetStructuresRequest(params: StructureParams): HttpRequest {
+    return new HttpRequest("/api/oscc/versionoftype/all", "GET", params);
   }
 }

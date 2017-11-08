@@ -4,6 +4,7 @@ export class Namespace {
     name: string;
 
     private initialize(){
+        this.systemId = null;
         this.name = "";
     }
 

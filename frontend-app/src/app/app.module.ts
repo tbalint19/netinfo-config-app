@@ -50,9 +50,14 @@ import { VersionSelectorComponent } from './component/version-selector/version-s
 import {VersionStatus} from "./status/version-status";
 import {VersionValidator} from "./validator/version-validator";
 import {VersionService} from "./service/version.service";
-import { StructureCreatorComponent } from './component/structure-creator/structure-creator.component';
+import {StructurePopupComponent } from './component/structure-popup/structure-popup.component';
 import {StructureStatus} from "./status/structure-status";
 import { ObjectEditorComponent } from './component/object-editor/object-editor.component';
+import {StructureSelectorComponent} from "./component/structure-selector/structure-selector.component";
+import { StructureEditorComponent } from './component/structure-editor/structure-editor.component';
+import {StructureService} from "./service/structure.service";
+import { StructureManagerComponent } from './component/structure-manager/structure-manager.component';
+import {PopupStatus} from "./status/popup-status";
 
 @NgModule({
   declarations: [
@@ -76,8 +81,11 @@ import { ObjectEditorComponent } from './component/object-editor/object-editor.c
     InfoNavbarComponent,
     NamespaceSelectorComponent,
     VersionSelectorComponent,
-    StructureCreatorComponent,
-    ObjectEditorComponent
+    StructurePopupComponent,
+    ObjectEditorComponent,
+    StructureSelectorComponent,
+    StructureEditorComponent,
+    StructureManagerComponent
   ],
   imports: [
     BrowserModule,
@@ -110,8 +118,10 @@ import { ObjectEditorComponent } from './component/object-editor/object-editor.c
     VersionValidator,
     VersionService,
     StructureStatus,
+    StructureService,
     ConfirmService,
     ConfirmStatus,
+    PopupStatus,
     ConfirmCodeValidator
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

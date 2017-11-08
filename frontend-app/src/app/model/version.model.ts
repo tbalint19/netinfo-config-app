@@ -1,5 +1,7 @@
 export class Version {
 
+  public systemId: number;
+
   public name: string;
 
   public number: string;
@@ -7,6 +9,7 @@ export class Version {
   public orderInBundle: number;
 
   private initialize(){
+    this.systemId = null;
     this.name = "";
     this.number = "";
     this.orderInBundle = null;

@@ -1,6 +1,7 @@
 <button
   class="btn btn-default btn-block"
-  (click)="openCreator()">
+  [disabled]="!(versionStatus.chosenVersion && namespaceStatus.chosenNamespace)"
+  (click)="openPopup()">
   Edit structure&nbsp;
   <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
 </button>
@@ -11,7 +12,12 @@
   <div class="row">
     <div class="col-xs-10 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
       <div class="structure-creator" id="creator">
-        <button class="close-button" (click)="closeCreator()">x</button>
+        <button class="close-button" (click)="closePopup()">x</button>
+
+        <structure-manager
+          *ngIf="status.isOpen()">
+        </structure-manager>
+
       </div>
     </div>
   </div>

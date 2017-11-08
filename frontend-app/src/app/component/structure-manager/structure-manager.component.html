@@ -1,0 +1,21 @@
+<div *ngIf="!status.isActive()">
+  <button (click)="status.activateEditor()">New</button>
+  <structure-selector
+    *ngFor="let structure of status.primitiveStrucutres"
+    [structure]="structure"
+    [status]="status">
+  </structure-selector>
+
+  <structure-selector
+    *ngFor="let structure of status.complexStructures">
+  </structure-selector>
+
+  <structure-selector
+    *ngFor="let structure of status.objectStructures">
+  </structure-selector>
+</div>
+
+<structure-editor
+  [editedStructure]="status.editedStructure"
+  *ngIf="status.isActive()">
+</structure-editor>
