@@ -18,6 +18,7 @@ public class OsccNamespace {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long systemId;
 
+    @Column(unique = true)
     private String name;
 
     @JsonIgnore

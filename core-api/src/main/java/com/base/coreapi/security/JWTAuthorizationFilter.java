@@ -22,12 +22,12 @@ import static com.base.coreapi.security.SecurityConstants.TOKEN_PREFIX;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    @Autowired
     private TokenService tokenService;
 
     JWTAuthorizationFilter(AuthenticationManager authenticationManager){
 
         super(authenticationManager);
+        this.tokenService = new TokenService();
     }
 
     @Override

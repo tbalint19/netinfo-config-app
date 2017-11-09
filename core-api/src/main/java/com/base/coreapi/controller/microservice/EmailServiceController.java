@@ -15,6 +15,7 @@ public class EmailServiceController {
     @Autowired
     private RestTemplate restTemplate;
 
+    private static final Boolean SHOULD_MOCK = true;
     private static final String API_URL = "http://localhost:8000";
     private static final String APP_URL = "http://localhost:4200";
     private static final String SERVICE_URL = "http://localhost:8001/api/send";
@@ -24,6 +25,7 @@ public class EmailServiceController {
     }
 
     public AttemptResponse sendConfirmationEmail(ApplicationUser user){
+        if (SHOULD_MOCK) { return new AttemptResponse(); }
         ConfirmEmailRequest request = new ConfirmEmailRequest();
         request.setTo(user.getEmail());
         request.setName(user.getUsername());
@@ -34,6 +36,7 @@ public class EmailServiceController {
     }
 
     public AttemptResponse sendResetEmail(ApplicationUser user, Reset reset){
+        if (SHOULD_MOCK) { return new AttemptResponse(); }
         ResetEmailRequest request = new ResetEmailRequest();
         request.setName(user.getUsername());
         request.setTo(user.getEmail());
