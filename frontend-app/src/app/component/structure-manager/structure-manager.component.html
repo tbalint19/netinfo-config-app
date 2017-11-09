@@ -1,6 +1,6 @@
 <div *ngIf="!status.isActive()" class="manager-container">
 
-  <button (click)="status.activateEditor()" class="btn btn-info">
+  <button (click)="status.toggleEditor(true)" class="btn btn-info">
     Create new type
     <span class="glyphicon glyphicon-plus-sign"></span>
   </button>
@@ -12,11 +12,15 @@
   </structure-selector>
 
   <structure-selector
-    *ngFor="let structure of status.complexStructures">
+    *ngFor="let structure of status.complexStructures"
+    [type]="'complex'"
+    [structure]="structure">
   </structure-selector>
 
   <structure-selector
-    *ngFor="let structure of status.objectStructures">
+    *ngFor="let structure of status.objectStructures"
+    [type]="'object'"
+    [structure]="structure">
   </structure-selector>
 </div>
 

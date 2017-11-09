@@ -1,0 +1,51 @@
+.container-box {
+  margin: 20px 20%;
+  box-shadow: 0 0 10px #555;
+  padding: 10px;
+}
+
+h4 {
+  text-align: center;
+  color: #555;
+  margin: 10px;
+}
+
+.type-editor {
+  display: flex;
+  margin: 20px;
+}
+
+.structure-editor {
+  display: flex;
+  margin: 20px;
+}
+
+.check-box {
+  margin-top: 0;
+  width: 40px;
+}
+
+.check-box-label {
+  padding: 6px;
+  margin-left: 5px;
+}
+
+.scrollable-list {
+  overflow-y: scroll;
+  max-height: 125px;
+}
+
+.one-field {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.one-field-content {
+  padding: 6px;
+}
+
+.toggle-button-container {
+  margin-top: 20px;
+  text-align: center;
+}

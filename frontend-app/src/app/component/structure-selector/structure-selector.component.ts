@@ -25,7 +25,7 @@ export class StructureSelectorComponent implements OnInit {
 
   public activate(): void {
     this.status.editedStructure = this.structure;
-    this.status.activateEditor();
+    this.status.toggleEditor(true);
   }
 
 }

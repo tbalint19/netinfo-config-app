@@ -35,7 +35,8 @@ export class ConfirmStatus {
   }
 
   public isPending(): boolean {
-    return this._requestObserver.findPending(this._factory.createConfirmRequest(this.confirmation));
+    return this._requestObserver.findPending(
+      this._factory.createConfirmRequest(this.confirmation));
   }
 
   public isSuspended(): boolean {

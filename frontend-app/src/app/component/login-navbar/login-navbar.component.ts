@@ -23,7 +23,7 @@ export class LoginNavbarComponent implements OnInit {
     private service: LoginService,
     private messages: MessageService,
     protected status: LoginStatus) {
-    this.user = status.user;
+    this.user = this.status.user;
   }
 
   ngOnInit() {

@@ -35,8 +35,8 @@ export class StructureStatus {
     return this._editorActive;
   }
 
-  public activateEditor(): void {
-    this._editorActive = true;
+  public toggleEditor(to: boolean): void {
+    this._editorActive = to;
   }
 
   public isEdited(): boolean {

@@ -53,4 +53,8 @@ export class StructureEditorComponent implements OnInit {
   protected deleteRow(key: string): void {
     delete this.creator.structure[key];
   }
+
+  protected primitiveStructures(): any[] {
+    return this.status.primitiveStrucutres.filter(entry => this.getName(entry) != 'list');
+  }
 }

@@ -21,7 +21,7 @@
       <div class="button-container">
         <button
           class="btn btn-success"
-          [disabled]="status.isPendingCreate() || status.isSuspended()"
+          [disabled]="status.isPending() || status.isSuspended()"
           (click)="attemptConfirm()">
           Confirm
         </button>

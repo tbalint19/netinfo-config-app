@@ -8,8 +8,9 @@ export class DtoFactory {
 
   createTypeCreateDto(creator: StructureCreator, namespace: Namespace): TypeCreateDto {
     let typeCreateDto = new TypeCreateDto();
-    console.log(creator);
-    typeCreateDto.structure = JSON.stringify(creator.structure);
+    let structure = {}
+    structure[creator.type.name] = creator.structure
+    typeCreateDto.structure = JSON.stringify(structure);
     typeCreateDto.type = creator.type;
     typeCreateDto.namespaceId = creator.isCommon ? null : namespace.systemId;
     console.log(typeCreateDto);
