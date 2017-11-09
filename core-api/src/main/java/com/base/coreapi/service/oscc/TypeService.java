@@ -8,6 +8,7 @@ import com.base.coreapi.repository.oscc.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,8 +22,12 @@ public class TypeService {
 
 
     public List<OsccType> findAll(Long namespaceSystemId) {
-        return repository.findByNamespace_SystemId(namespaceSystemId);
+        List<OsccType> all = new ArrayList<>();
+        all.addAll(repository.findByNamespace_SystemId(namespaceSystemId));
+        all.addAll(repository.findByNamespace_SystemId(null));
+        return all;
     }
+
 
     public void save(OsccType type) {
         repository.save(type);

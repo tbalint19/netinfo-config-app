@@ -21,11 +21,8 @@ public class VersionOfTypeController extends AbstractOSCCAPI {
     @GetMapping("/all")
     public List<VersionOfType> getAll(@RequestParam Long namespaceId, @RequestParam Long versionId){
         List<VersionOfType> versionOfTypes = new ArrayList<>();
-        OsccNamespace namespace = namespaceService.findById(namespaceId);
-        if (namespace != null) {
-            for (OsccType type: namespaceService.findById(namespaceId).getTypes()) {
-                versionOfTypes.add(versionOfTypeService.findByTypeAndVersion(type.getSystemId(), versionId));
-            }
+        for (OsccType type: typeService.findAll(namespaceId)) {
+            versionOfTypes.add(versionOfTypeService.findByTypeAndVersion(type.getSystemId(), versionId));
         }
         return versionOfTypes;
     }
