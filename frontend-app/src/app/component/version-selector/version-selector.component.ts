@@ -6,6 +6,8 @@ import {SuccessResponse} from "../../model/response/success-response.model";
 import {MessageService} from "../../service/message.service";
 import {Error} from "../../model/message/error.model"
 import {Success} from "../../model/message/success.model";
+import {ObjectEditorStatus} from "../../status/object-editor-status";
+import {NamespaceStatus} from "../../status/namespace-status";
 
 @Component({
   selector: 'version-selector',
@@ -16,7 +18,9 @@ export class VersionSelectorComponent implements OnInit {
 
   constructor(
     private versionService: VersionService,
-    private messages: MessageService) { }
+    private messages: MessageService,
+    protected objectEditorStatus: ObjectEditorStatus,
+    private namespaceStatus: NamespaceStatus) { }
 
   ngOnInit() {
     this.updateVersions();
@@ -27,10 +31,23 @@ export class VersionSelectorComponent implements OnInit {
 
   private updateVersions(): void {
     this.versionService.getVersions().subscribe(
-      (versions: Version[]) => this.status.versions = versions.sort(
-        (one: Version, other: Version) => one.orderInBundle - other.orderInBundle
-      )
+      (versions: Version[]) => this.handleVersionUpdate(versions)
     );
+  }
+
+  private handleVersionUpdate(versions: Version[]) {
+    this.status.versions = versions.sort(this.versionSort);
+    if (localStorage.getItem('version')) {
+      let versionFromStorage = JSON.parse(localStorage.getItem('version'));
+      this.status.chosenVersion = this.status.versions.find(
+        (entry) => entry.systemId == versionFromStorage.systemId
+      );
+      this.notify();
+    }
+  }
+
+  private versionSort(one: Version, other: Version): number {
+    return one.orderInBundle - other.orderInBundle;
   }
 
   public createVersion(): void {
@@ -64,4 +81,14 @@ export class VersionSelectorComponent implements OnInit {
     this.status.createdVersion.orderInBundle = this.status.createdVersionsBaseVersion.orderInBundle + 1;
   }
 
+  protected handleModelChange(): void {
+    this.notify();
+    localStorage.setItem('version',JSON.stringify(this.status.chosenVersion))
+  }
+
+  private notify(): void {
+    if (this.namespaceStatus.chosenNamespace) {
+      this.objectEditorStatus.setReFetch(true);
+    }
+  }
 }

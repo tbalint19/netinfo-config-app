@@ -1,22 +1,35 @@
 import {Injectable} from "@angular/core";
+import {ObjectCreator} from "../model/object-creator.model";
+import {Object} from "../model/object-model";
+import {VersionOfType} from "../model/version-of-type.model";
+import {ObjectParams} from "../model/get-request/object-params.model";
 
 @Injectable()
 export class ObjectEditorStatus {
 
-  public currentStructure: any;
+  private _shouldReFetch: boolean;
+  public chosenStructure: any;
+  public creator: ObjectCreator;
+  public objects: Object[];
+  public versionOfTypes: VersionOfType[];
+  public params: ObjectParams;
 
   constructor(){
-    this.setStructure();
+    this.creator = new ObjectCreator();
+    this.params = new ObjectParams();
+    this._shouldReFetch = false;
   }
 
-  public setStructure(): void {
-    this.currentStructure = {
-      "id": "string",
-      "active": "boolean",
-      "price": "number",
-      "name": "multilanguage",
-      "ugrade_offer_ids": "offer-list"
-    };
+  public setStructure(structure: any): void {
+    this.chosenStructure = structure;
+  }
+
+  public shouldReFetch(): boolean {
+    return this._shouldReFetch;
+  }
+
+  public setReFetch(to: boolean) {
+    this._shouldReFetch = to;
   }
 
 }

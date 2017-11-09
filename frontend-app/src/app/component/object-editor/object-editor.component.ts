@@ -16,7 +16,7 @@ export class ObjectEditorComponent implements OnInit {
   protected objects: any[];
 
   constructor(private status: ObjectEditorStatus) {
-    this.structure = status.currentStructure;
+    this.structure = status.chosenStructure;
   }
 
   ngOnInit() {

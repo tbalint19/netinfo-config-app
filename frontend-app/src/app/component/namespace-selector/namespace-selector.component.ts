@@ -6,6 +6,8 @@ import {MessageService} from "../../service/message.service";
 import {Error} from "../../model/message/error.model";
 import {Success} from "../../model/message/success.model";
 import {NamespaceStatus} from "../../status/namespace-status";
+import {ObjectEditorStatus} from "../../status/object-editor-status";
+import {VersionStatus} from "../../status/version-status";
 
 @Component({
   selector: 'namespace-selector',
@@ -15,8 +17,10 @@ import {NamespaceStatus} from "../../status/namespace-status";
 export class NamespaceSelectorComponent implements OnInit {
 
   constructor(
-      private nameSpaceService: NamespaceService,
-      private messages: MessageService) {
+    protected objectEditorStatus: ObjectEditorStatus,
+    private _versionStatus: VersionStatus,
+    private nameSpaceService: NamespaceService,
+    private messages: MessageService) {
   }
 
   ngOnInit() {
@@ -28,8 +32,19 @@ export class NamespaceSelectorComponent implements OnInit {
 
   private updateNamespaces(): void {
       this.nameSpaceService.getNamespaces().subscribe(
-          (namespaces: Namespace[]) => this.status.namespaces = namespaces
+          (namespaces: Namespace[]) => this.handleUpdateNamespace(namespaces)
       );
+  }
+
+  private handleUpdateNamespace(namespaces: Namespace[]): void {
+    this.status.namespaces = namespaces;
+    if (localStorage.getItem('namespace')) {
+      let namespaceFromStorage = JSON.parse(localStorage.getItem('namespace'));
+      this.status.chosenNamespace = this.status.namespaces.find(
+        (entry) => entry.systemId == namespaceFromStorage.systemId
+      );
+      this.notify();
+    }
   }
 
   protected createNamespace(): void {
@@ -58,4 +73,14 @@ export class NamespaceSelectorComponent implements OnInit {
     this.updateNamespaces();
   }
 
+  protected handleModelChange(): void {
+    this.notify();
+    localStorage.setItem('namespace', JSON.stringify(this.status.chosenNamespace));
+  }
+
+  private notify(): void {
+    if (this._versionStatus.chosenVersion) {
+      this.objectEditorStatus.setReFetch(true);
+    }
+  }
 }

@@ -1,13 +1,15 @@
 <select
   class="btn {{ status.chosenVersion ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
-  [(ngModel)]="status.chosenVersion">
+  [(ngModel)]="status.chosenVersion"
+  (ngModelChange)="handleModelChange()">
   <option
     [ngValue]="null"
     hidden="true"
     [selected]="!status.chosenVersion">Select a version</option>
   <option
     *ngFor="let version of status.versions"
-    [ngValue]="version">
+    [ngValue]="version"
+    [selected]="status.chosenVersion && status.chosenVersion.systemId == version.systemId">
     {{ version.name }}
   </option>
 </select>

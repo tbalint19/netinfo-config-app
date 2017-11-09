@@ -61,6 +61,8 @@ import {PopupStatus} from "./status/popup-status";
 import {ObjectEditorStatus} from "./status/object-editor-status";
 import {KeyPipe} from './pipe/key.pipe';
 import {DtoFactory} from "./factory/dto-factory";
+import {ObjectService} from "./service/object.service";
+import { ObjectListComponent } from './component/object-list/object-list.component';
 
 @NgModule({
   declarations: [
@@ -89,7 +91,8 @@ import {DtoFactory} from "./factory/dto-factory";
     StructureSelectorComponent,
     StructureEditorComponent,
     StructureManagerComponent,
-    KeyPipe
+    KeyPipe,
+    ObjectListComponent
   ],
   imports: [
     BrowserModule,
@@ -129,6 +132,7 @@ import {DtoFactory} from "./factory/dto-factory";
     ObjectEditorStatus,
     ConfirmCodeValidator,
     DtoFactory,
+    ObjectService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

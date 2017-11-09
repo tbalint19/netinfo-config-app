@@ -56,18 +56,4 @@ export class StructureStatus {
     ];
   }
 
-  private mockDataLoad(): void {
-    this.complexStructures.push({"multilanguage": {"eng": "string", "hun": "string"}});
-    this.complexStructures.push({"psmcodes": {"activation": "string", "deactivation": "string"}});
-    this.objectStructures.push(
-      {"offer": {
-        "id": "string",
-        "active": "boolean",
-        "price": "number",
-        "name": "multilanguage"
-      }
-      }
-    )
-  }
-
 }

@@ -12,6 +12,7 @@ import {Namespace} from "../model/namespace.model";
 import {Version} from "../model/version.model";
 import {StructureParams} from "../model/get-request/structure-params.model";
 import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
+import {ObjectParams} from "../model/get-request/object-params.model";
 
 @Injectable()
 export class RequestFactory {
@@ -70,5 +71,9 @@ export class RequestFactory {
 
   createStructureCreateRequest(dto: TypeCreateDto): HttpRequest {
     return new HttpRequest('/api/oscc/type/create', 'POST', dto);
+  }
+
+  public createGetObjectsRequest(params: ObjectParams): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/all', 'GET', params);
   }
 }
