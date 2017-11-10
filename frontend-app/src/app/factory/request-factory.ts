@@ -13,6 +13,7 @@ import {Version} from "../model/version.model";
 import {StructureParams} from "../model/get-request/structure-params.model";
 import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
 import {ObjectParams} from "../model/get-request/object-params.model";
+import {ObjectCreateDto} from "../model/post-request/object-create-dto.model";
 
 @Injectable()
 export class RequestFactory {
@@ -65,15 +66,19 @@ export class RequestFactory {
     return new HttpRequest("/api/oscc/version/create", "POST", version);
   }
 
-  createGetStructuresRequest(params: StructureParams): HttpRequest {
+  public createGetStructuresRequest(params: StructureParams): HttpRequest {
     return new HttpRequest("/api/oscc/versionoftype/all", "GET", params);
   }
 
-  createStructureCreateRequest(dto: TypeCreateDto): HttpRequest {
+  public createStructureCreateRequest(dto: TypeCreateDto): HttpRequest {
     return new HttpRequest('/api/oscc/type/create', 'POST', dto);
   }
 
   public createGetObjectsRequest(params: ObjectParams): HttpRequest {
     return new HttpRequest('/api/oscc/objects/all', 'GET', params);
+  }
+
+  public createSaveObjectsRequest(dto: ObjectCreateDto): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/create', 'POST', dto);
   }
 }

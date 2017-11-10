@@ -1,3 +1,52 @@
-<p>
-  object-list works!
-</p>
+<div class="row">
+  <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+    <h3 class="title">
+      <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+      &nbsp;Types
+    </h3>
+
+    <hr>
+
+    <button
+      *ngFor="let versionOfType of objectStructures()"
+      (click)="chooseVersionOfType(versionOfType)"
+      class="btn btn-default btn-block">
+      <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;&nbsp;
+      {{ versionOfType.type.namespace.name }} / {{ versionOfType.type.name }}
+    </button>
+  </div>
+
+  <div *ngIf="status.chosenVersionOfType" class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+    <object-popup></object-popup>
+
+    <h3 class="title">
+      <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
+      &nbsp;{{ status.chosenVersionOfType.type.name }}
+    </h3>
+
+    <hr>
+
+    <div class="well well-flex">
+      <input class="form-control" placeholder="Search by">
+      <input class="form-control" placeholder="Param">
+      <button class="btn btn-default">
+        All&nbsp;
+        <span class="glyphicon glyphicon-refresh"></span>
+      </button>
+      <button class="btn btn-default" (click)="openEditor()">
+        Add new {{ status.chosenVersionOfType.type.name }}&nbsp;
+        <span class="glyphicon glyphicon-plus-sign"></span>
+      </button>
+    </div>
+
+    <div class="well well-flex" *ngFor="let object of filteredObjects()">
+      <span class="well-content">{{ object['id'] }}</span>
+      <button class="btn btn-default">
+        Edit object&nbsp;
+        <span class="glyphicon glyphicon-cog"></span>
+      </button>
+    </div>
+  </div>
+
+</div>
+

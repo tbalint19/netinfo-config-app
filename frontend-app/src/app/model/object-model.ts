@@ -1,6 +1,6 @@
 import {VersionOfType} from "./version-of-type.model";
 
-export class Object {
+export class OsccObject {
 
   public systemId: number;
 

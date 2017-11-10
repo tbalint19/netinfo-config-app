@@ -63,6 +63,7 @@ import {KeyPipe} from './pipe/key.pipe';
 import {DtoFactory} from "./factory/dto-factory";
 import {ObjectService} from "./service/object.service";
 import { ObjectListComponent } from './component/object-list/object-list.component';
+import { ObjectPopupComponent } from './component/object-popup/object-popup.component';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { ObjectListComponent } from './component/object-list/object-list.compone
     StructureEditorComponent,
     StructureManagerComponent,
     KeyPipe,
-    ObjectListComponent
+    ObjectListComponent,
+    ObjectPopupComponent
   ],
   imports: [
     BrowserModule,

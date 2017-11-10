@@ -1,39 +1,36 @@
 <div>
+  <div *ngFor="let key of structureKeys()">
+    {{ key }}
+    <input *ngIf="isText(structure[key])" type="text" [(ngModel)]="status.creator.data[key]">
+    <input *ngIf="isNumber(structure[key])" type="number" [(ngModel)]="status.creator.data[key]">
+    <input *ngIf="isBoolean(structure[key])" type="checkbox" [(ngModel)]="status.creator.data[key]">
+    <div *ngIf="isComplex(structure[key])">
+      <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
+        &nbsp;&nbsp;&nbsp;&nbsp;{{ complexTypeKey }}
+        <input type="text"
+          *ngIf="isText(complexTypeKey, structure[key])"
+          [(ngModel)]="status.creator.data[key][complexTypeKey]">
+        <input type="number"
+          *ngIf="isNumber(complexTypeKey, structure[key])"
+          [(ngModel)]="status.creator.data[key][complexTypeKey]">
+        <input type="checkbox"
+          *ngIf="isBoolean(complexTypeKey, structure[key])"
+          [(ngModel)]="status.creator.data[key][complexTypeKey]">
+      </div>
+    </div>
+    <div *ngIf="isObjectList(structure[key])">
+      <div *ngFor="let object of getObjects(structure[key])">
+        <div>{{ getIdentification(object) }}</div>
+        <button
+          class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
+          (click)="toggleList(object, key)">
+          Toggle
+        </button>
+      </div>
+    </div>
+    <hr>
+  </div>
 
-  <!--<div *ngFor="let key of getKeys(object)">-->
-    <!--<hr>-->
-    <!--<div *ngIf="shouldRenderTextField(key)">-->
-      <!--<p>{{ key }}</p>-->
-      <!--<input type="text" [(ngModel)]="object[key]">-->
-    <!--</div>-->
-
-    <!--<div *ngIf="shouldRenderNumberField(key)">-->
-      <!--<p>{{ key }}</p>-->
-      <!--<input type="number" [(ngModel)]="object[key]">-->
-    <!--</div>-->
-
-    <!--<div *ngIf="shouldRenderCheckbox(key)">-->
-      <!--<p>{{ key }}</p>-->
-      <!--<input type="checkbox" [(ngModel)]="object[key]">-->
-    <!--</div>-->
-
-    <!--<div *ngIf="shouldRenderList(key)">-->
-
-    <!--</div>-->
-
-    <!--<div *ngIf="shouldRenderComplexType(key)">-->
-      <!--<p>{{ key }}</p>-->
-      <!--<div *ngFor="let innerkey of getInnerKeys(key)">-->
-        <!--<div *ngIf="shouldRenderTextFieldInComplex(key, innerkey)">-->
-          <!--<p>{{ innerkey }}</p>-->
-          <!--<input [(ngModel)]="object[key][innerkey]">-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-  <!--</div>-->
-
-  <!--<button (click)="mockSend()">-->
-    <!--Save-->
-  <!--</button>-->
+  <button (click)="saveObject()">Save</button>
 
 </div>

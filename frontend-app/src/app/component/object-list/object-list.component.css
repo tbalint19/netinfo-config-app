@@ -1,0 +1,19 @@
+.title {
+  color: #555;
+  text-align: center;
+}
+
+.well-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.well-flex input, button {
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.well-content {
+  padding: 6px;
+  font-weight: bold;
+}

@@ -1,0 +1,19 @@
+<div *ngIf="status.isOpen()" class="object-creator-background" id="background"></div>
+
+<div *ngIf="status.isOpen()" class="object-creator-container">
+  <div class="row">
+    <div class="col-xs-10 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+      <div class="object-creator" id="creator">
+        <div class="modal-header">
+          <button  type="button" class="close" aria-label="Close" (click)="closePopup()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Object editor</h4>
+        </div>
+
+        <object-editor></object-editor>
+
+      </div>
+    </div>
+  </div>
+</div>

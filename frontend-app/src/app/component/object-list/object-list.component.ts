@@ -3,10 +3,11 @@ import {ObjectEditorStatus} from "../../status/object-editor-status";
 import {NamespaceStatus} from "../../status/namespace-status";
 import {VersionStatus} from "../../status/version-status";
 import {ObjectService} from "../../service/object.service";
-import {Object} from "../../model/object-model";
+import {OsccObject} from "../../model/object-model";
 import {StructureService} from "../../service/structure.service";
 import {StructureStatus} from "../../status/structure-status";
 import {VersionOfType} from "../../model/version-of-type.model";
+import {ObjectCreator} from "../../model/object-creator.model";
 
 @Component({
   selector: 'object-list',
@@ -21,7 +22,8 @@ export class ObjectListComponent implements OnInit {
     protected versionStatus: VersionStatus,
     protected structureStatus: StructureStatus,
     private _structureService: StructureService,
-    private _service: ObjectService) { }
+    private _service: ObjectService) {
+  }
 
   ngOnInit() {
     this.monitor();
@@ -29,13 +31,13 @@ export class ObjectListComponent implements OnInit {
 
   private getObjects(): void {
     this._service.getObjects(this.status.params).subscribe(
-      (response: Object[]) => this.handleGetResponse(response)
+      (response: OsccObject[]) => this.handleGetObjectsResponse(response)
     );
   }
 
   private getVersionOfTypes(): void {
     this._structureService.getStructures(this.structureStatus.params).subscribe(
-      (response: VersionOfType[]) => console.log(response)
+      (response: VersionOfType[]) => this.handleGetStructuresResponse(response)
     );
   }
 
@@ -53,8 +55,29 @@ export class ObjectListComponent implements OnInit {
     }, 500)
   }
 
-  private handleGetResponse(response: Object[]) {
+  private handleGetObjectsResponse(response: OsccObject[]) {
     this.status.objects = response;
-    console.log(response);
+  }
+
+  private handleGetStructuresResponse(response: VersionOfType[]) {
+    this.status.versionOfTypes = response;
+  }
+
+  protected objectStructures(){
+    return this.status.versionOfTypes.filter(entry => entry.type.complex);
+  }
+
+  protected chooseVersionOfType(versionOfType: VersionOfType): void {
+    this.status.chosenVersionOfType = versionOfType;
+  }
+
+  protected filteredObjects(): OsccObject[] {
+    return this.status.objects.filter(
+      entry => entry.versionOfType.systemId == this.status.chosenVersionOfType.systemId);
+  }
+
+  protected openEditor(object?: OsccObject): void {
+    this.status.creator = new ObjectCreator();
+    this.status.toggleEditor(true);
   }
 }
