@@ -27,7 +27,7 @@ export class StructureManagerComponent implements OnInit {
   private getVersionOfTypes(): void {
     this.service.getStructures(this.status.params).subscribe(
       (response: VersionOfType[]) => this.handleArrivedStructures(response)
-    )
+    );
   }
 
   private parseStructure(versionOfType: VersionOfType): any {

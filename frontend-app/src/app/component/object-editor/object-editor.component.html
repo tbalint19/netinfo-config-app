@@ -1,19 +1,19 @@
-<div>
+<div class="scrollable-list">
   <div *ngFor="let key of structureKeys()">
     {{ key }}
-    <input *ngIf="isText(structure[key])" type="text" [(ngModel)]="status.creator.data[key]">
-    <input *ngIf="isNumber(structure[key])" type="number" [(ngModel)]="status.creator.data[key]">
-    <input *ngIf="isBoolean(structure[key])" type="checkbox" [(ngModel)]="status.creator.data[key]">
+    <input class="form-control" *ngIf="isText(structure[key])" type="text" [(ngModel)]="status.creator.data[key]">
+    <input class="form-control" *ngIf="isNumber(structure[key])" type="number" [(ngModel)]="status.creator.data[key]">
+    <input class="form-control" *ngIf="isBoolean(structure[key])" type="checkbox" [(ngModel)]="status.creator.data[key]">
     <div *ngIf="isComplex(structure[key])">
       <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
         &nbsp;&nbsp;&nbsp;&nbsp;{{ complexTypeKey }}
-        <input type="text"
+        <input class="form-control" type="text"
           *ngIf="isText(complexTypeKey, structure[key])"
           [(ngModel)]="status.creator.data[key][complexTypeKey]">
-        <input type="number"
+        <input class="form-control" type="number"
           *ngIf="isNumber(complexTypeKey, structure[key])"
           [(ngModel)]="status.creator.data[key][complexTypeKey]">
-        <input type="checkbox"
+        <input class="form-control" type="checkbox"
           *ngIf="isBoolean(complexTypeKey, structure[key])"
           [(ngModel)]="status.creator.data[key][complexTypeKey]">
       </div>
@@ -31,6 +31,6 @@
     <hr>
   </div>
 
-  <button (click)="saveObject()">Save</button>
+  <button class="btn btn-info" (click)="saveObject()">Save</button>
 
 </div>

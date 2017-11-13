@@ -3,7 +3,7 @@ import {HttpClient} from "../http/http.client";
 import {RequestFactory} from "../factory/request-factory";
 import {Observable} from "rxjs/Observable";
 import {VersionOfType} from "../model/version-of-type.model";
-import {StructureParams} from "../model/get-request/structure-params.model";
+import {StructureParams} from '../model/get-request/structure-params.model';
 import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
 import {SuccessResponse} from "../model/response/success-response.model";
 

@@ -52,7 +52,7 @@ export class ObjectListComponent implements OnInit {
         this.getObjects();
         this.getVersionOfTypes();
       }
-    }, 500)
+    }, 500);
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {

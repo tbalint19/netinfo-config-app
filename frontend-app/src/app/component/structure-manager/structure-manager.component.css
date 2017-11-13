@@ -3,3 +3,8 @@
   padding-bottom: 30px;
   text-align: center;
 }
+
+.scrollable-list {
+  overflow-y: auto;
+  max-height: 550px;
+}
