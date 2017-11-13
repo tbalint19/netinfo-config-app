@@ -20,15 +20,14 @@ export class NamespaceSelectorComponent implements OnInit {
     protected objectEditorStatus: ObjectEditorStatus,
     private _versionStatus: VersionStatus,
     private nameSpaceService: NamespaceService,
-    private messages: MessageService) {
+    private messages: MessageService,
+    protected status: NamespaceStatus) {
   }
 
   ngOnInit() {
       this.updateNamespaces();
   }
 
-  @Input()
-  public status: NamespaceStatus;
 
   private updateNamespaces(): void {
       this.nameSpaceService.getNamespaces().subscribe(
@@ -76,6 +75,7 @@ export class NamespaceSelectorComponent implements OnInit {
   protected handleModelChange(): void {
     this.notify();
     localStorage.setItem('namespace', JSON.stringify(this.status.chosenNamespace));
+    this.objectEditorStatus.chosenVersionOfType = null;
   }
 
   private notify(): void {

@@ -11,6 +11,8 @@ import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
 import {PopupStatus} from "../../status/popup-status";
 import {ObjectEditorStatus} from "../../status/object-editor-status";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
+import {Error} from "../../model/message/error.model";
 
 @Component({
   selector: 'structure-editor',
@@ -44,8 +46,10 @@ export class StructureEditorComponent implements OnInit {
   }
 
   private handleResponse(response: SuccessResponse): void {
-    if (response) {
+    if (response.successful) {
       this.handleSuccessResponse();
+    } else {
+      this._messages.add(new Error('Opps', 'Something went wrong'));
     }
   }
 
@@ -99,6 +103,7 @@ export class StructureEditorComponent implements OnInit {
   private handleSuccessResponse() {
     this.updateStructures();
     this.resetEditor();
-    this._messages.add(new Success('Successful', 'Nem tudom mit írjunk ide'));
+    this._objectEditorStatus.setReFetch(true);
+    this._messages.add(new Success('Successful', 'Structure saved'));
   }
 }

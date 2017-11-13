@@ -1,36 +1,61 @@
-<div class="scrollable-list">
-  <div *ngFor="let key of structureKeys()">
-    {{ key }}
-    <input class="form-control" *ngIf="isText(structure[key])" type="text" [(ngModel)]="status.creator.data[key]">
-    <input class="form-control" *ngIf="isNumber(structure[key])" type="number" [(ngModel)]="status.creator.data[key]">
-    <input class="form-control" *ngIf="isBoolean(structure[key])" type="checkbox" [(ngModel)]="status.creator.data[key]">
-    <div *ngIf="isComplex(structure[key])">
-      <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
-        &nbsp;&nbsp;&nbsp;&nbsp;{{ complexTypeKey }}
-        <input class="form-control" type="text"
-          *ngIf="isText(complexTypeKey, structure[key])"
-          [(ngModel)]="status.creator.data[key][complexTypeKey]">
-        <input class="form-control" type="number"
-          *ngIf="isNumber(complexTypeKey, structure[key])"
-          [(ngModel)]="status.creator.data[key][complexTypeKey]">
-        <input class="form-control" type="checkbox"
-          *ngIf="isBoolean(complexTypeKey, structure[key])"
-          [(ngModel)]="status.creator.data[key][complexTypeKey]">
+<div class="row">
+  <div class="scrollable-list col-xs-4 col-sm-4 col-md-4 col-lg-4">
+    <h4>Fields</h4>
+    <div class="border-container">
+      <div *ngFor="let key of structureKeys()">
+        <div *ngIf="isText(structure[key])" class="input-group">
+          <span class="input-group-addon">{{ key }}</span>
+          <input class="form-control" type="text" [(ngModel)]="status.creator.data[key]">
+        </div>
+        <div *ngIf="isNumber(structure[key])" class="input-group">
+          <span class="input-group-addon">{{ key }}</span>
+          <input class="form-control" type="number" [(ngModel)]="status.creator.data[key]">
+        </div>
+        <div *ngIf="isBoolean(structure[key])" class="input-group">
+          <span class="input-group-addon">{{ key }}</span>
+          <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key]">
+        </div>
+        <div *ngIf="isComplex(structure[key])">
+          <p class="complex-name">{{ key }}</p>
+          <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
+            <div *ngIf="isText(complexTypeKey, structure[key])" class="input-group">
+              <span class="input-group-addon">{{ complexTypeKey }}</span>
+              <input class="form-control" type="text" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+            </div>
+            <div *ngIf="isNumber(complexTypeKey, structure[key])" class="input-group">
+              <span class="input-group-addon">{{ complexTypeKey }}</span>
+              <input class="form-control" type="number" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+            </div>
+            <div *ngIf="isBoolean(complexTypeKey, structure[key])" class="input-group">
+              <span class="input-group-addon">{{ complexTypeKey }}</span>
+              <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+            </div>
+          </div>
+        </div>
+        <hr *ngIf="!isObjectList(structure[key])">
       </div>
     </div>
-    <div *ngIf="isObjectList(structure[key])">
-      <div *ngFor="let object of getObjects(structure[key])">
-        <div>{{ getIdentification(object) }}</div>
-        <button
-          class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
-          (click)="toggleList(object, key)">
-          Toggle
-        </button>
+  </div>
+
+  <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
+    <h4>References</h4>
+    <div *ngFor="let key of structureKeys()">
+      <h4 *ngIf="isObjectList(structure[key])">{{ key }}</h4>
+      <div *ngIf="isObjectList(structure[key])">
+        <div *ngFor="let object of getObjects(structure[key])" class="one-item">
+          <div>{{ getIdentification(object) }}</div>
+          <button
+                  class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
+                  (click)="toggleList(object, key)">
+            Toggle
+          </button>
+        </div>
       </div>
     </div>
     <hr>
   </div>
+</div>
 
+<div class="row button-container">
   <button class="btn btn-info" (click)="saveObject()">Save</button>
-
 </div>

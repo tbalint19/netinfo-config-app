@@ -20,14 +20,12 @@ export class VersionSelectorComponent implements OnInit {
     private versionService: VersionService,
     private messages: MessageService,
     protected objectEditorStatus: ObjectEditorStatus,
-    private namespaceStatus: NamespaceStatus) { }
+    private namespaceStatus: NamespaceStatus,
+    protected status: VersionStatus) { }
 
   ngOnInit() {
     this.updateVersions();
   }
-
-  @Input()
-  public status: VersionStatus;
 
   private updateVersions(): void {
     this.versionService.getVersions().subscribe(
@@ -55,7 +53,6 @@ export class VersionSelectorComponent implements OnInit {
       this.suspend();
       return;
     }
-    console.log(this.status.createdVersion);
     this.versionService.createVersion(this.status.createdVersion).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response.successful)
     );
@@ -83,7 +80,8 @@ export class VersionSelectorComponent implements OnInit {
 
   protected handleModelChange(): void {
     this.notify();
-    localStorage.setItem('version',JSON.stringify(this.status.chosenVersion))
+    localStorage.setItem('version',JSON.stringify(this.status.chosenVersion));
+    this.objectEditorStatus.chosenVersionOfType = null;
   }
 
   private notify(): void {
@@ -91,4 +89,5 @@ export class VersionSelectorComponent implements OnInit {
       this.objectEditorStatus.setReFetch(true);
     }
   }
+
 }

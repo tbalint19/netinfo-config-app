@@ -2,6 +2,8 @@ import {VersionOfType} from "./version-of-type.model";
 
 export class ObjectCreator {
 
+  public systemId?: number;
+
   public data: any;
 
   public versionOfType: VersionOfType;

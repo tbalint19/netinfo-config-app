@@ -64,6 +64,9 @@ import {DtoFactory} from "./factory/dto-factory";
 import {ObjectService} from "./service/object.service";
 import { ObjectListComponent } from './component/object-list/object-list.component';
 import { ObjectPopupComponent } from './component/object-popup/object-popup.component';
+import {StructureValidator} from "./validator/structure-validator";
+import {CreatorFactory} from "./factory/creator-factory.service";
+import { StructureRefactorComponent } from './component/structure-refactor/structure-refactor.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +97,8 @@ import { ObjectPopupComponent } from './component/object-popup/object-popup.comp
     StructureManagerComponent,
     KeyPipe,
     ObjectListComponent,
-    ObjectPopupComponent
+    ObjectPopupComponent,
+    StructureRefactorComponent
   ],
   imports: [
     BrowserModule,
@@ -135,6 +139,8 @@ import { ObjectPopupComponent } from './component/object-popup/object-popup.comp
     ConfirmCodeValidator,
     DtoFactory,
     ObjectService,
+    StructureValidator,
+    CreatorFactory,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

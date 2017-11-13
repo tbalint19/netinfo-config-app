@@ -22,4 +22,12 @@ export class ObjectService {
   public saveObjects(dto: ObjectCreateDto): Observable<SuccessResponse> {
     return this._client.transfer(this._factory.createSaveObjectsRequest(dto));
   }
+
+  public updateObjects(object: OsccObject): Observable<SuccessResponse> {
+    return this._client.transfer(this._factory.createUpdateObjectRequest(object));
+  }
+
+  public deleteObjects(object: OsccObject): Observable<SuccessResponse> {
+    return this._client.transfer(this._factory.createDeleteObjectRequest(object));
+  }
 }

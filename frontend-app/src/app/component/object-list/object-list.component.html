@@ -41,10 +41,16 @@
 
     <div class="well well-flex" *ngFor="let object of filteredObjects()">
       <span class="well-content">{{ object['id'] }}</span>
-      <button class="btn btn-default">
-        Edit object&nbsp;
-        <span class="glyphicon glyphicon-cog"></span>
-      </button>
+      <div>
+        <button class="btn btn-default" (click)="openEditor(object)">
+          Edit object&nbsp;
+          <span class="glyphicon glyphicon-cog"></span>
+        </button>
+        <button class="btn btn-danger" (click)="deleteObject(object)">
+          Delete&nbsp;
+          <span class="glyphicon glyphicon-erase"></span>
+        </button>
+      </div>
     </div>
   </div>
 

@@ -16,13 +16,8 @@ export class ObjectEditorStatus {
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
 
-  constructor(){
-    this.creator = new ObjectCreator();
-    this.params = new ObjectParams();
-    this._shouldReFetch = false;
-    this.versionOfTypes = [];
-    this.objects = [];
-    this.chosenStructure = null;
+  constructor() {
+    this.initialize();
   }
 
   public setStructure(structure: any): void {
@@ -45,4 +40,17 @@ export class ObjectEditorStatus {
     this._editorOpened = to;
   }
 
+  private initialize(): void {
+    this._editorOpened = false;
+    this._shouldReFetch = true;
+    this.creator = new ObjectCreator();
+    this.params = new ObjectParams();
+    this.versionOfTypes = [];
+    this.objects = [];
+    this.chosenStructure = null;
+  }
+
+  public reset(): void {
+    this.initialize();
+  }
 }

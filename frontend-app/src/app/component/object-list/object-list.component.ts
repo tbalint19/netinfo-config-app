@@ -8,6 +8,12 @@ import {StructureService} from "../../service/structure.service";
 import {StructureStatus} from "../../status/structure-status";
 import {VersionOfType} from "../../model/version-of-type.model";
 import {ObjectCreator} from "../../model/object-creator.model";
+import {CreatorFactory} from "../../factory/creator-factory.service";
+import {SuccessResponse} from "../../model/response/success-response.model";
+import {MessageService} from "../../service/message.service";
+import {Success} from "../../model/message/success.model";
+import {el} from "@angular/platform-browser/testing/src/browser_util";
+import {Error} from "../../model/message/error.model";
 
 @Component({
   selector: 'object-list',
@@ -22,7 +28,9 @@ export class ObjectListComponent implements OnInit {
     protected versionStatus: VersionStatus,
     protected structureStatus: StructureStatus,
     private _structureService: StructureService,
-    private _service: ObjectService) {
+    private _service: ObjectService,
+    private _creatorFactory: CreatorFactory,
+    private _messages: MessageService) {
   }
 
   ngOnInit() {
@@ -63,7 +71,7 @@ export class ObjectListComponent implements OnInit {
     this.status.versionOfTypes = response;
   }
 
-  protected objectStructures(){
+  protected objectStructures() {
     return this.status.versionOfTypes.filter(entry => entry.type.complex);
   }
 
@@ -77,7 +85,22 @@ export class ObjectListComponent implements OnInit {
   }
 
   protected openEditor(object?: OsccObject): void {
-    this.status.creator = new ObjectCreator();
+    this.status.creator = this._creatorFactory.createObjectCreator(object);
     this.status.toggleEditor(true);
+  }
+
+  protected deleteObject(object: OsccObject): void {
+    this._service.deleteObjects(object).subscribe(
+      (response: SuccessResponse) => this.handleDeleteResponse(response)
+    )
+  }
+
+  private handleDeleteResponse(response: SuccessResponse): void {
+    if (response.successful) {
+      this._messages.add(new Success('Successful', 'Delete is completed'));
+      this.status.setReFetch(true);
+    } else {
+      this._messages.add(new Error());
+    }
   }
 }

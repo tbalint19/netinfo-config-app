@@ -4,6 +4,7 @@ import {StructureCreator} from "../model/structure-creator.model";
 import {Namespace} from "../model/namespace.model";
 import {ObjectCreateDto} from "../model/post-request/object-create-dto.model";
 import {ObjectCreator} from "../model/object-creator.model";
+import {OsccObject} from "../model/object-model";
 
 @Injectable()
 export class DtoFactory {
@@ -24,5 +25,14 @@ export class DtoFactory {
     objectCreateDto.versionOfTypeSystemId = creator.versionOfType.systemId;
     objectCreateDto.id = creator.data['id'];
     return objectCreateDto;
+  }
+
+  createObject(creator: ObjectCreator): OsccObject {
+    let object = new OsccObject();
+    object.id = creator.data['id'];
+    object.systemId = creator.systemId;
+    object.serializedData = JSON.stringify(creator.data);
+    object.versionOfType = creator.versionOfType;
+    return object;
   }
 }

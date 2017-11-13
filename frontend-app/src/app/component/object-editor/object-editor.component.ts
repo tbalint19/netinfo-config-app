@@ -7,6 +7,9 @@ import {ObjectCreator} from "../../model/object-creator.model";
 import {DtoFactory} from "../../factory/dto-factory";
 import {ObjectService} from "../../service/object.service";
 import {SuccessResponse} from "../../model/response/success-response.model";
+import {MessageService} from "../../service/message.service";
+import {Success} from "../../model/message/success.model";
+import {Error} from "../../model/message/error.model";
 
 @Component({
   selector: 'object-editor',
@@ -23,7 +26,8 @@ export class ObjectEditorComponent implements OnInit {
   constructor(
     protected status: ObjectEditorStatus,
     private _factory: DtoFactory,
-    private _service: ObjectService) { }
+    private _service: ObjectService,
+    private _messages: MessageService) { }
 
   ngOnInit() {
     this.structure = JSON.parse(this.status.chosenVersionOfType.structure);
@@ -100,19 +104,19 @@ export class ObjectEditorComponent implements OnInit {
     this.status.creator.versionOfType = this.status.chosenVersionOfType;
     for (let key of this.structureKeys()){
       if (this.isText(this.structure[key])) {
-        this.status.creator.data[key] = "";
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? "" : this.status.creator.data[key];
       }
       if (this.isNumber(this.structure[key])) {
-        this.status.creator.data[key] = 0;
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? 0: this.status.creator.data[key];
       }
       if (this.isBoolean(this.structure[key])) {
-        this.status.creator.data[key] = false;
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? false : this.status.creator.data[key];
       }
       if (this.isComplex(this.structure[key])) {
-        this.status.creator.data[key] = {};
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? {} : this.status.creator.data[key];
       }
       if (this.isObjectList(this.structure[key])) {
-        this.status.creator.data[key] = [];
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? [] : this.status.creator.data[key];
       }
     }
   }
@@ -137,14 +141,20 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   public saveObject(): void {
-    this._service.saveObjects(
-      this._factory.createObjectCreateDto(this.status.creator)).subscribe(
-      (response: SuccessResponse) => this.handleCreateResponse(response)
-    );
+    if (this.status.creator.systemId) {
+      this.updateObject();
+    } else {
+      this.createObject();
+    }
   }
 
   private handleCreateResponse(response: SuccessResponse) {
-    console.log(response);
+    if (response.successful) {
+      this.status.reset();
+      this._messages.add(new Success('Success', 'Object created'));
+    } else {
+      this._messages.add(new Error('Oops', 'Something went wrong'))
+    }
   }
 
   protected isInList(object: OsccObject, key: string): boolean {
@@ -160,5 +170,27 @@ export class ObjectEditorComponent implements OnInit {
     } else {
       list.push(id);
     }
+  }
+
+  private updateObject(): void {
+    this._service.updateObjects(this._factory.createObject(this.status.creator)).subscribe(
+      (response: SuccessResponse) => this.handleUpdateResponse(response)
+    )
+  }
+
+  private handleUpdateResponse(response: SuccessResponse) {
+    if (response.successful) {
+      this.status.reset();
+      this._messages.add(new Success('Success', 'Object updated'));
+    } else {
+      this._messages.add(new Error('Oops', 'Something went wrong'))
+    }
+  }
+
+  private createObject(): void {
+    this._service.saveObjects(
+      this._factory.createObjectCreateDto(this.status.creator)).subscribe(
+      (response: SuccessResponse) => this.handleCreateResponse(response)
+    );
   }
 }

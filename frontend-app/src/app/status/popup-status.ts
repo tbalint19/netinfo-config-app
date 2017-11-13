@@ -16,4 +16,5 @@ export class PopupStatus {
   public toggle(to: boolean): void {
     this._open = to;
   }
+
 }

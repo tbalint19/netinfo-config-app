@@ -32,6 +32,7 @@
   min-height: 10vh;
   animation: slide 0.7s ease forwards;
   box-shadow: 0 0 10px #555;
+  padding-bottom: 10px;
 }
 
 @keyframes slide {

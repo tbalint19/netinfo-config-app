@@ -31,7 +31,9 @@ export class VersionStatus {
   }
 
   public orderInBundleIsValid(): boolean {
-    return this._validator.orderInBundleIsValid(this.createdVersion.orderInBundle);
+    let byValidator = this._validator.orderInBundleIsValid(this.createdVersion.orderInBundle);
+    let byList = this.versions.length == 0 ? this.createdVersion.orderInBundle > 0 : this.createdVersion.orderInBundle > 1;
+    return byValidator && byList;
   }
 
   public dataIsValid(): boolean {

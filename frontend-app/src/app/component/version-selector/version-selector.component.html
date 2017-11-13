@@ -32,7 +32,7 @@
   (ngModelChange)="updateCreatedVersion()">
   <option
     [ngValue]="null"
-    hidden="true"
+    [hidden] ="true"
     [selected]="!status.createdVersionsBaseVersion">Select base</option>
   <option
     *ngFor="let version of status.versions"

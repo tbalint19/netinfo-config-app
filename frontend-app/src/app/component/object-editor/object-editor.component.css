@@ -1,4 +1,33 @@
 .scrollable-list {
-    overflow-y: scroll;
-    max-height: 600px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+h4 {
+    color: #555;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.button-container {
+    text-align: center;
+    padding: 10px;
+}
+
+.border-container {
+    padding: 15px;
+}
+
+.complex-name {
+    text-align: center;
+    color: #555;
+}
+
+.input-group {
+    margin: 5px;
+}
+
+.one-item {
+    display: flex;
+    justify-content: space-around;
 }

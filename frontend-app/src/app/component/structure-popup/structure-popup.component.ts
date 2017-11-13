@@ -16,13 +16,15 @@ export class StructurePopupComponent implements OnInit {
   constructor(
     protected status: PopupStatus,
     protected versionStatus: VersionStatus,
-    protected namespaceStatus: NamespaceStatus) {
+    protected namespaceStatus: NamespaceStatus,
+    private _structureStatus: StructureStatus) {
   }
 
   ngOnInit() {
   }
 
   openPopup(): void {
+    this._structureStatus.initialize();
     this.status.toggle(true);
   }
 
