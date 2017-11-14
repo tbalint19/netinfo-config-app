@@ -1,15 +1,14 @@
 package com.base.coreapi.controller.oscc;
 
+import com.base.coreapi.model.oscc.OsccObject;
 import com.base.coreapi.model.oscc.OsccType;
 import com.base.coreapi.model.oscc.Version;
 import com.base.coreapi.model.oscc.VersionOfType;
 import com.base.coreapi.model.oscc.dto.ObjectCreateDTO;
 import com.base.coreapi.model.response.SuccessResponse;
-import com.base.coreapi.model.oscc.OsccObject;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class ObjectController extends AbstractOSCCAPI {
         Version version = versionOfType.getVersion();
         for (Version v: versionService.getWithAllNext(version)){
             objectService.createObject(
-                    dto.getId(), dto.getSerializedData(), version, type);
+                    dto.getId(), dto.getSerializedData(), v, type);
         }
         return new SuccessResponse(true);
     }
