@@ -31,12 +31,12 @@
             &nbsp;-&nbsp;{{ getName(structure) }}
           </option>
           <option disabled>Complex types:</option>
-          <option *ngFor="let structure of status.complexParsedVersionOfType" [ngValue]="getName(structure)">
-            &nbsp;-&nbsp;{{ getName(structure) }}
+          <option *ngFor="let structure of status.complexParsedVersionOfType" [ngValue]="getName(structure['structure'])">
+            &nbsp;-&nbsp;{{ getName(structure['structure']) }}
           </option>
           <option disabled>Objects:</option>
-          <option *ngFor="let structure of status.objectParsedVersionOfType" [ngValue]="getName(structure) + '-list'">
-            &nbsp;-&nbsp;{{ getName(structure) }}-list
+          <option *ngFor="let structure of status.objectParsedVersionOfType" [ngValue]="getName(structure['structure']) + '-list'">
+            &nbsp;-&nbsp;{{ getName(structure['structure']) }}-list
           </option>
         </select>
         <button class="btn btn-info" (click)="saveRow()" [disabled]="!status.rowIsValid()">Add</button>
