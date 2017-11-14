@@ -11,8 +11,8 @@ import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
 import {PopupStatus} from "../../status/popup-status";
 import {ObjectEditorStatus} from "../../status/object-editor-status";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
 import {Error} from "../../model/message/error.model";
+import {StructureEditRestriction} from '../../model/enums/structure-edit-restriction.enum';
 
 @Component({
   selector: 'structure-editor',
@@ -72,7 +72,7 @@ export class StructureEditorComponent implements OnInit {
   }
 
   protected primitiveStructures(): any[] {
-    return this.status.primitiveStrucutres.filter(entry => this.getName(entry) != 'list');
+    return this.status.primitiveStructures.filter(entry => this.getName(entry) != 'list');
   }
 
   private resetEditor(): void {
@@ -92,10 +92,10 @@ export class StructureEditorComponent implements OnInit {
   }
 
   private handleArrivedStructures(response: VersionOfType[]): void {
-    this.status.objectStructures = response
+    this.status.objectParsedVersionOfType = response
       .filter(entry => entry.type.complex)
       .map(this.parseStructure);
-    this.status.complexStructures = response
+    this.status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)
       .map(this.parseStructure);
   }
@@ -105,5 +105,17 @@ export class StructureEditorComponent implements OnInit {
     this.resetEditor();
     this._objectEditorStatus.setReFetch(true);
     this._messages.add(new Success('Successful', 'Structure saved'));
+  }
+
+  protected NONE(): StructureEditRestriction {
+    return StructureEditRestriction.NONE;
+  }
+
+  protected DELETE(): StructureEditRestriction {
+    return StructureEditRestriction.DELETE;
+  }
+
+  protected UPDATE(): StructureEditRestriction {
+    return StructureEditRestriction.UPDATE;
   }
 }

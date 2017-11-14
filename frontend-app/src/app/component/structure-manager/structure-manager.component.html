@@ -6,21 +6,15 @@
   </button>
 
   <structure-selector
-    *ngFor="let structure of status.primitiveStrucutres"
-    [type]="'primitive'"
-    [structure]="structure">
-  </structure-selector>
-
-  <structure-selector
-    *ngFor="let structure of status.complexStructures"
+    *ngFor="let versionOfType of status.complexParsedVersionOfType"
     [type]="'complex'"
-    [structure]="structure">
+    [versionOfType]="versionOfType">
   </structure-selector>
 
   <structure-selector
-    *ngFor="let structure of status.objectStructures"
+    *ngFor="let versionOfType of status.objectParsedVersionOfType"
     [type]="'object'"
-    [structure]="structure">
+    [versionOfType]="versionOfType">
   </structure-selector>
 </div>
 

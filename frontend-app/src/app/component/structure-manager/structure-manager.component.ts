@@ -31,16 +31,19 @@ export class StructureManagerComponent implements OnInit {
   }
 
   private parseStructure(versionOfType: VersionOfType): any {
-    return JSON.parse(versionOfType.structure);
+    versionOfType.structure = JSON.parse(versionOfType.structure);
+    return versionOfType;
   }
 
   private handleArrivedStructures(response: VersionOfType[]): void {
-    this.status.objectStructures = response
+    this.status.objectParsedVersionOfType = response
       .filter(entry => entry.type.complex)
       .map(this.parseStructure);
-    this.status.complexStructures = response
+    this.status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)
       .map(this.parseStructure);
+    console.log(this.status.objectParsedVersionOfType);
+    console.log(this.status.complexParsedVersionOfType);
   }
 
 }

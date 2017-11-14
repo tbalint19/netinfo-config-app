@@ -5,6 +5,7 @@ import {NewRow} from "../model/new-row.model";
 import {StructureCreator} from "../model/structure-creator.model";
 import {StructureValidator} from "../validator/structure-validator";
 import {VersionOfType} from "../model/version-of-type.model";
+import {StructureEditRestriction} from "../model/enums/structure-edit-restriction.enum";
 
 @Injectable()
 export class StructureStatus {
@@ -12,16 +13,16 @@ export class StructureStatus {
   private _editorActive: boolean;
   private _newRowIsEdited: boolean;
 
-  public primitiveStrucutres: any[];
-  public complexStructures: any[];
-  public objectStructures: any[];
+  public primitiveStructures: any[];
+  public complexParsedVersionOfType: any[];
+  public objectParsedVersionOfType: any[];
 
   public editedStructure: any;
-  public refactoredStructure: any;
 
   public creator: StructureCreator;
   public params: StructureParams;
   public row: NewRow;
+  public restriction: StructureEditRestriction;
 
   constructor(
     private _validator: StructureValidator) {
@@ -35,7 +36,9 @@ export class StructureStatus {
     return this._editorActive;
   }
 
-  public toggleEditor(to: boolean): void {
+  public toggleEditor(to: boolean, versionOfType?: VersionOfType, restriction?: StructureEditRestriction): void {
+    this.editedStructure = versionOfType ? versionOfType.structure : {};
+    this.restriction  = restriction ? restriction : StructureEditRestriction.NONE;
     this._editorActive = to;
   }
 
@@ -48,7 +51,7 @@ export class StructureStatus {
   }
 
   private initializeDefaultTypes(): void {
-    this.primitiveStrucutres = [
+    this.primitiveStructures = [
       {"string": RenderElements.TEXT_INPUT},
       {"number": RenderElements.NUMBER_INPUT},
       {"boolean": RenderElements.CHECK_BOX},
@@ -60,8 +63,8 @@ export class StructureStatus {
     this._editorActive = false;
     this._newRowIsEdited = false;
     this.initializeDefaultTypes();
-    this.complexStructures = [];
-    this.objectStructures = [];
+    this.complexParsedVersionOfType = [];
+    this.objectParsedVersionOfType = [];
     this.editedStructure = {};
     this.creator.reset();
     this.params.reset();
@@ -93,6 +96,6 @@ export class StructureStatus {
   }
 
   public nameIsAvailable(): boolean {
-    return this._validator.nameIsAvailable(this.creator.type.name, this.complexStructures.concat(this.objectStructures));
+    return this._validator.nameIsAvailable(this.creator.type.name, this.complexParsedVersionOfType.concat(this.objectParsedVersionOfType));
   }
 }

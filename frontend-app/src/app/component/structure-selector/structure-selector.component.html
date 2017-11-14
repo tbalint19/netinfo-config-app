@@ -1,12 +1,16 @@
 <p>
   <span class="structure-name">
-    Name:&nbsp;{{ getName(structure) }}&nbsp;
+    Name:&nbsp;{{ getName(versionOfType['structure']) }}&nbsp;
     <span class="type">({{ type }})</span>
   </span>
   <span>
     <button (click)="activate()" [disabled]="type == 'primitive'" class="btn btn-default">
-      Edit structure
-      <span class="glyphicon glyphicon-wrench"></span>
+      Add field
+      <span class="glyphicon glyphicon-plus-sign"></span>
+    </button>
+    <button (click)="activate()" [disabled]="type == 'primitive'" class="btn btn-danger">
+      Delete field
+      <span class="glyphicon glyphicon-minus-sign"></span>
     </button>
   </span>
 </p>

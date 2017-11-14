@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {StructureStatus} from "../../status/structure-status";
+import {StructureEditRestriction} from "../../model/enums/structure-edit-restriction.enum";
 
 @Component({
   selector: 'structure-selector',
@@ -14,7 +15,7 @@ export class StructureSelectorComponent implements OnInit {
   }
 
   @Input()
-  public structure: any;
+  public versionOfType: any;
 
   @Input()
   public type: string;
@@ -23,9 +24,10 @@ export class StructureSelectorComponent implements OnInit {
       return Object.keys(obj)[0];
   }
 
-  public activate(): void {
-    this.status.editedStructure = this.structure;
-    this.status.toggleEditor(true);
+  public activate(onlyUpdate: boolean): void {
+    this.status.editedStructure = this.versionOfType['structure'];
+    let restriction = onlyUpdate ? StructureEditRestriction.UPDATE : StructureEditRestriction.DELETE;
+    this.status.toggleEditor(true, this.versionOfType, restriction);
   }
 
 }

@@ -2,12 +2,13 @@
   <div class="container-box">
     <h4>Create new type</h4>
     <div class="type-editor">
-      <input class="form-control" [(ngModel)]="creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) ">
+      <input class="form-control" [(ngModel)]="creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) "
+             [disabled]="status.restriction != NONE()">
       <span class="check-box-label">Object</span>
-      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.type.complex">
+      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.type.complex" [disabled]="status.restriction != NONE()">
 
       <span class="check-box-label">Common</span>
-      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.isCommon">
+      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.isCommon" [disabled]="status.restriction != NONE()">
     </div>
   </div>
 
@@ -17,7 +18,7 @@
       <div *ngFor="let key of getKeys(creator.structure)" class="one-field">
         <span class="one-field-content">{{ key }}</span>
         <span class="one-field-content">{{ creator.structure[key] }}</span>
-        <span><button class="btn btn-danger" (click)="deleteRow(key)">Delete</button></span>
+        <span><button class="btn btn-danger" (click)="deleteRow(key)" [disabled]="status.restriction == UPDATE()">Delete</button></span>
       </div>
     </div>
 
@@ -30,11 +31,11 @@
             &nbsp;-&nbsp;{{ getName(structure) }}
           </option>
           <option disabled>Complex types:</option>
-          <option *ngFor="let structure of status.complexStructures" [ngValue]="getName(structure)">
+          <option *ngFor="let structure of status.complexParsedVersionOfType" [ngValue]="getName(structure)">
             &nbsp;-&nbsp;{{ getName(structure) }}
           </option>
           <option disabled>Objects:</option>
-          <option *ngFor="let structure of status.objectStructures" [ngValue]="getName(structure) + '-list'">
+          <option *ngFor="let structure of status.objectParsedVersionOfType" [ngValue]="getName(structure) + '-list'">
             &nbsp;-&nbsp;{{ getName(structure) }}-list
           </option>
         </select>
@@ -45,7 +46,7 @@
     <div class="toggle-button-container">
       <button
         class="btn btn-default"
-        (click)="status.toggleNewRow(!status.isEdited())">
+        (click)="status.toggleNewRow(!status.isEdited())" [disabled]="status.restriction == DELETE()">
         {{ status.isEdited() ? 'Cancel' : 'New field'}}
       </button>
     </div>
