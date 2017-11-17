@@ -15,6 +15,7 @@ import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
 import {ObjectParams} from "../model/get-request/object-params.model";
 import {ObjectCreateDto} from "../model/post-request/object-create-dto.model";
 import {OsccObject} from "../model/object-model";
+import {PreUpdateObjectsParams} from "../model/get-request/pre-update-objects-params";
 
 @Injectable()
 export class RequestFactory {
@@ -25,6 +26,10 @@ export class RequestFactory {
 
   public createEmailCheckRequest(params: CheckEmailParams): HttpRequest {
     return new HttpRequest("/api/check/email", "GET", params);
+  }
+
+  public createPreUpdateObjectsRequest(params: PreUpdateObjectsParams): HttpRequest {
+    return new HttpRequest("/api/oscc/objects/preupdate", "GET", params);
   }
 
   public createSignupRequest(user: SignupUser): HttpRequest {
@@ -83,11 +88,15 @@ export class RequestFactory {
     return new HttpRequest('/api/oscc/objects/create', 'POST', dto);
   }
 
-  public createUpdateObjectRequest(object: OsccObject): HttpRequest {
-    return new HttpRequest('/api/oscc/objects/update', 'POST', object);
+  public createUpdateObjectRequest(objects: OsccObject[]): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/update', 'POST', objects);
   }
 
-  public createDeleteObjectRequest(object: OsccObject): HttpRequest {
-    return new HttpRequest('/api/oscc/objects/delete', 'POST', object);
+  public createDeleteObjectRequest(toDelete: OsccObject[], toUpdate: OsccObject[]): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/delete', 'POST', {toDelete, toUpdate});
+  }
+
+  public createPreDeleteObjectRequest(id: string): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/predelete', 'GET', {id});
   }
 }

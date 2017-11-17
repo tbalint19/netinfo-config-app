@@ -6,6 +6,9 @@ import {HttpClient} from "../http/http.client";
 import {ObjectParams} from "../model/get-request/object-params.model";
 import {ObjectCreateDto} from "../model/post-request/object-create-dto.model";
 import {SuccessResponse} from "../model/response/success-response.model";
+import {PreUpdateObjectsParams} from "../model/get-request/pre-update-objects-params";
+import {VersionOfTypeWithIds} from "../model/response/version-of-type-with-ids";
+import {PreUpdateObjectsResponse} from "../model/response/pre-update-objects-response";
 
 @Injectable()
 export class ObjectService {
@@ -23,11 +26,19 @@ export class ObjectService {
     return this._client.transfer(this._factory.createSaveObjectsRequest(dto));
   }
 
-  public updateObjects(object: OsccObject): Observable<SuccessResponse> {
-    return this._client.transfer(this._factory.createUpdateObjectRequest(object));
+  public preFetchForUpdate(params: PreUpdateObjectsParams): Observable<PreUpdateObjectsResponse> {
+    return this._client.transfer(this._factory.createPreUpdateObjectsRequest(params));
   }
 
-  public deleteObjects(object: OsccObject): Observable<SuccessResponse> {
-    return this._client.transfer(this._factory.createDeleteObjectRequest(object));
+  public updateObjects(objects: OsccObject[]): Observable<SuccessResponse> {
+    return this._client.transfer(this._factory.createUpdateObjectRequest(objects));
+  }
+
+  public deleteObjects(toDelete: OsccObject[], toUpdate: OsccObject[]): Observable<SuccessResponse> {
+    return this._client.transfer(this._factory.createDeleteObjectRequest(toDelete, toUpdate));
+  }
+
+  public preDelete(id: string): Observable<OsccObject[]> {
+    return this._client.transfer(this._factory.createPreDeleteObjectRequest(id));
   }
 }

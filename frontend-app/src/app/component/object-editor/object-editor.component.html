@@ -20,7 +20,11 @@
           <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
             <div *ngIf="isText(complexTypeKey, structure[key])" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
-              <input class="form-control" type="text" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+              <input
+                [disabled]="multiLanguageDisabled(complexTypeKey, key)"
+                class="form-control"
+                type="text"
+                [(ngModel)]="status.creator.data[key][complexTypeKey]">
             </div>
             <div *ngIf="isNumber(complexTypeKey, structure[key])" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
@@ -58,4 +62,11 @@
 
 <div class="row button-container">
   <button class="btn btn-info" (click)="saveObject()">Save</button>
+</div>
+
+<div *ngIf="status.isUpdating()" class="disabled-window-background"></div>
+<div *ngIf="status.isUpdating()" class="disabled-window-message">
+  <h4>Objects are currently updated</h4>
+  <p>Please wait...</p>
+  <p></p>
 </div>

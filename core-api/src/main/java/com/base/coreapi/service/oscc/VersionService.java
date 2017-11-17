@@ -84,4 +84,8 @@ public class VersionService {
     public Version findByOrderInBundle(Integer orderInBundle) {
         return repository.findByOrderInBundle(orderInBundle);
     }
+
+    public Version findById(Long versionSystemId) {
+        return repository.findBySystemId(versionSystemId);
+    }
 }

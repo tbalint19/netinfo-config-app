@@ -10,6 +10,11 @@ import {SuccessResponse} from "../../model/response/success-response.model";
 import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
 import {Error} from "../../model/message/error.model";
+import _ from 'lodash';
+import {PreUpdateObjectsParams} from "../../model/get-request/pre-update-objects-params";
+import {Observable} from "rxjs/Observable";
+import {VersionOfTypeWithIds} from "../../model/response/version-of-type-with-ids";
+import {PreUpdateObjectsResponse} from "../../model/response/pre-update-objects-response";
 
 @Component({
   selector: 'object-editor',
@@ -173,12 +178,66 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   private updateObject(): void {
-    this._service.updateObjects(this._factory.createObject(this.status.creator)).subscribe(
-      (response: SuccessResponse) => this.handleUpdateResponse(response)
-    )
+    this.status.setUpdating(true);
+    this.preUpdate().subscribe(
+      (response: PreUpdateObjectsResponse) => {
+        this.bulkOverWrite(response.objects, response.versionOfTypeWithIds);
+        this._service.updateObjects(response.objects).subscribe(
+          (response: SuccessResponse) => this.handleUpdateResponse(response)
+        );
+      }
+    );
+  }
+
+  private preUpdate(): Observable<PreUpdateObjectsResponse> {
+    let params = new PreUpdateObjectsParams();
+    params.objectId = this.status.creator.data['id'];
+    params.versionSystemId = this.status.creator.versionOfType.version.systemId;
+    params.namespaceSystemId = this.status.creator.versionOfType.type.namespace.systemId;
+    return this._service.preFetchForUpdate(params)
+  }
+
+  private bulkOverWrite(objects: OsccObject[], ids: any[]): void {
+    let minOrder = _.min(ids.map(
+      (entry) => entry['versionOfType']['version']['orderInBundle']));
+    for (let object of objects) {
+      let relatedIds = ids
+        .filter((entry) => entry.versionOfType.version.systemId == object.versionOfType.version.systemId)
+        .map((entry) => entry.ids);
+      let baseIds = ids
+        .filter((entry) => entry.versionOfType.version.orderInBundle == minOrder)
+        .map((entry) => entry.ids);
+      this.overWrite(object, _.flattenDeep(relatedIds), _.flattenDeep(baseIds));
+    }
+  }
+
+  private overWrite(object: OsccObject, relatedIds: any[], baseIds: any[]): void {
+    let data = JSON.parse(object.serializedData);
+    for (let key of Object.keys(data)) {
+      if (Array.isArray(data[key])){
+        let newList = [];
+        for (let id of this.status.creator.data[key]){
+          if (relatedIds.includes(id)) {
+            newList.push(id);
+          }
+        }
+        for (let id of data[key]) {
+          if (!newList.includes(id)){
+            if (!baseIds.includes(id)) {
+              newList.push(id);
+            }
+          }
+        }
+        data[key] = newList;
+      } else {
+        data[key] = this.status.creator.data[key];
+      }
+    }
+    object.serializedData = JSON.stringify(data);
   }
 
   private handleUpdateResponse(response: SuccessResponse) {
+    this.status.setUpdating(false);
     if (response.successful) {
       this.status.reset();
       this._messages.add(new Success('Success', 'Object updated'));
@@ -192,5 +251,23 @@ export class ObjectEditorComponent implements OnInit {
       this._factory.createObjectCreateDto(this.status.creator)).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response)
     );
+  }
+
+  protected multiLanguageDisabled(complexTypeKey: string, key: string): boolean {
+    if (this.structure[key] != "multilanguage") { return false; }
+    if (complexTypeKey == "unLocalized") {
+      let multilanguage = this.status.creator.data[key];
+      let allMultilanguageKeys = Object.keys(multilanguage).filter((entry) => entry != 'unLocalized');
+      let anyFieldHasValue = allMultilanguageKeys
+        .map((entry) => multilanguage[entry])
+        .filter(this.exist).length > 0;
+      return anyFieldHasValue;
+    } else {
+      return this.exist(this.status.creator.data[key]['unLocalized']);
+    }
+  }
+
+  private exist(value: any): boolean {
+    return !(value == null || value == undefined || value == "");
   }
 }

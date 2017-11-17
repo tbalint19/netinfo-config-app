@@ -70,4 +70,16 @@ public class ObjectService {
     public void save(List<OsccObject> objects) {
         repository.save(objects);
     }
+
+    public OsccObject findByIdAndVersion(String objectId, Version version) {
+        return repository.findByIdAndVersionOfType_Version_SystemId(objectId, version.getSystemId());
+    }
+
+    public List<OsccObject> findAllRelated(String id) {
+        return repository.findBySerializedDataContaining(id);
+    }
+
+    public void delete(List<OsccObject> toDelete) {
+        repository.delete(toDelete);
+    }
 }

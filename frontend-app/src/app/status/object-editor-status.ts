@@ -3,12 +3,14 @@ import {ObjectCreator} from "../model/object-creator.model";
 import {OsccObject} from "../model/object-model";
 import {VersionOfType} from "../model/version-of-type.model";
 import {ObjectParams} from "../model/get-request/object-params.model";
+import {HttpClient} from "../http/http.client";
 
 @Injectable()
 export class ObjectEditorStatus {
 
   private _editorOpened: boolean;
   private _shouldReFetch: boolean;
+  private _isUpdating: boolean;
   public chosenStructure: any;
   public creator: ObjectCreator;
   public objects: OsccObject[];
@@ -16,12 +18,24 @@ export class ObjectEditorStatus {
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
 
-  constructor() {
+  constructor(private _requestObserver: HttpClient) {
     this.initialize();
   }
 
   public setStructure(structure: any): void {
     this.chosenStructure = structure;
+  }
+
+  // public isPreFetching(): boolean {
+  //   return this._requestObserver.findPending()
+  // }
+
+  public isUpdating(): boolean {
+    return this._isUpdating;
+  }
+
+  public setUpdating(to: boolean): void {
+    this._isUpdating = to;
   }
 
   public shouldReFetch(): boolean {
@@ -48,6 +62,7 @@ export class ObjectEditorStatus {
     this.versionOfTypes = [];
     this.objects = [];
     this.chosenStructure = null;
+    this._isUpdating = false;
   }
 
   public reset(): void {

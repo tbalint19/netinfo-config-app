@@ -51,12 +51,12 @@ export class ObjectListComponent implements OnInit {
 
   private monitor(): void {
     setInterval(() => {
-      if (this.status.shouldReFetch()) {
+      if (this.status.shouldReFetch() && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
         this.status.setReFetch(false);
         this.structureStatus.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
+        this.status.params.namespaceSystemId = this.namespaceStatus.chosenNamespace.systemId;
         this.structureStatus.params.versionId = this.versionStatus.chosenVersion.systemId;
         this.status.params.versionSystemId = this.versionStatus.chosenVersion.systemId;
-        this.status.params.namespaceSystemId = this.namespaceStatus.chosenNamespace.systemId;
         this.getObjects();
         this.getVersionOfTypes();
       }
@@ -84,15 +84,40 @@ export class ObjectListComponent implements OnInit {
       entry => entry.versionOfType.systemId == this.status.chosenVersionOfType.systemId);
   }
 
+  protected deleteObject(object: OsccObject): void {
+    this._service.preDelete(object.id).subscribe(
+      (response: OsccObject[]) => {
+        console.log(response);
+        let objectsToDelete = [];
+        let objectsToUpdate = [];
+        for (let obj of response){
+          if (!(obj['id'] == object.id)){
+            let data = JSON.parse(obj.serializedData);
+            for (let key of Object.keys(data)){
+              if (Array.isArray(data[key])){
+                data[key] = this.remove(data[key], object.id);
+              }
+            }
+            obj.serializedData = JSON.stringify(data);
+            objectsToUpdate.push(obj);
+          } else {
+            objectsToDelete.push(obj);
+          }
+        }
+        this._service.deleteObjects(objectsToDelete, objectsToUpdate).subscribe(
+          (response: SuccessResponse) => this.handleDeleteResponse(response)
+        )
+      }
+    );
+  }
+
   protected openEditor(object?: OsccObject): void {
     this.status.creator = this._creatorFactory.createObjectCreator(object);
     this.status.toggleEditor(true);
   }
 
-  protected deleteObject(object: OsccObject): void {
-    this._service.deleteObjects(object).subscribe(
-      (response: SuccessResponse) => this.handleDeleteResponse(response)
-    )
+  private remove(list: any[], element: any): any[] {
+    return list.filter((entry) => entry != element);
   }
 
   private handleDeleteResponse(response: SuccessResponse): void {

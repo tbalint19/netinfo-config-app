@@ -12,4 +12,6 @@ public interface VersionRepository extends JpaRepository<Version, Long> {
     Version findByOrderInBundle(Integer orderInBundle);
 
     List<Version> findByOrderInBundleGreaterThan(Integer orderInBundle);
+
+    Version findBySystemId(Long versionSystemId);
 }
