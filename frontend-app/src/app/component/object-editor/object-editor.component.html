@@ -3,22 +3,24 @@
     <h4>Fields</h4>
     <div class="border-container">
       <div *ngFor="let key of structureKeys()">
-        <div *ngIf="isText(structure[key])" class="input-group">
+        <div *ngIf="isText(parseValue(structure[key]))" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
-          <input class="form-control" type="text" [(ngModel)]="status.creator.data[key]">
+          <input class="form-control" type="text"
+            [disabled]="key == 'id' && status.restriction == updateRestricion()"
+            [(ngModel)]="status.creator.data[key]">
         </div>
-        <div *ngIf="isNumber(structure[key])" class="input-group">
+        <div *ngIf="isNumber(parseValue(structure[key]))" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
           <input class="form-control" type="number" [(ngModel)]="status.creator.data[key]">
         </div>
-        <div *ngIf="isBoolean(structure[key])" class="input-group">
+        <div *ngIf="isBoolean(parseValue(structure[key]))" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
           <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key]">
         </div>
-        <div *ngIf="isComplex(structure[key])">
+        <div *ngIf="isComplex(parseValue(structure[key]))">
           <p class="complex-name">{{ key }}</p>
-          <div *ngFor="let complexTypeKey of complexTypeKeys(structure[key])">
-            <div *ngIf="isText(complexTypeKey, structure[key])" class="input-group">
+          <div *ngFor="let complexTypeKey of complexTypeKeys(parseValue(structure[key]))">
+            <div *ngIf="isText(complexTypeKey, parseValue(structure[key]))" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
               <input
                 [disabled]="multiLanguageDisabled(complexTypeKey, key)"
@@ -26,17 +28,17 @@
                 type="text"
                 [(ngModel)]="status.creator.data[key][complexTypeKey]">
             </div>
-            <div *ngIf="isNumber(complexTypeKey, structure[key])" class="input-group">
+            <div *ngIf="isNumber(complexTypeKey, parseValue(structure[key]))" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
               <input class="form-control" type="number" [(ngModel)]="status.creator.data[key][complexTypeKey]">
             </div>
-            <div *ngIf="isBoolean(complexTypeKey, structure[key])" class="input-group">
+            <div *ngIf="isBoolean(complexTypeKey, parseValue(structure[key]))" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
               <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key][complexTypeKey]">
             </div>
           </div>
         </div>
-        <hr *ngIf="!isObjectList(structure[key])">
+        <hr *ngIf="!isObjectList(parseValue(structure[key]))">
       </div>
     </div>
   </div>
@@ -44,13 +46,13 @@
   <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
     <h4>References</h4>
     <div *ngFor="let key of structureKeys()">
-      <h4 *ngIf="isObjectList(structure[key])">{{ key }}</h4>
-      <div *ngIf="isObjectList(structure[key])">
-        <div *ngFor="let object of getObjects(structure[key])" class="one-item">
+      <h4 *ngIf="isObjectList(parseValue(structure[key]))">{{ key }}</h4>
+      <div *ngIf="isObjectList(parseValue(structure[key]))">
+        <div *ngFor="let object of getObjects(parseValue(structure[key]))" class="one-item">
           <div>{{ getIdentification(object) }}</div>
           <button
-                  class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
-                  (click)="toggleList(object, key)">
+            class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
+            (click)="toggleList(object, key)">
             Toggle
           </button>
         </div>

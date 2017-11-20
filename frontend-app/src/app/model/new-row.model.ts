@@ -4,6 +4,8 @@ export class NewRow {
 
   public value: string;
 
+  public defaultValue: any;
+
 
   constructor() {
     this.initialize();
@@ -12,6 +14,7 @@ export class NewRow {
   private initialize(): void {
     this.name = '';
     this.value = '';
+    this.defaultValue = '';
   }
 
   public reset(): void {

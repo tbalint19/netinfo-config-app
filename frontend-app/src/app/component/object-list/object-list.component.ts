@@ -14,6 +14,7 @@ import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
 import {el} from "@angular/platform-browser/testing/src/browser_util";
 import {Error} from "../../model/message/error.model";
+import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
 
 @Component({
   selector: 'object-list',
@@ -87,7 +88,6 @@ export class ObjectListComponent implements OnInit {
   protected deleteObject(object: OsccObject): void {
     this._service.preDelete(object.id).subscribe(
       (response: OsccObject[]) => {
-        console.log(response);
         let objectsToDelete = [];
         let objectsToUpdate = [];
         for (let obj of response){
@@ -113,6 +113,8 @@ export class ObjectListComponent implements OnInit {
 
   protected openEditor(object?: OsccObject): void {
     this.status.creator = this._creatorFactory.createObjectCreator(object);
+    this.status.restriction = object ? ObjectEditRestriction.UPDATE : ObjectEditRestriction.CREATE;
+    console.log(this.status.restriction)
     this.status.toggleEditor(true);
   }
 

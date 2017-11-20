@@ -13,6 +13,7 @@ import {PopupStatus} from "../../status/popup-status";
 import {ObjectEditorStatus} from "../../status/object-editor-status";
 import {Error} from "../../model/message/error.model";
 import {StructureEditRestriction} from '../../model/enums/structure-edit-restriction.enum';
+import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
 
 @Component({
   selector: 'structure-editor',
@@ -21,26 +22,21 @@ import {StructureEditRestriction} from '../../model/enums/structure-edit-restric
 })
 export class StructureEditorComponent implements OnInit {
 
-  public creator: StructureCreator;
-  public row: NewRow;
-
-  constructor(protected status: StructureStatus,
-              private _factory: DtoFactory,
-              private namespaceStatus: NamespaceStatus,
-              private _service: StructureService,
-              private _messages: MessageService,
-              private _popupStatus: PopupStatus,
-              private _objectEditorStatus: ObjectEditorStatus) {
-    this.creator = this.status.creator;
-    this.row = this.status.row;
-  }
+  constructor(
+    protected status: StructureStatus,
+    private _factory: DtoFactory,
+    private namespaceStatus: NamespaceStatus,
+    private _service: StructureService,
+    private _messages: MessageService,
+    private _popupStatus: PopupStatus,
+    private _objectEditorStatus: ObjectEditorStatus) { }
 
   ngOnInit() {
   }
 
   protected saveStructure(): void {
     this._service.save(this._factory.createTypeCreateDto(
-      this.creator, this.namespaceStatus.chosenNamespace)).subscribe(
+      this.status.creator, this.namespaceStatus.chosenNamespace)).subscribe(
       (response: SuccessResponse) => this.handleResponse(response)
     );
   }
@@ -53,9 +49,17 @@ export class StructureEditorComponent implements OnInit {
     }
   }
 
+  protected reportTypeChange(): void {
+    if (this.status.creator.type.complex) {
+      this.status.creator.structure['id'] = "string";
+    } else {
+      delete this.status.creator.structure['id'];
+    }
+  }
+
   protected saveRow() {
-    this.creator.structure[this.row.name] = this.row.value;
-    this.row.reset();
+    this.status.creator.structure[this.status.row.name] = this.status.row.value + " ---> " + this.status.row.defaultValue;
+    this.status.row.reset();
     this.status.toggleNewRow(false);
   }
 
@@ -68,7 +72,7 @@ export class StructureEditorComponent implements OnInit {
   }
 
   protected deleteRow(key: string): void {
-    delete this.creator.structure[key];
+    delete this.status.creator.structure[key];
   }
 
   protected primitiveStructures(): any[] {

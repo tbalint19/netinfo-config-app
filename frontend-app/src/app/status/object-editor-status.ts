@@ -4,6 +4,7 @@ import {OsccObject} from "../model/object-model";
 import {VersionOfType} from "../model/version-of-type.model";
 import {ObjectParams} from "../model/get-request/object-params.model";
 import {HttpClient} from "../http/http.client";
+import {ObjectEditRestriction} from "../model/enums/object-edit-restriction.enum";
 
 @Injectable()
 export class ObjectEditorStatus {
@@ -11,6 +12,8 @@ export class ObjectEditorStatus {
   private _editorOpened: boolean;
   private _shouldReFetch: boolean;
   private _isUpdating: boolean;
+
+  public restriction: ObjectEditRestriction;
   public chosenStructure: any;
   public creator: ObjectCreator;
   public objects: OsccObject[];

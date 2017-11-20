@@ -2,30 +2,40 @@
   <div class="container-box">
     <h4>Create new type</h4>
     <div class="type-editor">
-      <input class="form-control" [(ngModel)]="creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) "
+      <input class="form-control" [(ngModel)]="status.creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) "
              [disabled]="status.restriction != NONE()">
       <span class="check-box-label">Object</span>
-      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.type.complex" [disabled]="status.restriction != NONE()">
+      <input
+        class="form-control check-box" type="checkbox"
+        [(ngModel)]="status.creator.type.complex"
+        (ngModelChange)="reportTypeChange()"
+        [disabled]="status.restriction != NONE()">
 
       <span class="check-box-label">Common</span>
-      <input class="form-control check-box" type="checkbox" [(ngModel)]="creator.isCommon" [disabled]="status.restriction != NONE()">
+      <input class="form-control check-box" type="checkbox" [(ngModel)]="status.creator.isCommon" [disabled]="status.restriction != NONE()">
     </div>
   </div>
 
   <div class="container-box">
     <h4>Edit structure</h4>
     <div class="scrollable-list">
-      <div *ngFor="let key of getKeys(creator.structure)" class="one-field">
+      <div *ngFor="let key of getKeys(status.creator.structure)" class="one-field">
         <span class="one-field-content">{{ key }}</span>
-        <span class="one-field-content">{{ creator.structure[key] }}</span>
-        <span><button class="btn btn-danger" (click)="deleteRow(key)" [disabled]="status.restriction == UPDATE()">Delete</button></span>
+        <span class="one-field-content">{{ status.creator.structure[key] }}</span>
+        <span>
+          <button
+            class="btn btn-danger" (click)="deleteRow(key)"
+            [disabled]="status.restriction == UPDATE() || key == 'id'">
+            Delete
+          </button>
+        </span>
       </div>
     </div>
 
     <div *ngIf="status.isEdited()">
       <div class="structure-editor">
-        <input class="form-control" [(ngModel)]="row.name" placeholder="Name (for example: id, price, active...)">
-        <select class="btn btn-default" [(ngModel)]="row.value">
+        <input class="form-control" [(ngModel)]="status.row.name" placeholder="Name (for example: id, price, active...)">
+        <select class="btn btn-default" [(ngModel)]="status.row.value">
           <option disabled>Primitives:</option>
           <option *ngFor="let structure of primitiveStructures()" [ngValue]="getName(structure)">
             &nbsp;-&nbsp;{{ getName(structure) }}
@@ -39,6 +49,10 @@
             &nbsp;-&nbsp;{{ getName(structure['structure']) }}-list
           </option>
         </select>
+        <input [disabled]="!(status.row.value == 'string' || status.row.value == 'number' || status.row.value == 'boolean')"
+          class="form-control"
+          placeholder="Default value"
+          [(ngModel)]="status.row.defaultValue">
         <button class="btn btn-info" (click)="saveRow()" [disabled]="!status.rowIsValid()">Add</button>
       </div>
     </div>

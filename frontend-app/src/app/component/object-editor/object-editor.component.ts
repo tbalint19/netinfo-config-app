@@ -15,6 +15,7 @@ import {PreUpdateObjectsParams} from "../../model/get-request/pre-update-objects
 import {Observable} from "rxjs/Observable";
 import {VersionOfTypeWithIds} from "../../model/response/version-of-type-with-ids";
 import {PreUpdateObjectsResponse} from "../../model/response/pre-update-objects-response";
+import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
 
 @Component({
   selector: 'object-editor',
@@ -51,6 +52,11 @@ export class ObjectEditorComponent implements OnInit {
     return Object.keys(this.structure);
   }
 
+  protected updateRestricion(): ObjectEditRestriction {
+    return ObjectEditRestriction.UPDATE;
+  }
+
+
   protected complexTypeKeys(complexTypeName: string): string[] {
     let structure = this.complexStructures.filter(
       (entry) => entry.hasOwnProperty(complexTypeName))[0];
@@ -66,6 +72,14 @@ export class ObjectEditorComponent implements OnInit {
     ).length == 1 && this.primitives.filter(
       entry => entry.hasOwnProperty(k)
     )[0][k] == RenderElements.TEXT_INPUT;
+  }
+
+  protected parseValue(key: string): string {
+    return key.split(" ---> ")[0];
+  }
+
+  protected getDefaultValue(key: string): string {
+    return key.split(" ---> ")[1];
   }
 
   protected isNumber(key: string, complex?: string): boolean {
@@ -108,19 +122,19 @@ export class ObjectEditorComponent implements OnInit {
   private createBaseData(): void {
     this.status.creator.versionOfType = this.status.chosenVersionOfType;
     for (let key of this.structureKeys()){
-      if (this.isText(this.structure[key])) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? "" : this.status.creator.data[key];
+      if (this.isText(this.parseValue(this.structure[key]))) {
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this.status.creator.data[key];
       }
-      if (this.isNumber(this.structure[key])) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? 0: this.status.creator.data[key];
+      if (this.isNumber(this.parseValue(this.structure[key]))) {
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]): this.status.creator.data[key];
       }
-      if (this.isBoolean(this.structure[key])) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? false : this.status.creator.data[key];
+      if (this.isBoolean(this.parseValue(this.structure[key]))) {
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) == "true" ? true : false : this.status.creator.data[key];
       }
-      if (this.isComplex(this.structure[key])) {
+      if (this.isComplex(this.parseValue(this.structure[key]))) {
         this.status.creator.data[key] = this.status.creator.data[key] === undefined ? {} : this.status.creator.data[key];
       }
-      if (this.isObjectList(this.structure[key])) {
+      if (this.isObjectList(this.parseValue(this.structure[key]))) {
         this.status.creator.data[key] = this.status.creator.data[key] === undefined ? [] : this.status.creator.data[key];
       }
     }
