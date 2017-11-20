@@ -268,7 +268,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected multiLanguageDisabled(complexTypeKey: string, key: string): boolean {
-    if (this.structure[key] != "multilanguage") { return false; }
+    if (this.parseValue(this.structure[key]) != "multilanguage") { return false; }
     if (complexTypeKey == "unLocalized") {
       let multilanguage = this.status.creator.data[key];
       let allMultilanguageKeys = Object.keys(multilanguage).filter((entry) => entry != 'unLocalized');
