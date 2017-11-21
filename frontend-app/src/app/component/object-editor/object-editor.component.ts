@@ -79,7 +79,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected getDefaultValue(key: string): string {
-    return key.split(" ---> ")[1];
+    return key.split(" ---> ")[1] != "" ? key.split(" ---> ")[1] : null;
   }
 
   protected isNumber(key: string, complex?: string): boolean {

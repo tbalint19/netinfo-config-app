@@ -2,6 +2,8 @@ import {Type} from "./type.model";
 
 export class StructureCreator {
 
+  public systemId: number;
+
   public isCommon: boolean;
 
   public type: Type;
@@ -13,8 +15,9 @@ export class StructureCreator {
   }
 
   private initialize(): void {
+    this.systemId = null;
     this.isCommon = false;
-    this.type = new Type;
+    this.type = new Type();
     this.structure = {};
   }
 

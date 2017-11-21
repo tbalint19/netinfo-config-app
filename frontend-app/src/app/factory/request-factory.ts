@@ -16,6 +16,7 @@ import {ObjectParams} from "../model/get-request/object-params.model";
 import {ObjectCreateDto} from "../model/post-request/object-create-dto.model";
 import {OsccObject} from "../model/object-model";
 import {PreUpdateObjectsParams} from "../model/get-request/pre-update-objects-params";
+import {StructureUpdateDto} from "../model/structure-update-dto";
 
 @Injectable()
 export class RequestFactory {
@@ -98,5 +99,13 @@ export class RequestFactory {
 
   public createPreDeleteObjectRequest(id: string): HttpRequest {
     return new HttpRequest('/api/oscc/objects/predelete', 'GET', {id});
+  }
+
+  public createPreStructureUpdateRequest(versionId: number, typeId: number): HttpRequest {
+    return new HttpRequest("/api/oscc/versionoftype/preupdate", "GET", {versionId, typeId});
+  }
+
+  public createStructureUpdateRequest(dto: StructureUpdateDto): HttpRequest {
+    return new HttpRequest("/api/oscc/versionoftype/update", "POST", dto);
   }
 }

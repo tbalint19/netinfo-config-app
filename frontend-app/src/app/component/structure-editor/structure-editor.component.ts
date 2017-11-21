@@ -14,6 +14,9 @@ import {ObjectEditorStatus} from "../../status/object-editor-status";
 import {Error} from "../../model/message/error.model";
 import {StructureEditRestriction} from '../../model/enums/structure-edit-restriction.enum';
 import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
+import {OsccObject} from "../../model/object-model";
+import {StructureUpdateDto} from "../../model/structure-update-dto";
+import {VersionStatus} from "../../status/version-status";
 
 @Component({
   selector: 'structure-editor',
@@ -25,6 +28,7 @@ export class StructureEditorComponent implements OnInit {
   constructor(
     protected status: StructureStatus,
     private _factory: DtoFactory,
+    private versionStatus: VersionStatus,
     private namespaceStatus: NamespaceStatus,
     private _service: StructureService,
     private _messages: MessageService,
@@ -34,11 +38,119 @@ export class StructureEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  protected saveStructure(): void {
+  protected update(): void {
+    if (this.status.restriction == StructureEditRestriction.NONE){ this.saveStructure(); }
+    if (this.status.restriction == StructureEditRestriction.UPDATE){ this.addToStructure(); }
+    if (this.status.restriction == StructureEditRestriction.DELETE){ this.deleteFromStructure(); }
+  }
+
+  private saveStructure(): void {
     this._service.save(this._factory.createTypeCreateDto(
       this.status.creator, this.namespaceStatus.chosenNamespace)).subscribe(
       (response: SuccessResponse) => this.handleResponse(response)
     );
+  }
+
+  private deleteFromStructure(): void {
+    let versionId = this.versionStatus.chosenVersion.systemId;
+    let typeId = this.status.creator.type.systemId;
+    this._service.preUpdate(versionId, typeId).subscribe(
+      (dto: StructureUpdateDto) => {
+        let updatedVersionOfTypes = dto.versionOfTypes.map(
+          (original: VersionOfType) => {
+            let newStructure = {};
+            let name = this.status.creator.type.name;
+            newStructure[name] = this.status.creator.structure;
+            original.structure = JSON.stringify(newStructure);
+            return original;
+          }
+        );
+        let updatedObjects = dto.objects.map(
+          (original: OsccObject) => {
+            let newObj = {};
+            for (let key of Object.keys(JSON.parse(original.serializedData))){
+              if (Object.keys(this.status.creator.structure).includes(key)){
+                newObj[key] = JSON.parse(original.serializedData)[key];
+              }
+            }
+            original.serializedData = JSON.stringify(newObj);
+            return original;
+          }
+        );
+        let updateDTO = new StructureUpdateDto(updatedObjects, updatedVersionOfTypes);
+        this.sendDto(updateDTO);
+      }
+    );
+  }
+  private addToStructure(): void {
+    let versionId = this.versionStatus.chosenVersion.systemId;
+    let typeId = this.status.creator.type.systemId;
+    this._service.preUpdate(versionId, typeId).subscribe(
+      (dto: StructureUpdateDto) => {
+        let updatedVersionOfTypes = dto.versionOfTypes.map(
+          (original: VersionOfType) => {
+            let newStructure = {};
+            let name = this.status.creator.type.name;
+            newStructure[name] = this.status.creator.structure;
+            original.structure = JSON.stringify(newStructure);
+            return original;
+          }
+        );
+        let updatedObjects = dto.objects.map(
+          (original: OsccObject) => {
+            let newObj = {};
+            for (let key of Object.keys(this.status.creator.structure)){
+              if (Object.keys(JSON.parse(original.serializedData)).includes(key)){
+                newObj[key] = JSON.parse(original.serializedData)[key];
+              } else {
+                newObj[key] = this.calculate(this.status.creator.structure[key]);
+              }
+            }
+            original.serializedData = JSON.stringify(newObj);
+            return original;
+          }
+        );
+        let updateDTO = new StructureUpdateDto(updatedObjects, updatedVersionOfTypes);
+        this.sendDto(updateDTO);
+      }
+    );
+  }
+
+  private calculate(newValue): any {
+    let value = newValue.split(" ---> ")[1] != "" ?
+      newValue.split(" ---> ")[1] :
+      this.getDefault(newValue.split(" ---> ")[0]);
+    return value;
+  }
+
+  private getDefault(type: string): any {
+    if (type.includes("string") || type.includes("number") || type.includes("boolean")) {
+      return null;
+    } else if (type.includes("-list")) {
+      return [];
+    } else {
+      let complex = {};
+      console.log(this.status.complexParsedVersionOfType);
+      let complexType = this.status.complexParsedVersionOfType.filter(
+        (entry) => Object.keys(entry['structure'])[0] == type
+      )[0];
+      for (let key of Object.keys(complexType['structure'][type])){
+        complex[key] = null;
+      }
+      return complex;
+    }
+  }
+
+  private sendDto(dto: StructureUpdateDto): void {
+    this._service.update(dto).subscribe(
+      (response: SuccessResponse) => {
+        this._messages.add(
+          response.successful ?
+            new Success("Updated", "Structures and objects") :
+            new Error("Ooops", "Something went wrong")
+        );
+      }
+    )
   }
 
   private handleResponse(response: SuccessResponse): void {

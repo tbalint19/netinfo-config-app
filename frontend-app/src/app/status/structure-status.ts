@@ -6,6 +6,7 @@ import {StructureCreator} from "../model/structure-creator.model";
 import {StructureValidator} from "../validator/structure-validator";
 import {VersionOfType} from "../model/version-of-type.model";
 import {StructureEditRestriction} from "../model/enums/structure-edit-restriction.enum";
+import {Type} from "../model/type.model";
 
 @Injectable()
 export class StructureStatus {
@@ -36,9 +37,23 @@ export class StructureStatus {
     return this._editorActive;
   }
 
-  public toggleEditor(to: boolean, versionOfType?: VersionOfType, restriction?: StructureEditRestriction): void {
-    this.editedStructure = versionOfType ? versionOfType.structure : {};
-    this.restriction  = restriction ? restriction : StructureEditRestriction.NONE;
+  public toggleEditor(to: boolean, versionOfType?: any, restriction?: StructureEditRestriction): void {
+    this.creator.systemId = versionOfType ? versionOfType['systemId'] : null;
+    this.creator.type = versionOfType ? versionOfType['type'] : new Type();
+    this.creator.isCommon = versionOfType ? !versionOfType['type']['complex'] : false;
+    if (versionOfType) {
+      let name = Object.keys(versionOfType['structure'])[0];
+      this.creator.structure = versionOfType['structure'][name];
+    } else {
+      this.creator.structure = {};
+    }
+    this.restriction = StructureEditRestriction.NONE;
+    if (restriction == 0) {
+      this.restriction = 0;
+    }
+    if (restriction == 1) {
+      this.restriction = 1;
+    }
     this._editorActive = to;
   }
 

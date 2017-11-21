@@ -4,11 +4,11 @@
     <span class="type">({{ type }})</span>
   </span>
   <span>
-    <button (click)="activate()" [disabled]="type == 'primitive'" class="btn btn-default">
+    <button (click)="activate(true)" [disabled]="type == 'primitive'" class="btn btn-default">
       Add field
       <span class="glyphicon glyphicon-plus-sign"></span>
     </button>
-    <button (click)="activate()" [disabled]="type == 'primitive'" class="btn btn-danger">
+    <button (click)="activate(false)" [disabled]="type == 'primitive'" class="btn btn-danger">
       Delete field
       <span class="glyphicon glyphicon-minus-sign"></span>
     </button>

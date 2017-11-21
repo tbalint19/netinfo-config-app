@@ -114,7 +114,6 @@ export class ObjectListComponent implements OnInit {
   protected openEditor(object?: OsccObject): void {
     this.status.creator = this._creatorFactory.createObjectCreator(object);
     this.status.restriction = object ? ObjectEditRestriction.UPDATE : ObjectEditRestriction.CREATE;
-    console.log(this.status.restriction)
     this.status.toggleEditor(true);
   }
 

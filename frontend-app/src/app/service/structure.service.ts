@@ -6,6 +6,7 @@ import {VersionOfType} from "../model/version-of-type.model";
 import {StructureParams} from '../model/get-request/structure-params.model';
 import {TypeCreateDto} from "../model/post-request/type-create-dto.model";
 import {SuccessResponse} from "../model/response/success-response.model";
+import {StructureUpdateDto} from "../model/structure-update-dto";
 
 @Injectable()
 export class StructureService {
@@ -23,4 +24,14 @@ export class StructureService {
     return this._client.transfer(this._factory.createStructureCreateRequest(dto));
   }
 
+  public preUpdate(versionId: number, typeId: number): Observable<StructureUpdateDto> {
+    return this._client.transfer(
+      this._factory.createPreStructureUpdateRequest(
+        versionId, typeId));
+  }
+
+  update(dto: StructureUpdateDto): Observable<SuccessResponse> {
+    return this._client.transfer(
+      this._factory.createStructureUpdateRequest(dto));
+  }
 }

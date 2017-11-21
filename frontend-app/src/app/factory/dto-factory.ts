@@ -15,6 +15,7 @@ export class DtoFactory {
     structure[creator.type.name] = creator.structure;
     typeCreateDto.structure = JSON.stringify(structure);
     typeCreateDto.type = creator.type;
+    typeCreateDto.systemId = creator.systemId;
     typeCreateDto.namespaceId = creator.isCommon ? null : namespace.systemId;
     return typeCreateDto;
   }

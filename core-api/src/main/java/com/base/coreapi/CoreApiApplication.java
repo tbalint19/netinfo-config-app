@@ -7,10 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CoreApiApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(CoreApiApplication.class, args);
 	}
 
-
-	// todo @transactional
-	// todo create common namespace
 }

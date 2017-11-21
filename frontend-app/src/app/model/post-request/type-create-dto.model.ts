@@ -2,6 +2,8 @@ import {Type} from "../type.model";
 
 export class TypeCreateDto {
 
+  public systemId: number;
+
   public type: Type;
 
   public namespaceId: number;

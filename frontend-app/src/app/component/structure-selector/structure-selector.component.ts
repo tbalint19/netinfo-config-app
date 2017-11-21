@@ -25,9 +25,7 @@ export class StructureSelectorComponent implements OnInit {
   }
 
   public activate(onlyUpdate: boolean): void {
-    this.status.editedStructure = this.versionOfType['structure'];
-    let restriction = onlyUpdate ? StructureEditRestriction.UPDATE : StructureEditRestriction.DELETE;
-    this.status.toggleEditor(true, this.versionOfType, restriction);
+    this.status.toggleEditor(true, this.versionOfType, onlyUpdate ? StructureEditRestriction.UPDATE : StructureEditRestriction.DELETE);
   }
 
 }

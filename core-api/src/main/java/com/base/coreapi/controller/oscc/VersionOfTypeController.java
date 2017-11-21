@@ -28,10 +28,11 @@ public class VersionOfTypeController extends AbstractOSCCAPI {
     }
 
     @GetMapping("/preupdate")
-    public VersionOfTypeUpdateDTO preUpdate(@RequestParam Long versionOfTypeId){
+    public VersionOfTypeUpdateDTO preUpdate(@RequestParam Long versionId, @RequestParam Long typeId){
         VersionOfTypeUpdateDTO response = new VersionOfTypeUpdateDTO();
 
-        VersionOfType versionOfType = versionOfTypeService.findById(versionOfTypeId);
+        VersionOfType versionOfType = versionOfTypeService.findByTypeAndVersion(
+                typeId, versionId);
         List<Version> versions = new ArrayList<>();
         versions.add(versionOfType.getVersion());
         versions.addAll(versionService.getAllNext(versionOfType.getVersion()));

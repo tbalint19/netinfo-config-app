@@ -42,8 +42,6 @@ export class StructureManagerComponent implements OnInit {
     this.status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)
       .map(this.parseStructure);
-    console.log(this.status.objectParsedVersionOfType);
-    console.log(this.status.complexParsedVersionOfType);
   }
 
 }
