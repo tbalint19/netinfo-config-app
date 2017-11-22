@@ -24,13 +24,13 @@ export class DtoFactory {
     let objectCreateDto = new ObjectCreateDto();
     objectCreateDto.serializedData = JSON.stringify(creator.data);
     objectCreateDto.versionOfTypeSystemId = creator.versionOfType.systemId;
-    objectCreateDto.id = creator.data['id'];
+    objectCreateDto.id = creator.data['Id'];
     return objectCreateDto;
   }
 
   createObject(creator: ObjectCreator): OsccObject {
     let object = new OsccObject();
-    object.id = creator.data['id'];
+    object.Id = creator.data['Id'];
     object.systemId = creator.systemId;
     object.serializedData = JSON.stringify(creator.data);
     object.versionOfType = creator.versionOfType;

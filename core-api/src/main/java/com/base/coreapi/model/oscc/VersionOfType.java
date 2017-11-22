@@ -15,9 +15,10 @@ import java.util.List;
 public class VersionOfType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long systemId;
 
+    @Column(columnDefinition = "TEXT")
     private String structure;
 
     @ManyToOne

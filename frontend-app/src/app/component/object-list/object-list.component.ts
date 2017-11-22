@@ -87,16 +87,16 @@ export class ObjectListComponent implements OnInit {
 
   protected deleteObject(object: OsccObject): void {
     let versionId = this.versionStatus.chosenVersion.systemId;
-    this._service.preDelete(object.id, versionId).subscribe(
+    this._service.preDelete(object.Id, versionId).subscribe(
       (response: OsccObject[]) => {
         let objectsToDelete = [];
         let objectsToUpdate = [];
         for (let obj of response){
-          if (!(obj['id'] == object.id)){
+          if (!(obj['Id'] == object.Id)){
             let data = JSON.parse(obj.serializedData);
             for (let key of Object.keys(data)){
               if (Array.isArray(data[key])){
-                data[key] = this.remove(data[key], object.id);
+                data[key] = this.remove(data[key], object.Id);
               }
             }
             obj.serializedData = JSON.stringify(data);

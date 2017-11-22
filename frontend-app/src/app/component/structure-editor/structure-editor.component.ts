@@ -163,9 +163,9 @@ export class StructureEditorComponent implements OnInit {
 
   protected reportTypeChange(): void {
     if (this.status.creator.type.complex) {
-      this.status.creator.structure['id'] = "string";
+      this.status.creator.structure['Id'] = "string";
     } else {
-      delete this.status.creator.structure['id'];
+      delete this.status.creator.structure['Id'];
     }
   }
 

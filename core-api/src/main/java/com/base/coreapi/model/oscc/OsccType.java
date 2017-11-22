@@ -15,7 +15,7 @@ import java.util.List;
 public class OsccType {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long systemId;
 
     private String name;
