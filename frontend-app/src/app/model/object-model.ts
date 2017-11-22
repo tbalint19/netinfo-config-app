@@ -4,7 +4,7 @@ export class OsccObject {
 
   public systemId: number;
 
-  public id: string;
+  public Id: string;
 
   public serializedData: string;
 

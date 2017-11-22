@@ -147,7 +147,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected getIdentification(obj: OsccObject): string {
-    return JSON.parse(obj.serializedData)['id'];
+    return JSON.parse(obj.serializedData)['Id'];
   }
 
   private getPrimitives(): any[] {
@@ -177,17 +177,17 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected isInList(object: OsccObject, key: string): boolean {
-    return this.status.creator.data[key].includes(JSON.parse(object.serializedData)['id']);
+    return this.status.creator.data[key].includes(JSON.parse(object.serializedData)['Id']);
   }
 
   toggleList(object: OsccObject, key: string): void {
     let list = this.status.creator.data[key];
-    let id = JSON.parse(object.serializedData)['id'];
+    let Id = JSON.parse(object.serializedData)['Id'];
     if (this.isInList(object, key)) {
-      let index = list.indexOf(id);
+      let index = list.indexOf(Id);
       this.status.creator.data[key].splice(index, 1);
     } else {
-      list.push(id);
+      list.push(Id);
     }
   }
 
@@ -205,7 +205,7 @@ export class ObjectEditorComponent implements OnInit {
 
   private preUpdate(): Observable<PreUpdateObjectsResponse> {
     let params = new PreUpdateObjectsParams();
-    params.objectId = this.status.creator.data['id'];
+    params.objectId = this.status.creator.data['Id'];
     params.versionSystemId = this.status.creator.versionOfType.version.systemId;
     params.namespaceSystemId = this.status.creator.versionOfType.type.namespace.systemId;
     return this._service.preFetchForUpdate(params)
@@ -230,15 +230,15 @@ export class ObjectEditorComponent implements OnInit {
     for (let key of Object.keys(data)) {
       if (Array.isArray(data[key])){
         let newList = [];
-        for (let id of this.status.creator.data[key]){
-          if (relatedIds.includes(id)) {
-            newList.push(id);
+        for (let Id of this.status.creator.data[key]){
+          if (relatedIds.includes(Id)) {
+            newList.push(Id);
           }
         }
-        for (let id of data[key]) {
-          if (!newList.includes(id)){
-            if (!baseIds.includes(id)) {
-              newList.push(id);
+        for (let Id of data[key]) {
+          if (!newList.includes(Id)){
+            if (!baseIds.includes(Id)) {
+              newList.push(Id);
             }
           }
         }

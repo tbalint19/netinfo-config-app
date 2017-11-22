@@ -15,7 +15,7 @@ import java.util.List;
 public class OsccNamespace {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long systemId;
 
     @Column(unique = true)

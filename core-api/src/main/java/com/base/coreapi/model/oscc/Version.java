@@ -15,7 +15,7 @@ import java.util.List;
 public class Version {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long systemId;
 
     private String number;
