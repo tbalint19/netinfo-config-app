@@ -70,7 +70,8 @@ public class ObjectController extends AbstractOSCCAPI {
     }
 
     @GetMapping("/predelete")
-    public List<OsccObject> preDelete(@RequestParam String id) {
+    public List<OsccObject> preDelete(@RequestParam String id, @RequestParam Long versionId) {
+        // TODO - use versionId
         return objectService.findAllRelated(id);
     }
 

@@ -38,7 +38,7 @@ export class ObjectService {
     return this._client.transfer(this._factory.createDeleteObjectRequest(toDelete, toUpdate));
   }
 
-  public preDelete(id: string): Observable<OsccObject[]> {
-    return this._client.transfer(this._factory.createPreDeleteObjectRequest(id));
+  public preDelete(id: string, versionId: number): Observable<OsccObject[]> {
+    return this._client.transfer(this._factory.createPreDeleteObjectRequest(id, versionId));
   }
 }

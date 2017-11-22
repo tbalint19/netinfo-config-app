@@ -17,7 +17,7 @@ import java.io.IOException;
 //@Profile("dev")
 public class SimpleCorsFilter implements Filter {
 
-    @Value("${cors.frontend.url:http://localhost:4200}")
+    @Value("${cors.frontend.url:http://localhost:4201}")
     private String sourceUrl;
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
