@@ -50,6 +50,7 @@ public class DataLoader {
         confirmationService.attemptConfirm(user.getUsername(), confirmation.getCode());
     }
 
+
     @PostConstruct
     public void createRoamingData() {
         OsccNamespace roaming = new OsccNamespace();
@@ -85,45 +86,58 @@ public class DataLoader {
                 "\"Status\":\"string\", \"Status\":\"string\", \"Repeat\":\"string\"}}");
         versionOfTypeService.save(psmcodes);
 
-        OsccType osccType = new OsccType();
-        osccType.setName("offer");
-        osccType.setComplex(true);
-        osccType.setNamespace(roaming);
-        typeService.save(osccType);
+        OsccType roamingOfferType = new OsccType();
+        roamingOfferType.setName("Offer");
+        roamingOfferType.setComplex(true);
+        roamingOfferType.setNamespace(roaming);
+        typeService.save(roamingOfferType);
 
-        VersionOfType offer = new VersionOfType();
-        offer.setType(osccType);
-        offer.setVersion(version);
-        offer.setStructure("{\"offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
+        VersionOfType roamingOffer = new VersionOfType();
+        roamingOffer.setType(roamingOfferType);
+        roamingOffer.setVersion(version);
+        roamingOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
                 "\"Type\":\"string ---> \", \"VFPLAN\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \", " +
                 "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Repeatable\":\"boolean ---> \"," +
                 "\"Upgrade_offer_ids\":\"offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
-        versionOfTypeService.save(offer);
+        versionOfTypeService.save(roamingOffer);
+
+        OsccType roamingOfferConfig = new OsccType();
+        roamingOfferConfig.setName("OfferConfig");
+        roamingOfferConfig.setComplex(true);
+        roamingOfferConfig.setNamespace(roaming);
+        typeService.save(roamingOfferConfig);
+
+        VersionOfType offerConfig = new VersionOfType();
+        offerConfig.setVersion(version);
+        offerConfig.setType(roamingOfferConfig);
+        offerConfig.setStructure("{\"OfferConfig\":{\"Id\":\"string\", \"Offers\":\"offer-list\"}}");
+        versionOfTypeService.save(offerConfig);
+
+
+
+//-----------------------------------------------------------------------------------------------------------
+        OsccNamespace post = new OsccNamespace();
+        post.setName("Post");
+        namespaceService.save(post);
+
+        OsccType postOfferType = new OsccType();
+        postOfferType.setName("Offer");
+        postOfferType.setComplex(true);
+        postOfferType.setNamespace(post);
+        typeService.save(postOfferType);
+
+        VersionOfType postOffer = new VersionOfType();
+        postOffer.setType(postOfferType);
+        postOffer.setVersion(version);
+        postOffer.setStructure("{{     }}");
+        versionOfTypeService.save(postOffer);
+
+
     }
-//<Id>49712Dra10m24p</Id>
-//        <PSMCodes>
-//            <Activation>RNAPI</Activation>
-//            <Deactivation>XRNAPI</Deactivation>
-//            <Status>SRNAPI</Status>
-//            <Repeat>UJRA</Repeat>
-//        </PSMCodes>
-//        <Name localized="true"></Name>
-//        <Active>true</Active>
-//        <Description localized="true"></Description>
-//        <Type>ROAMING</Type>
-//        <VFPLAN>BOTH</VFPLAN>
-//        <Throttling_limit_mb>25</Throttling_limit_mb>
-//        <Discount_counter_direction>down</Discount_counter_direction>
-//        <Price>642</Price>
-//        <Warning_percent>80</Warning_percent>
-//        <Warning_text localized="true"></Warning_text>
-//        <Throttling_text localized="true"></Throttling_text>
-//        <Upgrade_offer_ids>
-//            <Upgrade_offer_id>49712Dra10m24p</Upgrade_offer_id>
-//            <Upgrade_offer_id>51745Dra100m1w</Upgrade_offer_id>
-//            <Upgrade_offer_id>51746Dra100m24h</Upgrade_offer_id>
-//            <Upgrade_offer_id>53831Dra50m1d</Upgrade_offer_id>
-//        </Upgrade_offer_ids>
-////        <Repeatable>true</Repeatable>
+
+
 }
+
+// todo create add def to multilanguage structure
+// todo create common type creating methods
