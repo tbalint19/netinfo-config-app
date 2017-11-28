@@ -67,6 +67,7 @@ import { ObjectPopupComponent } from './component/object-popup/object-popup.comp
 import {StructureValidator} from "./validator/structure-validator";
 import {CreatorFactory} from "./factory/creator-factory.service";
 import { StructureRefactorComponent } from './component/structure-refactor/structure-refactor.component';
+import {RenderService} from "./service/render.service";
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { StructureRefactorComponent } from './component/structure-refactor/struc
     VersionService,
     StructureStatus,
     StructureService,
+    RenderService,
     ConfirmService,
     ConfirmStatus,
     PopupStatus,

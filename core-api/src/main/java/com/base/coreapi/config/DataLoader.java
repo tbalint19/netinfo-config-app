@@ -74,7 +74,7 @@ public class DataLoader {
         VersionOfType multilanguage = new VersionOfType();
         multilanguage.setType(type);
         multilanguage.setVersion(version);
-        multilanguage.setStructure("{\"multilanguage\":{\"eng\":\"string\", \"hun\":\"string\", \"unLocalized\":\"string\"}}");
+        multilanguage.setStructure("{\"multilanguage\":{\"eng\":\"string\", \"hun\":\"string\", \"def\":\"string\", \"unLocalized\":\"string\"}}");
         versionOfTypeService.save(multilanguage);
 
         OsccType psmcodesType = new OsccType();
@@ -115,7 +115,7 @@ public class DataLoader {
         roamingOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
                 "\"Type\":\"string ---> \", \"VFPLAN\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \", " +
-                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Repeatable\":\"boolean ---> \"," +
+                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\",\"Throttling_Accepted_Text\":\"multilanguage\", \"Repeatable\":\"boolean ---> \"," +
                 "\"Upgrade_offer_ids\":\"Offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
         versionOfTypeService.save(roamingOffer);
 

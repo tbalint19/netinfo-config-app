@@ -21,6 +21,9 @@ public class VersionOfType {
     @Column(columnDefinition = "TEXT")
     private String structure;
 
+    @Column(columnDefinition = "TEXT")
+    private String template;
+
     @ManyToOne
     private Version version;
 

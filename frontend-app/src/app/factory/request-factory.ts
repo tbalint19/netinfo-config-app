@@ -108,4 +108,8 @@ export class RequestFactory {
   public createStructureUpdateRequest(dto: StructureUpdateDto): HttpRequest {
     return new HttpRequest("/api/oscc/versionoftype/update", "POST", dto);
   }
+
+  public createPreRenderRequest(param: { versionId: number; namespaceId: number }): HttpRequest {
+    return new HttpRequest("/api/oscc/objects/prerender", "GET", param);
+  }
 }

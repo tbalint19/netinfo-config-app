@@ -43,6 +43,10 @@
     <div class="well well-flex" *ngFor="let object of filteredObjects()">
       <span class="well-content">{{ object['id'] }}</span>
       <div>
+        <button class="btn btn-default" (click)="render(object)">
+          Render&nbsp;
+          <span class="glyphicon glyphicon-print"></span>
+        </button>
         <button class="btn btn-default" (click)="openEditor(object)">
           Edit object&nbsp;
           <span class="glyphicon glyphicon-cog"></span>

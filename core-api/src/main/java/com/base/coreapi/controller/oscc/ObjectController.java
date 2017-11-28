@@ -3,6 +3,7 @@ package com.base.coreapi.controller.oscc;
 import com.base.coreapi.model.oscc.*;
 import com.base.coreapi.model.oscc.dto.ObjectCreateDTO;
 import com.base.coreapi.model.oscc.dto.ObjectDeleteDTO;
+import com.base.coreapi.model.oscc.dto.PreRenderDTO;
 import com.base.coreapi.model.oscc.dto.VersionOfTypeWithIds;
 import com.base.coreapi.model.response.PreUpdateObjectsResponse;
 import com.base.coreapi.model.response.SuccessResponse;
@@ -82,5 +83,17 @@ public class ObjectController extends AbstractOSCCAPI {
         objectService.save(dto.getToUpdate());
         objectService.delete(dto.getToDelete());
         return new SuccessResponse(true);
+    }
+
+    @GetMapping("/prerender")
+    public PreRenderDTO preRender(@RequestParam Long namespaceId, @RequestParam Long versionId) {
+        PreRenderDTO dto = new PreRenderDTO();
+        dto.setObjects(objectService.findAll(namespaceId, versionId));
+        List<VersionOfType> versionOfTypes = new ArrayList<>();
+        for (OsccType type: typeService.findAll(namespaceId)){
+            versionOfTypes.add(versionOfTypeService.findByTypeAndVersion(type.getSystemId(), versionId));
+        }
+        dto.setVersionOfTypes(versionOfTypes);
+        return dto;
     }
 }

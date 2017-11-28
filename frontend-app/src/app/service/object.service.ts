@@ -9,6 +9,7 @@ import {SuccessResponse} from "../model/response/success-response.model";
 import {PreUpdateObjectsParams} from "../model/get-request/pre-update-objects-params";
 import {VersionOfTypeWithIds} from "../model/response/version-of-type-with-ids";
 import {PreUpdateObjectsResponse} from "../model/response/pre-update-objects-response";
+import {PreRenderDTO} from "../model/get-request/pre-render-dto";
 
 @Injectable()
 export class ObjectService {
@@ -40,5 +41,12 @@ export class ObjectService {
 
   public preDelete(id: string, versionId: number): Observable<OsccObject[]> {
     return this._client.transfer(this._factory.createPreDeleteObjectRequest(id, versionId));
+  }
+
+  public requestPreRenderData(obj: OsccObject): Observable<PreRenderDTO> {
+    let versionId = obj.versionOfType.version.systemId;
+    let namespaceId = obj.versionOfType.type.namespace.systemId;
+    return this._client.transfer(
+      this._factory.createPreRenderRequest({versionId, namespaceId}));
   }
 }

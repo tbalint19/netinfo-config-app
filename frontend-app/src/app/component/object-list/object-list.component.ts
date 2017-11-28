@@ -15,6 +15,9 @@ import {Success} from "../../model/message/success.model";
 import {el} from "@angular/platform-browser/testing/src/browser_util";
 import {Error} from "../../model/message/error.model";
 import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
+import {RenderService} from "../../service/render.service";
+import {PreRenderDTO} from "../../model/get-request/pre-render-dto";
+
 
 @Component({
   selector: 'object-list',
@@ -28,6 +31,7 @@ export class ObjectListComponent implements OnInit {
     protected namespaceStatus: NamespaceStatus,
     protected versionStatus: VersionStatus,
     protected structureStatus: StructureStatus,
+    private renderer: RenderService,
     private _structureService: StructureService,
     private _service: ObjectService,
     private _creatorFactory: CreatorFactory,
@@ -129,5 +133,14 @@ export class ObjectListComponent implements OnInit {
     } else {
       this._messages.add(new Error());
     }
+  }
+
+  protected render(rootObject: OsccObject): void {
+    this._service.requestPreRenderData(rootObject).subscribe(
+      (dto: PreRenderDTO) => {
+        this.renderer.initialize(dto.objects, dto.versionOfTypes);
+        this.renderer.renderAndDownload(rootObject);
+      }
+    );
   }
 }
