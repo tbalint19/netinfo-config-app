@@ -116,7 +116,7 @@ public class DataLoader {
         roamingOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
                 "\"Type\":\"string ---> \", \"VFPLAN\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \"," +
-                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Throttling_Accepted_Text\":\"multilanguage\"," +
+                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Throttling_accepted_text\":\"multilanguage\"," +
                 "\"Repeatable\":\"boolean ---> \", \"Upgrade_offer_ids\":\"Offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
         versionOfTypeService.save(roamingOffer);
 
@@ -235,7 +235,7 @@ public class DataLoader {
         postOffer.setStructure("{\"Offer\":{\"Id\":\"string\",\"Name\":\"multilanguage\",\"Description\":\"multilanguage\"," +
                 "\"Price\":\"number ---> \", \"Type\":\"string ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Warning_percent\":\"number ---> \", \"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\"," +
-                "\"Throttling_Accepted_Text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
+                "\"Throttling_accepted_text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
                 "\"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", \"Online_selfcare_id\":\"string ---> \"," +
                 "\"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\", \"Pool_ids\":\"Pool-list\"," +
                 "\"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\", \"PSMCodes\":\"PSMCodes\"}}");

@@ -47,6 +47,7 @@ export class RenderService {
   }
 
   private getRelated(obj: any): VersionOfType {
+    console.log(obj)
     return this.versionOfTypes.find(
       (entry: VersionOfType) => {
         let objectKeys = Object.keys(obj);
@@ -103,9 +104,14 @@ export class RenderService {
   private renderMultiLanuage(rootElement, key, objectData): void {
     if (objectData[key]["unLocalized"] == ""){
       rootElement.ele(key, {localized: true});
+      this.writeToLanguagePropFile();
     } else {
       rootElement.ele(key, {localized: false}, objectData[key]["unLocalized"]);
     }
+  }
+
+  private writeToLanguagePropFile(): void {
+
   }
 
   private renderComplexType(rootElement, key, objectData): void {
