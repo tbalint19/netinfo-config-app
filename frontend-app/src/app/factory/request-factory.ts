@@ -97,8 +97,8 @@ export class RequestFactory {
     return new HttpRequest('/api/oscc/objects/delete', 'POST', {toDelete, toUpdate});
   }
 
-  public createPreDeleteObjectRequest(id: string, versionId: number): HttpRequest {
-    return new HttpRequest('/api/oscc/objects/predelete', 'GET', {id, versionId});
+  public createPreDeleteObjectRequest(id: string, orderInBundle: number): HttpRequest {
+    return new HttpRequest('/api/oscc/objects/predelete', 'GET', {id, orderInBundle});
   }
 
   public createPreStructureUpdateRequest(versionId: number, typeId: number): HttpRequest {

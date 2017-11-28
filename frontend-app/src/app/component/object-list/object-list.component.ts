@@ -90,8 +90,8 @@ export class ObjectListComponent implements OnInit {
   }
 
   protected deleteObject(object: OsccObject): void {
-    let versionId = this.versionStatus.chosenVersion.systemId;
-    this._service.preDelete(object.Id, versionId).subscribe(
+    let orderInBundle = this.versionStatus.chosenVersion.orderInBundle;
+    this._service.preDelete(object['id'], orderInBundle).subscribe(
       (response: OsccObject[]) => {
         let objectsToDelete = [];
         let objectsToUpdate = [];

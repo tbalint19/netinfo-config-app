@@ -75,8 +75,8 @@ public class ObjectService {
         return repository.findByIdAndVersionOfType_Version_SystemId(objectId, version.getSystemId());
     }
 
-    public List<OsccObject> findAllRelated(String id) {
-        return repository.findBySerializedDataContaining(id);
+    public List<OsccObject> findAllRelatedUpperOrLower(String id, Integer orderInBundle) {
+        return repository.findBySerializedDataContainingAndVersionOfType_Version_OrderInBundleGreaterThanEqual(id, orderInBundle);
     }
 
     public void delete(List<OsccObject> toDelete) {
