@@ -143,14 +143,8 @@ export class StructureEditorComponent implements OnInit {
 
   private sendDto(dto: StructureUpdateDto): void {
     this._service.update(dto).subscribe(
-      (response: SuccessResponse) => {
-        this._messages.add(
-          response.successful ?
-            new Success("Updated", "Structures and objects") :
-            new Error("Ooops", "Something went wrong")
-        );
-      }
-    )
+      (response: SuccessResponse) => this.handleResponse(response)
+    );
   }
 
   private handleResponse(response: SuccessResponse): void {
