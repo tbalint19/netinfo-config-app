@@ -74,7 +74,8 @@ public class DataLoader {
         VersionOfType multilanguage = new VersionOfType();
         multilanguage.setType(type);
         multilanguage.setVersion(version);
-        multilanguage.setStructure("{\"multilanguage\":{\"eng\":\"string\", \"hun\":\"string\", \"def\":\"string\", \"unLocalized\":\"string\"}}");
+        multilanguage.setStructure("{\"multilanguage\":{\"eng\":\"string\", \"hun\":\"string\", \"def\":\"string\", " +
+                "\"unLocalized\":\"string\"}}");
         versionOfTypeService.save(multilanguage);
 
         OsccType psmcodesType = new OsccType();
@@ -98,10 +99,10 @@ public class DataLoader {
         VersionOfType tyhtaMarkers = new VersionOfType();
         tyhtaMarkers.setType(tyhtaMarkersType);
         tyhtaMarkers.setVersion(version);
-        tyhtaMarkers.setStructure("{\"TythtaMarkers\": {\"Entitlement\":\"string\"}}");
+        tyhtaMarkers.setStructure("{\"TyhtaMarkers\": {\"Entitlement\":\"string\"}}");
         versionOfTypeService.save(tyhtaMarkers);
 
-        // -------- roaming -------------
+        // ------------- roaming -------------
 
         OsccType roamingOfferType = new OsccType();
         roamingOfferType.setName("Offer");
@@ -114,9 +115,9 @@ public class DataLoader {
         roamingOffer.setVersion(version);
         roamingOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
                 "\"Type\":\"string ---> \", \"VFPLAN\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
-                "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \", " +
-                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\",\"Throttling_Accepted_Text\":\"multilanguage\", \"Repeatable\":\"boolean ---> \"," +
-                "\"Upgrade_offer_ids\":\"Offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
+                "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \"," +
+                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Throttling_Accepted_Text\":\"multilanguage\"," +
+                "\"Repeatable\":\"boolean ---> \", \"Upgrade_offer_ids\":\"Offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
         versionOfTypeService.save(roamingOffer);
 
         OsccType roamingOfferConfigType = new OsccType();
@@ -132,7 +133,7 @@ public class DataLoader {
         versionOfTypeService.save(roamingOfferConfig);
 
 
-        // -------- post -------------
+        // ------------- post -------------
 
         OsccNamespace post = new OsccNamespace();
         post.setName("Post");
@@ -177,17 +178,17 @@ public class DataLoader {
         multipleOrderAddon.setStructure("{\"MultipleOrderAddonType\":{\"Id\":\"string\"}}");
         versionOfTypeService.save(multipleOrderAddon);
 
-        OsccType poolsType = new OsccType();
-        poolsType.setName("Pools");
-        poolsType.setComplex(true);
-        poolsType.setNamespace(post);
-        typeService.save(poolsType);
+        OsccType poolConfigType = new OsccType();
+        poolConfigType.setName("PoolConfig");
+        poolConfigType.setComplex(true);
+        poolConfigType.setNamespace(post);
+        typeService.save(poolConfigType);
 
-        VersionOfType pools = new VersionOfType();
-        pools.setType(poolsType);
-        pools.setVersion(version);
-        pools.setStructure("{\"Pools\":{\"PSMCodes\":\"PSMCodes\",\"Pools\":\"Pool-list\"}}");
-        versionOfTypeService.save(pools);
+        VersionOfType poolConfig = new VersionOfType();
+        poolConfig.setType(poolConfigType);
+        poolConfig.setVersion(version);
+        poolConfig.setStructure("{\"PoolConfig\":{\"Id\":\"string\", \"PSMCodes\":\"PSMCodes\"}}");
+        versionOfTypeService.save(poolConfig);
 
         OsccType postPoolType = new OsccType();
         postPoolType.setName("Pool");
@@ -234,7 +235,7 @@ public class DataLoader {
         postOffer.setStructure("{\"Offer\":{\"Id\":\"string\",\"Name\":\"multilanguage\",\"Description\":\"multilanguage\"," +
                 "\"Price\":\"number ---> \", \"Type\":\"string ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Warning_percent\":\"number ---> \", \"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\"," +
-                "\"Throttling_accepted_text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
+                "\"Throttling_Accepted_Text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
                 "\"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", \"Online_selfcare_id\":\"string ---> \"," +
                 "\"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\", \"Pool_ids\":\"Pool-list\"," +
                 "\"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\", \"PSMCodes\":\"PSMCodes\"}}");
@@ -251,9 +252,100 @@ public class DataLoader {
         offerConfig.setType(postOfferConfig);
         offerConfig.setStructure("{\"OfferConfig\":{\"Id\":\"string\", \"TyhtaMarkers\":\"TyhtaMarkers\", \"Offers\":\"Offer-list\"," +
                 "\"Addons\":\"Addon-list\", \"MultipleOrderAddonTypes\":\"MultipleOrderAddonType-list\", " +
-                "\"Pools\":\"Pools-list\", \"Refills\":\"Refill-list\"," +
+                "\"PoolConfig\":\"PoolConfig-list\", \"Refills\":\"Refill-list\"," +
                 "\"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\"}}");
         versionOfTypeService.save(offerConfig);
+
+        // ------------- pre -------------
+
+        OsccNamespace pre = new OsccNamespace();
+        pre.setName("Pre");
+        namespaceService.save(pre);
+
+        OsccType preDataQuotaType = new OsccType();
+        preDataQuotaType.setName("DataQuota");
+        preDataQuotaType.setComplex(true);
+        preDataQuotaType.setNamespace(pre);
+        typeService.save(preDataQuotaType);
+
+        VersionOfType dataQuota = new VersionOfType();
+        dataQuota.setType(preDataQuotaType);
+        dataQuota.setVersion(version);
+        dataQuota.setStructure("{\"DataQuota\":{\"Id\":\"string\",\"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
+                "\"Type\":\"string ---> \", \"Recurring_type\":\"string ---> \", \"Group\":\"string ---> \", " +
+                "\"Included_data_mb\":\"number ---> \", \"Discount_id\":\"string ---> \", \"Discount_counter_direction\":\"string ---> \"," +
+                "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \"}}");
+        versionOfTypeService.save(dataQuota);
+
+        OsccType preDataQuotaGroupType = new OsccType();
+        preDataQuotaGroupType.setName("DataQuotaGroup");
+        preDataQuotaGroupType.setComplex(true);
+        preDataQuotaGroupType.setNamespace(pre);
+        typeService.save(preDataQuotaGroupType);
+
+        VersionOfType dataQuotaGroup = new VersionOfType();
+        dataQuotaGroup.setType(preDataQuotaGroupType);
+        dataQuotaGroup.setVersion(version);
+        dataQuotaGroup.setStructure("{\"DataQuotaGroup\":{\"Id\":\"string\",\"Name\":\"multilanguage\", \"Order\":\"number ---> \"}}");
+        versionOfTypeService.save(dataQuotaGroup);
+
+        OsccType preRewardType = new OsccType();
+        preRewardType.setName("Reward");
+        preRewardType.setComplex(true);
+        preRewardType.setNamespace(pre);
+        typeService.save(preRewardType);
+
+        VersionOfType preReward = new VersionOfType();
+        preReward.setType(preRewardType);
+        preReward.setVersion(version);
+        preReward.setStructure("{\"Reward\":{\"Id\":\"string\",\"Name\":\"multilanguage\", \"Description\":\"multilanguage\"}}");
+        versionOfTypeService.save(preReward);
+
+
+        OsccType preAddonType = new OsccType();
+        preAddonType.setName("Addon");
+        preAddonType.setComplex(true);
+        preAddonType.setNamespace(pre);
+        typeService.save(preAddonType);
+
+        VersionOfType preAddon = new VersionOfType();
+        preAddon.setType(preAddonType);
+        preAddon.setVersion(version);
+        preAddon.setStructure("{\"Addon\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Data_usage_mb\":\"number ---> \"," +
+                "\"Description\":\"multilanguage\", \"Data_usage_mb\":\"number ---> \", \"Discount_id\":\"string ---> \", " +
+                "\"Discount_counter_direction\":\"string ---> \", \"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", " +
+                "\"Price\":\"number ---> \", \"Online_selfcare_id\":\"string ---> \", \"Period\":\"number ---> \"}}");
+        versionOfTypeService.save(preAddon);
+
+        // TODO: 2017.11.23. finish pre offers
+
+//
+//        <Offer>
+//            <Id>10014prib_Z100d</Id>
+//            <Name localized="true"></Name>
+//            <Description localized="false">Ezzel az opcióval 100 MB áll rendelkezésedre a ciklus végéig. Az opció kedvezményes ára 919 Ft. Ha többet szeretnél netezni, válaszd kiegészítő adat opciónkat.</Description>
+//            <Type>IOYM</Type>
+//            <Throttling_limit_mb>100</Throttling_limit_mb>
+//            <Discount_id>233</Discount_id>
+//            <Discount_counter_direction>down</Discount_counter_direction>
+//            <Warning_percent>80</Warning_percent>
+//            <Warning_text localized="true"></Warning_text>
+//            <Throttling_text localized="true"></Throttling_text>
+//            <Active>false</Active>
+//            <Price>919</Price>
+//            <Online_selfcare_id>ZsebNet100_3ho_50</Online_selfcare_id>
+//            <Upgrade_offer_ids>
+//                <Upgrade_offer_id>10001prib_Hplus</Upgrade_offer_id>
+//                <Upgrade_offer_id>10003prib_Pplus</Upgrade_offer_id>
+//                <Upgrade_offer_id>10004prib_Extra</Upgrade_offer_id>
+//                <Upgrade_offer_id>10021prib_Z2G</Upgrade_offer_id>
+//            </Upgrade_offer_ids>
+//            <Addon_ids>
+//                <Addon_id>10007pria_100M</Addon_id>
+//                <Addon_id>10030pria_100w</Addon_id>
+//            </Addon_ids>
+//        </Offer>
+//
     }
 
 }
