@@ -214,6 +214,8 @@ export class StructureEditorComponent implements OnInit {
     this.updateStructures();
     this.resetEditor();
     this._objectEditorStatus.setReFetch(true);
+    this._objectEditorStatus.chosenVersionOfType = null;
+    this._objectEditorStatus.objects.length = 0;
     this._messages.add(new Success('Successful', 'Structure saved'));
   }
 
