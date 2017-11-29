@@ -383,6 +383,5 @@ public class DataLoader {
                 "\"Addons\":\"Addon-list\", \"Rewards\":\"Reward-list\", \"DataQuotaGroups\":\"DataQuotaGroup-list\"," +
                 "\"DataQuotas\":\"DataQuota-list\"}}");
         versionOfTypeService.save(preOfferConfig);
-
     }
 }
