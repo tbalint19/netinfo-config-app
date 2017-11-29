@@ -116,7 +116,7 @@ public class DataLoader {
         roamingOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
                 "\"Type\":\"string ---> \", \"VFPLAN\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Active\":\"boolean ---> \", \"Price\":\"number ---> \", \"Discount_counter_direction\":\"string ---> \"," +
-                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Throttling_Accepted_Text\":\"multilanguage\"," +
+                "\"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\", \"Throttling_accepted_text\":\"multilanguage\"," +
                 "\"Repeatable\":\"boolean ---> \", \"Upgrade_offer_ids\":\"Offer-list\", \"PSMCodes\":\"PSMCodes\"}}");
         versionOfTypeService.save(roamingOffer);
 
@@ -235,7 +235,7 @@ public class DataLoader {
         postOffer.setStructure("{\"Offer\":{\"Id\":\"string\",\"Name\":\"multilanguage\",\"Description\":\"multilanguage\"," +
                 "\"Price\":\"number ---> \", \"Type\":\"string ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Warning_percent\":\"number ---> \", \"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\"," +
-                "\"Throttling_Accepted_Text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
+                "\"Throttling_accepted_text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
                 "\"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", \"Online_selfcare_id\":\"string ---> \"," +
                 "\"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\", \"Pool_ids\":\"Pool-list\"," +
                 "\"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\", \"PSMCodes\":\"PSMCodes\"}}");
@@ -261,6 +261,42 @@ public class DataLoader {
         OsccNamespace pre = new OsccNamespace();
         pre.setName("Pre");
         namespaceService.save(pre);
+
+        OsccType MBBTariffPlansType = new OsccType();
+        MBBTariffPlansType.setName("FreeDataOffer");
+        MBBTariffPlansType.setComplex(true);
+        MBBTariffPlansType.setNamespace(pre);
+        typeService.save(MBBTariffPlansType);
+
+        VersionOfType MBBTariffPlan = new VersionOfType();
+        MBBTariffPlan.setType(MBBTariffPlansType);
+        MBBTariffPlan.setVersion(version);
+        MBBTariffPlan.setStructure("{\"MBBTariffPlan\":{\"Id\":\"string\"}}");
+        versionOfTypeService.save(MBBTariffPlan);
+
+        OsccType specialOfferType = new OsccType();
+        specialOfferType.setName("SpecialOffer");
+        specialOfferType.setComplex(true);
+        specialOfferType.setNamespace(pre);
+        typeService.save(specialOfferType);
+
+        VersionOfType specialOffer = new VersionOfType();
+        specialOffer.setType(specialOfferType);
+        specialOffer.setVersion(version);
+        specialOffer.setStructure("{\"SpecialOffer\":{\"Id\":\"string\", \"Bundle\":\"string ---> \", \"PricePlan\":\"string ---> \"}}");
+        versionOfTypeService.save(specialOffer);
+
+        OsccType freeDataOfferType = new OsccType();
+        freeDataOfferType.setName("FreeDataOffer");
+        freeDataOfferType.setComplex(true);
+        freeDataOfferType.setNamespace(pre);
+        typeService.save(freeDataOfferType);
+
+        VersionOfType freeDataOffer = new VersionOfType();
+        freeDataOffer.setType(freeDataOfferType);
+        freeDataOffer.setVersion(version);
+        freeDataOffer.setStructure("{\"FreeDataOffer\":{\"Id\":\"string\",\"Name\":\"multilanguage\", \"Description\":\"multilanguage\"}}");
+        versionOfTypeService.save(freeDataOffer);
 
         OsccType preDataQuotaType = new OsccType();
         preDataQuotaType.setName("DataQuota");
@@ -317,35 +353,36 @@ public class DataLoader {
                 "\"Price\":\"number ---> \", \"Online_selfcare_id\":\"string ---> \", \"Period\":\"number ---> \"}}");
         versionOfTypeService.save(preAddon);
 
-        // TODO: 2017.11.23. finish pre offers
+        OsccType preOfferType = new OsccType();
+        preOfferType.setName("Offer");
+        preOfferType.setComplex(true);
+        preOfferType.setNamespace(pre);
+        typeService.save(preOfferType);
 
-//
-//        <Offer>
-//            <Id>10014prib_Z100d</Id>
-//            <Name localized="true"></Name>
-//            <Description localized="false">Ezzel az opcióval 100 MB áll rendelkezésedre a ciklus végéig. Az opció kedvezményes ára 919 Ft. Ha többet szeretnél netezni, válaszd kiegészítő adat opciónkat.</Description>
-//            <Type>IOYM</Type>
-//            <Throttling_limit_mb>100</Throttling_limit_mb>
-//            <Discount_id>233</Discount_id>
-//            <Discount_counter_direction>down</Discount_counter_direction>
-//            <Warning_percent>80</Warning_percent>
-//            <Warning_text localized="true"></Warning_text>
-//            <Throttling_text localized="true"></Throttling_text>
-//            <Active>false</Active>
-//            <Price>919</Price>
-//            <Online_selfcare_id>ZsebNet100_3ho_50</Online_selfcare_id>
-//            <Upgrade_offer_ids>
-//                <Upgrade_offer_id>10001prib_Hplus</Upgrade_offer_id>
-//                <Upgrade_offer_id>10003prib_Pplus</Upgrade_offer_id>
-//                <Upgrade_offer_id>10004prib_Extra</Upgrade_offer_id>
-//                <Upgrade_offer_id>10021prib_Z2G</Upgrade_offer_id>
-//            </Upgrade_offer_ids>
-//            <Addon_ids>
-//                <Addon_id>10007pria_100M</Addon_id>
-//                <Addon_id>10030pria_100w</Addon_id>
-//            </Addon_ids>
-//        </Offer>
-//
+        VersionOfType preOffer = new VersionOfType();
+        preOffer.setType(preOfferType);
+        preOffer.setVersion(version);
+        preOffer.setStructure("{\"Offer\":{\"Id\":\"string\", \"Name\":\"multilanguage\", \"Description\":\"multilanguage\"," +
+                "\"Type\":\"string ---> \", \"Throttling_limit_mb\":\"number ---> \", \"Discount_id\":\"string ---> \"," +
+                "\"Discount_counter_direction\":\"string ---> \", \"Warning_percent\":\"number ---> \", \"Warning_text\":\"multilanguage\"," +
+                "\"Throttling_text\":\"multilanguage\", \"Active\":\"boolean ---> \",  \"Price\":\"number ---> \"," +
+                "\"Online_selfcare_id\":\"string ---> \", \"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\"}}");
+        versionOfTypeService.save(preOffer);
+
+        OsccType preOfferConfigType = new OsccType();
+        preOfferConfigType.setName("OfferConfig");
+        preOfferConfigType.setComplex(true);
+        preOfferConfigType.setNamespace(pre);
+        typeService.save(preOfferConfigType);
+
+        VersionOfType preOfferConfig = new VersionOfType();
+        preOfferConfig.setType(preOfferConfigType);
+        preOfferConfig.setVersion(version);
+        preOfferConfig.setStructure("{\"OfferConfig\":{\"Id\":\"string\", \"MBBTariffPlans\":\"MBBTariffPlan-list\"," +
+                "\"FreeDataOffers\":\"FreeDataOffer-list\", \"SpecialOffers\":\"SpecialOffer-list\", \"Offers\":\"Offer-list\"," +
+                "\"Addons\":\"Addon-list\", \"Rewards\":\"Reward-list\", \"DataQuotaGroups\":\"DataQuotaGroup-list\"," +
+                "\"DataQuotas\":\"DataQuota-list\"}}");
+        versionOfTypeService.save(preOfferConfig);
+
     }
-
 }

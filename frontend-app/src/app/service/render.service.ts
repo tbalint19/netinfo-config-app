@@ -9,12 +9,14 @@ export class RenderService {
 
   private objects: OsccObject[];
   private versionOfTypes: VersionOfType[];
+  private languageData: any;
 
   constructor() { }
 
   public initialize(objects: OsccObject[], versionOfTypes: VersionOfType[]): void {
     this.objects = objects;
     this.versionOfTypes = versionOfTypes;
+    this.languageData = {};
   }
 
   public renderAndDownload(rootObject: OsccObject): void {
@@ -23,6 +25,7 @@ export class RenderService {
     let objectData = JSON.parse(rootObject.serializedData);
     let xml = this.renderObject(rootElement, objectData, true);
     this.retardize(xml);
+    this.downloadLanguages();
     this.download(filename, xml);
   }
 
@@ -103,8 +106,26 @@ export class RenderService {
   private renderMultiLanuage(rootElement, key, objectData): void {
     if (objectData[key]["unLocalized"] == ""){
       rootElement.ele(key, {localized: true});
+      this.writeToLanguagePropFile(key, objectData);
     } else {
       rootElement.ele(key, {localized: false}, objectData[key]["unLocalized"]);
+    }
+  }
+
+  private writeToLanguagePropFile(key, objectData): void {
+    let name = key;
+    let type = this.getRelated(objectData).type.name;
+    let namespace = this.getRelated(objectData).type.namespace.name;
+    let id = objectData["Id"];
+    let propKey = namespace + "." + type + "." + id + "." + name;
+    let equalSign = " = ";
+    for (let lang of Object.keys(objectData[key]).filter(l => l != "unLocalized")) {
+      let propValue = objectData[key][lang];
+      let line = propKey + equalSign + propValue;
+      if (!this.languageData.hasOwnProperty(lang)){
+        this.languageData[lang] = [];
+      }
+      this.languageData[lang].push(line);
     }
   }
 
@@ -117,6 +138,15 @@ export class RenderService {
 
   private retardize(xml: string): void {
 
+  }
+
+  private downloadLanguages(): void {
+    for (let lang of Object.keys(this.languageData)){
+      let text = this.languageData[lang].join("\n");
+      let filenameSpec = lang != "def" ? "_" + lang : "";
+      let filename = "Language_offers" + filenameSpec + ".properties";
+      this.download(filename, text);
+    }
   }
 
   private download(filename: string, text: string): void {
