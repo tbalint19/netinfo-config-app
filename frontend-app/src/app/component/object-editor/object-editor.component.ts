@@ -261,10 +261,14 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   private createObject(): void {
-    this._service.saveObjects(
-      this._factory.createObjectCreateDto(this.status.creator)).subscribe(
-      (response: SuccessResponse) => this.handleCreateResponse(response)
-    );
+    if (this.status.dataIsValid()) {
+      this._service.saveObjects(
+        this._factory.createObjectCreateDto(this.status.creator)).subscribe(
+        (response: SuccessResponse) => this.handleCreateResponse(response)
+      );
+    } else {
+      this._messages.add(new Error("Error","Not valid id"))
+    }
   }
 
   protected multiLanguageDisabled(complexTypeKey: string, key: string): boolean {

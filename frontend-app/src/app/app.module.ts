@@ -68,6 +68,7 @@ import {StructureValidator} from "./validator/structure-validator";
 import {CreatorFactory} from "./factory/creator-factory.service";
 import { StructureRefactorComponent } from './component/structure-refactor/structure-refactor.component';
 import {RenderService} from "./service/render.service";
+import {ObjectValidator} from "./validator/object-validator";
 
 @NgModule({
   declarations: [
@@ -143,6 +144,7 @@ import {RenderService} from "./service/render.service";
     ObjectService,
     StructureValidator,
     CreatorFactory,
+    ObjectValidator,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
