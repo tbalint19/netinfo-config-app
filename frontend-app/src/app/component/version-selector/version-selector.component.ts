@@ -16,12 +16,12 @@ import {NamespaceStatus} from "../../status/namespace-status";
 })
 export class VersionSelectorComponent implements OnInit {
 
-  constructor(
-    private versionService: VersionService,
-    private messages: MessageService,
-    protected objectEditorStatus: ObjectEditorStatus,
-    private namespaceStatus: NamespaceStatus,
-    protected status: VersionStatus) { }
+  constructor(private versionService: VersionService,
+              private messages: MessageService,
+              protected objectEditorStatus: ObjectEditorStatus,
+              private namespaceStatus: NamespaceStatus,
+              protected status: VersionStatus) {
+  }
 
   ngOnInit() {
     this.updateVersions();
@@ -59,11 +59,24 @@ export class VersionSelectorComponent implements OnInit {
   }
 
   private suspend(): void {
-    this.messages.add(new Error("Invalid data", "Version is not created"));
+    switch (true) {
+      case !this.status.nameIsValid(): {
+        this.messages.add(new Error("Invalid data", "Name is invalid"));
+        break;
+      }
+      case !this.status.numberIsValid(): {
+        this.messages.add(new Error("Invalid data", "Version is invalid"));
+        break;
+      }
+      case !this.status.orderInBundleIsValid(): {
+        this.messages.add(new Error("Invalid data", "No base version"));
+        break;
+      }
+    }
   }
 
   private handleCreateResponse(successful: boolean): void {
-    if (!successful){
+    if (!successful) {
       this.messages.add(new Error("Oooops", "Something happened"));
       return;
     }
@@ -80,7 +93,7 @@ export class VersionSelectorComponent implements OnInit {
 
   protected handleModelChange(): void {
     this.notify();
-    localStorage.setItem('version',JSON.stringify(this.status.chosenVersion));
+    localStorage.setItem('version', JSON.stringify(this.status.chosenVersion));
     this.objectEditorStatus.chosenVersionOfType = null;
   }
 
