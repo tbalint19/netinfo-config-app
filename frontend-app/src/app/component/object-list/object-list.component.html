@@ -40,24 +40,40 @@
       </button>
     </div>
 
-    <div class="well well-flex" *ngFor="let object of filteredObjects()">
-      <span class="well-content">{{ object['id'] }}</span>
-      <div>
-        <button class="btn btn-default" (click)="render(object)">
-          Render&nbsp;
-          <span class="glyphicon glyphicon-print"></span>
-        </button>
-        <button class="btn btn-default" (click)="openEditor(object)">
-          Edit object&nbsp;
-          <span class="glyphicon glyphicon-cog"></span>
-        </button>
-        <button class="btn btn-danger" (click)="deleteObject(object)">
-          Delete&nbsp;
-          <span class="glyphicon glyphicon-erase"></span>
-        </button>
-      </div>
-    </div>
+    <p-dataTable [value]="filteredObjects()"
+                 [rows]="10"
+                 [paginator]="true"
+                 [pageLinks]="5"
+                 [rowsPerPageOptions]="[5,10,20]">
+      <p-column [style]="{'text-align': 'right'}">
+        <ng-template pTemplate="body" let-object="rowData" >
+          <div class="one-line">
+            <div class="one-line-content">
+              {{ object["id"] }}
+            </div>
+            <div>
+              <button class="btn btn-default" (click)="render(object)">
+                Render&nbsp;
+                <span class="glyphicon glyphicon-print"></span>
+              </button>
+              <button class="btn btn-default" (click)="openEditor(object)">
+                Edit object&nbsp;
+                <span class="glyphicon glyphicon-cog"></span>
+              </button>
+              <button class="btn btn-danger" (click)="deleteObject(object)">
+                Delete&nbsp;
+                <span class="glyphicon glyphicon-erase"></span>
+              </button>
+            </div>
+          </div>
+        </ng-template>
+      </p-column>
+
+    </p-dataTable>
+
+
   </div>
+
 
 </div>
 

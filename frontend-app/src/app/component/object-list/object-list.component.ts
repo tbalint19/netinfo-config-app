@@ -7,12 +7,10 @@ import {OsccObject} from "../../model/object-model";
 import {StructureService} from "../../service/structure.service";
 import {StructureStatus} from "../../status/structure-status";
 import {VersionOfType} from "../../model/version-of-type.model";
-import {ObjectCreator} from "../../model/object-creator.model";
 import {CreatorFactory} from "../../factory/creator-factory.service";
 import {SuccessResponse} from "../../model/response/success-response.model";
 import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
-import {el} from "@angular/platform-browser/testing/src/browser_util";
 import {Error} from "../../model/message/error.model";
 import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
 import {RenderService} from "../../service/render.service";
@@ -69,7 +67,10 @@ export class ObjectListComponent implements OnInit {
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {
-    this.status.objects = response;
+    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => {
+      let sortedListOfTwo = [one.Id, other.Id].sort();
+      return sortedListOfTwo.indexOf(one.Id) > sortedListOfTwo.indexOf(other.Id) ? 1 : -1
+    });
   }
 
   private handleGetStructuresResponse(response: VersionOfType[]) {
