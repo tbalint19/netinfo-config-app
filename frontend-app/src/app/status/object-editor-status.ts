@@ -14,6 +14,7 @@ export class ObjectEditorStatus {
   private _shouldReFetch: boolean;
   private _isUpdating: boolean;
 
+  public chosenRelation: string;
   public restriction: ObjectEditRestriction;
   public chosenStructure: any;
   public creator: ObjectCreator;
@@ -56,12 +57,14 @@ export class ObjectEditorStatus {
   }
 
   public toggleEditor(to: boolean): void {
+    this.chosenRelation = null;
     this._editorOpened = to;
   }
 
   private initialize(): void {
     this._editorOpened = false;
     this._shouldReFetch = true;
+    this.chosenRelation = null;
     this.creator = new ObjectCreator();
     this.params = new ObjectParams();
     this.versionOfTypes = [];
@@ -78,3 +81,4 @@ export class ObjectEditorStatus {
     this._validator.dataIsValid(this.creator.data['Id'])
   }
 }
+

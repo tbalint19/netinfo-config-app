@@ -31,3 +31,19 @@ h4 {
     display: flex;
     justify-content: space-around;
 }
+
+.one-line-content {
+    padding: 6px;
+    font-weight: bold;
+}
+
+.one-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reference-selector {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    text-align: center;
+}

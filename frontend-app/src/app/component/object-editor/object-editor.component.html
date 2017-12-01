@@ -44,22 +44,52 @@
   </div>
 
   <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
-    <h4>References</h4>
+    <div class="reference-selector">
+      <select class="btn {{ status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle"
+                [(ngModel)]="status.chosenRelation">
+        <option
+                [hidden] ="true"
+                [ngValue]="null"
+                [selected]="!status.chosenRelation">
+          Choose a reference
+        </option>
+        <option
+                *ngFor="let key of structureKeys()"
+                [hidden]="!isObjectList(parseValue(structure[key]))"
+                [ngValue]="key">
+          {{ key }}
+        </option>
+      </select>
+    </div>
+
     <div *ngFor="let key of structureKeys()">
-      <h4 *ngIf="isObjectList(parseValue(structure[key]))">{{ key }}</h4>
-      <div *ngIf="isObjectList(parseValue(structure[key]))">
-        <div *ngFor="let object of getObjects(parseValue(structure[key]))" class="one-item">
-          <div>{{ getIdentification(object) }}</div>
-          <button
-            class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
-            (click)="toggleList(object, key)">
-            Toggle
-          </button>
-        </div>
+      <div class="objects-content" *ngIf="status.chosenRelation == key">
+        <p-dataTable [value]="getObjects(parseValue(structure[key]))"
+                     [rows]="10"
+                     [paginator]="true"
+                     [pageLinks]="5"
+                     [rowsPerPageOptions]="[5,10,20]"
+                     *ngIf="isObjectList(parseValue(structure[key]))">
+          <p-column [style]="{'text-align': 'right'}">
+            <ng-template pTemplate="body" let-object="rowData" >
+              <div class="one-line">
+                <div class="one-line-content">
+                  {{ object["id"] }}
+                </div>
+                <div>
+                  <button class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
+                          (click)="toggleList(object, key)">
+                    Toggle
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </p-column>
+        </p-dataTable>
       </div>
     </div>
-    <hr>
   </div>
+
 </div>
 
 <div class="row button-container">
