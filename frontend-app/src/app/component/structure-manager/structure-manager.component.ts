@@ -37,7 +37,9 @@ export class StructureManagerComponent implements OnInit {
 
   private handleArrivedStructures(response: VersionOfType[]): void {
     this.status.objectParsedVersionOfType = response
-      .filter(entry => entry.type.complex)
+      .filter(entry => entry.type.complex).sort((one: VersionOfType, other: VersionOfType) => {
+      return one.type.systemId > other.type.systemId ? -1 : 1
+      })
       .map(this.parseStructure);
     this.status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)

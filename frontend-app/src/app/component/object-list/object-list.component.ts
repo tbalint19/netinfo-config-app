@@ -152,4 +152,12 @@ export class ObjectListComponent implements OnInit {
       }
     );
   }
+
+  protected isActive(versionOfType: VersionOfType): string {
+    return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId ? 'btn-info' : 'btn-default'
+  }
+
+  protected chevronDirection(versionOfType: VersionOfType): string {
+    return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId? 'right' : 'left'
+  }
 }

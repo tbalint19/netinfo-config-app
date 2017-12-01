@@ -22,3 +22,12 @@
   display: flex;
   justify-content: space-between;
 }
+
+#version-of-types {
+  text-align: left;
+}
+
+.span-container {
+  display: flex;
+  justify-content: space-between;
+}

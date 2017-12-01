@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8">
     <div class="reference-selector">
       <select class="btn {{ status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle"
                 [(ngModel)]="status.chosenRelation">
@@ -65,7 +65,7 @@
     <div *ngFor="let key of structureKeys()">
       <div class="objects-content" *ngIf="status.chosenRelation == key">
         <p-dataTable [value]="getObjects(parseValue(structure[key]))"
-                     [rows]="10"
+                     [rows]="9"
                      [paginator]="true"
                      [pageLinks]="5"
                      [rowsPerPageOptions]="[5,10,20]"

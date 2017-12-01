@@ -11,9 +11,11 @@
     <button
       *ngFor="let versionOfType of objectStructures()"
       (click)="chooseVersionOfType(versionOfType)"
-      class="btn btn-default btn-block">
-      <span class="glyphicon glyphicon-chevron-right"></span>&nbsp;
-      {{ versionOfType.type.name }}
+      class="btn {{isActive(versionOfType)}} btn-block" id="version-of-types">
+      <span class="span-container">
+        <span>{{ versionOfType.type.name }}</span>
+        <span class="glyphicon glyphicon-chevron-{{chevronDirection(versionOfType)}}"></span>
+      </span>
     </button>
   </div>
 

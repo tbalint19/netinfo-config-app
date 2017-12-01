@@ -1,12 +1,6 @@
 .scrollable-list {
     overflow-y: auto;
-    max-height: 400px;
-}
-
-h4 {
-    color: #555;
-    text-align: center;
-    text-decoration: underline;
+    max-height: 460px;
 }
 
 .button-container {
