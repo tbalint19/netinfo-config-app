@@ -67,10 +67,18 @@ export class ObjectListComponent implements OnInit {
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {
-    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => {
-      let sortedListOfTwo = [one.Id, other.Id].sort();
-      return sortedListOfTwo.indexOf(one.Id) > sortedListOfTwo.indexOf(other.Id) ? 1 : -1
-    });
+    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1)
+        // let a = "lajos";
+        // let b = "bela";
+        // let c = "923kazmer";
+        // let d = "2354";
+        // let e = "3245";
+        // console.log('diff:ab ',a > b);
+        // console.log('diff:ac ',a > c);
+        // console.log('diff:cd ',c < d);
+        // console.log('diff:ed ',e < d);
+        // let sortedListOfTwo = [one.Id, other.Id].sort();
+        // return sortedListOfTwo.indexOf(one.Id) > sortedListOfTwo.indexOf(other.Id) ? 1 : -1;
   }
 
   private handleGetStructuresResponse(response: VersionOfType[]) {
