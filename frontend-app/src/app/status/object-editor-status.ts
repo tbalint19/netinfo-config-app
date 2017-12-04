@@ -17,8 +17,6 @@ export class ObjectEditorStatus {
   public shouldReFetch: Subject<boolean>;
   private _isUpdating: boolean;
 
-  public magyarNames: Subject<string[]>;
-
   public searchValue: string;
   public chosenSearchParam: string;
   public chosenRelation: string;
@@ -33,8 +31,6 @@ export class ObjectEditorStatus {
   constructor(private _requestObserver: HttpClient,
               private _validator: ObjectValidator) {
     this.initialize();
-    this.magyarNames = new Subject<string[]>();
-    this.magyarNames.next(["bela", "lajos", "kazmer"]);
   }
 
   public setStructure(structure: any): void {

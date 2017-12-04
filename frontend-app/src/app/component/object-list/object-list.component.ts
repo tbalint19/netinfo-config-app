@@ -59,6 +59,7 @@ export class ObjectListComponent implements OnInit {
 
   private monitor(): void {
     this.status.shouldReFetch.subscribe(should => {
+
       if (should && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
         this.status.setReFetch(false);
         this.structureStatus.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
