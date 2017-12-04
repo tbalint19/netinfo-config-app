@@ -85,6 +85,7 @@ export class ObjectListComponent implements OnInit {
 
   protected chooseVersionOfType(versionOfType: VersionOfType): void {
     this.status.chosenVersionOfType = versionOfType;
+    this.resetSearch();
   }
 
   protected filteredObjects(): OsccObject[] {
