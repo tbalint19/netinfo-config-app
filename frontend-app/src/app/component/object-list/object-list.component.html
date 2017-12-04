@@ -26,13 +26,25 @@
       <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
       &nbsp;{{ status.chosenVersionOfType.type.name }}
     </h3>
-
     <hr>
 
     <div class="well well-flex">
-      <input class="form-control" placeholder="Search by">
-      <input class="form-control" placeholder="Param">
-      <button class="btn btn-default">
+      <select class="btn btn-{{status.chosenSearchParam ? 'info' : 'default'}}"
+              [(ngModel)]="status.chosenSearchParam">
+        <option [hidden] ="true" [ngValue]="null">
+          Choose a search param
+        </option>
+        <option *ngFor="let key of structureKeys()"
+                [ngValue]="key"
+                [hidden]="isObjectList(parseValue(structure[key])) || isComplex(parseValue(structure[key]))">
+          {{ key }}
+        </option>
+      </select>
+      <input class="form-control"
+             [(ngModel)]="status.searchValue"
+             (keyup)="search(status.searchValue, status.chosenSearchParam)"
+             placeholder="Value">
+      <button class="btn btn-default" (click)="resetSearch()">
         All&nbsp;
         <span class="glyphicon glyphicon-refresh"></span>
       </button>
@@ -42,7 +54,7 @@
       </button>
     </div>
 
-    <p-dataTable [value]="filteredObjects()"
+    <p-dataTable [value]="search(status.searchValue, status.chosenSearchParam)"
                  [rows]="10"
                  [paginator]="true"
                  [pageLinks]="5"
@@ -72,9 +84,7 @@
       </p-column>
     </p-dataTable>
 
-
   </div>
-
 
 </div>
 

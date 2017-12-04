@@ -48,11 +48,11 @@ export class ObjectEditorComponent implements OnInit {
     this.createBaseData();
   }
 
-  protected structureKeys(): string[] {
+  public structureKeys(): string[] {
     return Object.keys(this.structure);
   }
 
-  protected updateRestricion(): ObjectEditRestriction {
+  protected updateRestriction(): ObjectEditRestriction {
     return ObjectEditRestriction.UPDATE;
   }
 

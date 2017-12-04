@@ -15,6 +15,7 @@ import {Error} from "../../model/message/error.model";
 import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
 import {RenderService} from "../../service/render.service";
 import {PreRenderDTO} from "../../model/get-request/pre-render-dto";
+import {RenderElements} from "../../model/render-elements.enum";
 
 
 @Component({
@@ -23,6 +24,10 @@ import {PreRenderDTO} from "../../model/get-request/pre-render-dto";
   styleUrls: ['./object-list.component.css']
 })
 export class ObjectListComponent implements OnInit {
+
+  protected structure: any;
+  protected primitives: any[];
+  protected complexStructures: any[];
 
   constructor(
     protected status: ObjectEditorStatus,
@@ -68,17 +73,6 @@ export class ObjectListComponent implements OnInit {
 
   private handleGetObjectsResponse(response: OsccObject[]) {
     this.status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1)
-        // let a = "lajos";
-        // let b = "bela";
-        // let c = "923kazmer";
-        // let d = "2354";
-        // let e = "3245";
-        // console.log('diff:ab ',a > b);
-        // console.log('diff:ac ',a > c);
-        // console.log('diff:cd ',c < d);
-        // console.log('diff:ed ',e < d);
-        // let sortedListOfTwo = [one.Id, other.Id].sort();
-        // return sortedListOfTwo.indexOf(one.Id) > sortedListOfTwo.indexOf(other.Id) ? 1 : -1;
   }
 
   private handleGetStructuresResponse(response: VersionOfType[]) {
@@ -159,5 +153,64 @@ export class ObjectListComponent implements OnInit {
 
   protected chevronDirection(versionOfType: VersionOfType): string {
     return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId? 'right' : 'left'
+  }
+
+  protected search(value: string, param: any): OsccObject[] {
+    if (value == null ||  param == null) {
+      return this.filteredObjects();
+    } else {
+      if (param == "Id") {
+        return this.filteredObjects().filter(entry => entry['id'].indexOf(value) > -1
+        )
+      }
+      else {
+        return this.filteredObjects().filter(entry => {
+          return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
+        })
+      }
+    }
+  }
+
+  protected resetSearch(): void {
+    this.status.chosenSearchParam = null;
+    this.status.searchValue = null;
+  }
+
+  protected structureKeys(): string[] {
+    this.structure = JSON.parse(this.status.chosenVersionOfType.structure);
+    this.structure = this.structure[Object.keys(this.structure)[0]];
+    this.primitives = this.getPrimitives();
+    this.complexStructures = this.status.versionOfTypes.filter(
+      (entry) => !entry.type.complex
+    ).map((entry) => JSON.parse(entry.structure));
+    return Object.keys(this.structure);
+  }
+
+  protected parseValue(key: string): string {
+    return key.split(" ---> ")[0];
+  }
+
+  private getPrimitives(): any[] {
+    return [
+      {"string": RenderElements.TEXT_INPUT},
+      {"number": RenderElements.NUMBER_INPUT},
+      {"boolean": RenderElements.CHECK_BOX},
+      {"list": RenderElements.SELECT_LIST}
+    ]
+  }
+
+  protected isObjectList(key: string): boolean {
+    let listName = key.split("-")[1];
+    return this.primitives.filter(
+      entry => entry.hasOwnProperty(listName)
+    ).length == 1 && this.primitives.filter(
+      entry => entry.hasOwnProperty(listName)
+    )[0][listName] == RenderElements.SELECT_LIST;
+  }
+
+  protected isComplex(key: string): boolean {
+    return this.complexStructures.filter(
+      entry => entry.hasOwnProperty(key)
+    ).length == 1;
   }
 }
