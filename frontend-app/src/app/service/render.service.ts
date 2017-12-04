@@ -24,9 +24,8 @@ export class RenderService {
     let rootElement = builder.create(rootObject.versionOfType.type.name);
     let objectData = JSON.parse(rootObject.serializedData);
     let xml = this.renderObject(rootElement, objectData, true);
-    this.retardize(xml);
     this.downloadLanguages();
-    this.download(filename, xml);
+    this.download(filename, this.retardize(xml));
   }
 
   private createFileName(object: OsccObject): string {
@@ -90,7 +89,8 @@ export class RenderService {
     let relatedObjects = this.getRelatedObjects(objectData, key);
     for (let related of relatedObjects){
       if (withDepth){
-        let innerRoot = listElement.ele(structure[key].split("-list")[0]);
+        let innerRootName = key.slice(0, key.length - 1);
+        let innerRoot = listElement.ele(innerRootName);
         let innerObject = JSON.parse(related.serializedData);
         this.renderObject(innerRoot,innerObject, false);
       } else {
@@ -136,8 +136,8 @@ export class RenderService {
     }
   }
 
-  private retardize(xml: string): void {
-
+  private retardize(xml: string): string {
+    return xml;
   }
 
   private downloadLanguages(): void {
