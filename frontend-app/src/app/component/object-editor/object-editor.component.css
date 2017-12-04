@@ -1,12 +1,6 @@
 .scrollable-list {
     overflow-y: auto;
-    max-height: 400px;
-}
-
-h4 {
-    color: #555;
-    text-align: center;
-    text-decoration: underline;
+    max-height: 460px;
 }
 
 .button-container {
@@ -30,4 +24,20 @@ h4 {
 .one-item {
     display: flex;
     justify-content: space-around;
+}
+
+.one-line-content {
+    padding: 6px;
+    font-weight: bold;
+}
+
+.one-line {
+    display: flex;
+    justify-content: space-between;
+}
+
+.reference-selector {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    text-align: center;
 }

@@ -5,6 +5,7 @@ import {VersionOfType} from "../model/version-of-type.model";
 import {ObjectParams} from "../model/get-request/object-params.model";
 import {HttpClient} from "../http/http.client";
 import {ObjectEditRestriction} from "../model/enums/object-edit-restriction.enum";
+import {ObjectValidator} from "../validator/object-validator";
 
 @Injectable()
 export class ObjectEditorStatus {
@@ -13,6 +14,9 @@ export class ObjectEditorStatus {
   private _shouldReFetch: boolean;
   private _isUpdating: boolean;
 
+  public searchValue: string;
+  public chosenSearchParam: string;
+  public chosenRelation: string;
   public restriction: ObjectEditRestriction;
   public chosenStructure: any;
   public creator: ObjectCreator;
@@ -21,7 +25,8 @@ export class ObjectEditorStatus {
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
 
-  constructor(private _requestObserver: HttpClient) {
+  constructor(private _requestObserver: HttpClient,
+              private _validator: ObjectValidator) {
     this.initialize();
   }
 
@@ -54,12 +59,16 @@ export class ObjectEditorStatus {
   }
 
   public toggleEditor(to: boolean): void {
+    this.chosenRelation = null;
     this._editorOpened = to;
   }
 
   private initialize(): void {
     this._editorOpened = false;
     this._shouldReFetch = true;
+    this.searchValue = null;
+    this.chosenSearchParam = null;
+    this.chosenRelation = null;
     this.creator = new ObjectCreator();
     this.params = new ObjectParams();
     this.versionOfTypes = [];
@@ -71,4 +80,9 @@ export class ObjectEditorStatus {
   public reset(): void {
     this.initialize();
   }
+
+  public dataIsValid() {
+    this._validator.dataIsValid(this.creator.data['Id'])
+  }
 }
+

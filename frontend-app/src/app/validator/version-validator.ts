@@ -25,3 +25,7 @@ export class VersionValidator {
     return orderInBundle && orderInBundle > this.orderInBundleMinValue;
   }
 }
+
+
+
+// -datavalidator -id exist -> hossza legalább 3 save, ha

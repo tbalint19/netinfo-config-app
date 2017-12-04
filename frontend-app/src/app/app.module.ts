@@ -68,6 +68,9 @@ import {StructureValidator} from "./validator/structure-validator";
 import {CreatorFactory} from "./factory/creator-factory.service";
 import { StructureRefactorComponent } from './component/structure-refactor/structure-refactor.component';
 import {RenderService} from "./service/render.service";
+import {ObjectValidator} from "./validator/object-validator";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import {DataTableModule, SharedModule} from "primeng/primeng";
 
 @NgModule({
   declarations: [
@@ -105,7 +108,10 @@ import {RenderService} from "./service/render.service";
     BrowserModule,
     RoutingModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    BrowserAnimationsModule,
+    DataTableModule,
+    SharedModule,
   ],
   providers: [
     AuthGuard,
@@ -143,6 +149,7 @@ import {RenderService} from "./service/render.service";
     ObjectService,
     StructureValidator,
     CreatorFactory,
+    ObjectValidator,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

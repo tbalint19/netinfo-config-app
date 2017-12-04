@@ -13,7 +13,21 @@
   margin-right: 5px;
 }
 
-.well-content {
+.one-line-content {
   padding: 6px;
   font-weight: bold;
+}
+
+.one-line {
+  display: flex;
+  justify-content: space-between;
+}
+
+#version-of-types {
+  text-align: left;
+}
+
+.span-container {
+  display: flex;
+  justify-content: space-between;
 }
