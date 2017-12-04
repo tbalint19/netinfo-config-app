@@ -58,8 +58,8 @@ export class ObjectListComponent implements OnInit {
   }
 
   private monitor(): void {
-    setInterval(() => {
-      if (this.status.shouldReFetch() && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
+    this.status.shouldReFetch.subscribe(should => {
+      if (should && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
         this.status.setReFetch(false);
         this.structureStatus.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
         this.status.params.namespaceSystemId = this.namespaceStatus.chosenNamespace.systemId;
@@ -68,7 +68,7 @@ export class ObjectListComponent implements OnInit {
         this.getObjects();
         this.getVersionOfTypes();
       }
-    }, 500);
+    })
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {

@@ -6,13 +6,18 @@ import {ObjectParams} from "../model/get-request/object-params.model";
 import {HttpClient} from "../http/http.client";
 import {ObjectEditRestriction} from "../model/enums/object-edit-restriction.enum";
 import {ObjectValidator} from "../validator/object-validator";
+import {Observable} from "rxjs/Observable";
+import {Subject} from "rxjs/Subject";
+import {isBoolean} from "util";
 
 @Injectable()
 export class ObjectEditorStatus {
 
   private _editorOpened: boolean;
-  private _shouldReFetch: boolean;
+  public shouldReFetch: Subject<boolean>;
   private _isUpdating: boolean;
+
+  public magyarNames: Subject<string[]>;
 
   public searchValue: string;
   public chosenSearchParam: string;
@@ -28,6 +33,8 @@ export class ObjectEditorStatus {
   constructor(private _requestObserver: HttpClient,
               private _validator: ObjectValidator) {
     this.initialize();
+    this.magyarNames = new Subject<string[]>();
+    this.magyarNames.next(["bela", "lajos", "kazmer"]);
   }
 
   public setStructure(structure: any): void {
@@ -46,12 +53,8 @@ export class ObjectEditorStatus {
     this._isUpdating = to;
   }
 
-  public shouldReFetch(): boolean {
-    return this._shouldReFetch;
-  }
-
   public setReFetch(to: boolean) {
-    this._shouldReFetch = to;
+    this.shouldReFetch.next(to);
   }
 
   public isOpen(): boolean {
@@ -65,7 +68,6 @@ export class ObjectEditorStatus {
 
   private initialize(): void {
     this._editorOpened = false;
-    this._shouldReFetch = true;
     this.searchValue = null;
     this.chosenSearchParam = null;
     this.chosenRelation = null;
@@ -75,6 +77,8 @@ export class ObjectEditorStatus {
     this.objects = [];
     this.chosenStructure = null;
     this._isUpdating = false;
+    this.shouldReFetch = new Subject<boolean>();
+    this.shouldReFetch.next(true);
   }
 
   public reset(): void {
