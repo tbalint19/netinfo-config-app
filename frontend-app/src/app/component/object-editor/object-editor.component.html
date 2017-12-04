@@ -6,7 +6,7 @@
         <div *ngIf="isText(parseValue(structure[key]))" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
           <input class="form-control" type="text"
-            [disabled]="key == 'id' && status.restriction == updateRestriction()"
+            [disabled]="(key == 'id' || key == 'Id') && status.restriction == updateRestriction()"
             [(ngModel)]="status.creator.data[key]">
         </div>
         <div *ngIf="isNumber(parseValue(structure[key]))" class="input-group">
