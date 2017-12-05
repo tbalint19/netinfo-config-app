@@ -62,6 +62,7 @@ export class ObjectEditorStatus {
 
   public toggleEditor(to: boolean): void {
     this.chosenRelation = null;
+    this.chosenEditorSearchParam = null;
     this._editorOpened = to;
   }
 

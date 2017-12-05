@@ -54,7 +54,7 @@
 }
 
 textarea {
-    resize: vertical;
+    resize: none;
 }
 
 #orban-button {

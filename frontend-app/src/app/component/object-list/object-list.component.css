@@ -26,3 +26,21 @@
   display: flex;
   justify-content: space-between;
 }
+
+#orban-button {
+  margin-left: 15px;
+}
+
+#dropdown-group {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#center-group {
+  border-radius: 0;
+}
+
+#button-group {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}

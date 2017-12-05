@@ -43,7 +43,7 @@
                 [disabled]="multiLanguageDisabled(complexTypeKey, key)"
                 class="form-control"
                 [(ngModel)]="status.creator.data[key][complexTypeKey]"
-                [rows]="showRows(complexTypeKey, key)">
+                [rows]="showRows(complexTypeKey, key, status.creator.data[key][complexTypeKey])">
               </textarea>
             </div>
             <div *ngIf="isNumber(complexTypeKey, parseValue(structure[key]))" class="input-group">

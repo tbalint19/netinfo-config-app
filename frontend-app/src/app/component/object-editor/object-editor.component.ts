@@ -159,7 +159,9 @@ export class ObjectEditorComponent implements OnInit {
 
   protected getObjects(key: string, structureKey: string): OsccObject[] {
     return this.status.objects.filter(
-      (entry) => entry.versionOfType.type.name == structureKey.split("-")[0])
+      (entry) => {
+        return entry.versionOfType.type.name == structureKey.split("-")[0]
+      })
       .sort((one: OsccObject, other: OsccObject) => {
           return this.shouldSortById(one, other, key) ? this.sortById(one, other) : this.sortByIsInList(one, other, key)
         }
@@ -321,11 +323,11 @@ export class ObjectEditorComponent implements OnInit {
       return this.getObjects(key, structureKey);
     } else {
       if (param == "Id") {
-        return this.status.objects.filter(entry => entry['id'].indexOf(value) > -1
+        return this.getObjects(key, structureKey).filter(entry => entry['id'].indexOf(value) > -1
         )
       }
       else {
-        return this.status.objects.filter(entry => {
+        return this.getObjects(key, structureKey).filter(entry => {
           return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
         })
       }
@@ -340,7 +342,12 @@ export class ObjectEditorComponent implements OnInit {
     return chosenField == null || key == chosenField || key == 'Id';
   }
 
-  protected showRows(complexTypeKey: string, key: string): number {
-    return this.multiLanguageDisabled(complexTypeKey, key) ? 1 : 3
+  protected showRows(complexTypeKey: string, key: string, text: string): number {
+    return this.multiLanguageDisabled(complexTypeKey, key) ? 1 : this.getNumberOfRows(text)
   }
+
+  private getNumberOfRows(text: string): number {
+    return text? Math.ceil(text.length/100) : 1
+  }
+
 }
