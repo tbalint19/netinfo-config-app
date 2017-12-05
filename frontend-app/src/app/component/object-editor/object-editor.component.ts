@@ -140,10 +140,29 @@ export class ObjectEditorComponent implements OnInit {
     }
   }
 
-  protected getObjects(key: string): OsccObject[] {
+  private sortById(one: OsccObject, other: OsccObject): number {
+    return one['id'] > other['id'] ? 1 : -1
+  }
+
+  private shouldSortById(one: OsccObject, other: OsccObject, key: string): boolean {
+    let oneIn = this.isInList(one, key);
+    let otherIn = this.isInList(other, key);
+    return (oneIn && otherIn) || (!oneIn && !otherIn)
+  }
+
+  private sortByIsInList(one: OsccObject, other: OsccObject, key: string): number {
+    let oneIn = this.isInList(one, key);
+    let otherIn = this.isInList(other, key);
+    return !oneIn && otherIn ? 1 : -1
+  }
+
+  protected getObjects(key: string, structureKey: string): OsccObject[] {
     return this.status.objects.filter(
-      (entry) => entry.versionOfType.type.name == key.split("-")[0]
-    )
+      (entry) => entry.versionOfType.type.name == structureKey.split("-")[0])
+        .sort((one: OsccObject, other: OsccObject) => {
+          return this.shouldSortById(one, other, key) ? this.sortById(one, other) : this.sortByIsInList(one, other, key)
+          }
+        )
   }
 
   protected getIdentification(obj: OsccObject): string {

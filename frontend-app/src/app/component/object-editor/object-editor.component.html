@@ -64,11 +64,11 @@
 
     <div *ngFor="let key of structureKeys()">
       <div class="objects-content" *ngIf="status.chosenRelation == key">
-        <p-dataTable [value]="getObjects(parseValue(structure[key]))"
-                     [rows]="9"
+        <p-dataTable [value]="getObjects(key, parseValue(structure[key]))"
+                     [rows]="10"
                      [paginator]="true"
-                     [pageLinks]="5"
-                     [rowsPerPageOptions]="[5,10,20]"
+                     [pageLinks]="10"
+                     [rowsPerPageOptions]="[5,10]"
                      *ngIf="isObjectList(parseValue(structure[key]))">
           <p-column [style]="{'text-align': 'right'}">
             <ng-template pTemplate="body" let-object="rowData" >

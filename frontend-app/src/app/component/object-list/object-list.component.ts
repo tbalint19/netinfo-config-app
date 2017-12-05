@@ -59,6 +59,7 @@ export class ObjectListComponent implements OnInit {
 
   private monitor(): void {
     this.status.shouldReFetch.subscribe(should => {
+
       if (should && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
         this.status.setReFetch(false);
         this.structureStatus.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
@@ -80,7 +81,9 @@ export class ObjectListComponent implements OnInit {
   }
 
   protected objectStructures() {
-    return this.status.versionOfTypes.filter(entry => entry.type.complex);
+    return this.status.versionOfTypes.filter(entry => entry.type.complex)
+      .sort((one: VersionOfType, other: VersionOfType) => one.type.systemId > other.type.systemId ? -1 : 1
+      )
   }
 
   protected chooseVersionOfType(versionOfType: VersionOfType): void {

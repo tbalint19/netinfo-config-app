@@ -71,6 +71,7 @@ import {RenderService} from "./service/render.service";
 import {ObjectValidator} from "./validator/object-validator";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DataTableModule, SharedModule} from "primeng/primeng";
+import { EscapeDirective } from './directive/escape.directive';
 
 @NgModule({
   declarations: [
@@ -102,7 +103,8 @@ import {DataTableModule, SharedModule} from "primeng/primeng";
     KeyPipe,
     ObjectListComponent,
     ObjectPopupComponent,
-    StructureRefactorComponent
+    StructureRefactorComponent,
+    EscapeDirective
   ],
   imports: [
     BrowserModule,
