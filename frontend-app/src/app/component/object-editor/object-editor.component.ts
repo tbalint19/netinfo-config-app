@@ -29,11 +29,11 @@ export class ObjectEditorComponent implements OnInit {
   protected complexStructures: any[];
   protected objectStructures: any[];
 
-  constructor(
-    protected status: ObjectEditorStatus,
-    private _factory: DtoFactory,
-    private _service: ObjectService,
-    private _messages: MessageService) { }
+  constructor(protected status: ObjectEditorStatus,
+              private _factory: DtoFactory,
+              private _service: ObjectService,
+              private _messages: MessageService) {
+  }
 
   ngOnInit() {
     this.structure = JSON.parse(this.status.chosenVersionOfType.structure);
@@ -121,12 +121,12 @@ export class ObjectEditorComponent implements OnInit {
 
   private createBaseData(): void {
     this.status.creator.versionOfType = this.status.chosenVersionOfType;
-    for (let key of this.structureKeys()){
+    for (let key of this.structureKeys()) {
       if (this.isText(this.parseValue(this.structure[key]))) {
         this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this.status.creator.data[key];
       }
       if (this.isNumber(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]): this.status.creator.data[key];
+        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this.status.creator.data[key];
       }
       if (this.isBoolean(this.parseValue(this.structure[key]))) {
         this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) == "true" ? true : false : this.status.creator.data[key];
@@ -156,13 +156,14 @@ export class ObjectEditorComponent implements OnInit {
     return !oneIn && otherIn ? 1 : -1
   }
 
+
   protected getObjects(key: string, structureKey: string): OsccObject[] {
     return this.status.objects.filter(
       (entry) => entry.versionOfType.type.name == structureKey.split("-")[0])
-        .sort((one: OsccObject, other: OsccObject) => {
+      .sort((one: OsccObject, other: OsccObject) => {
           return this.shouldSortById(one, other, key) ? this.sortById(one, other) : this.sortByIsInList(one, other, key)
-          }
-        )
+        }
+      )
   }
 
   protected getIdentification(obj: OsccObject): string {
@@ -247,15 +248,15 @@ export class ObjectEditorComponent implements OnInit {
   private overWrite(object: OsccObject, relatedIds: any[], baseIds: any[]): void {
     let data = JSON.parse(object.serializedData);
     for (let key of Object.keys(data)) {
-      if (Array.isArray(data[key])){
+      if (Array.isArray(data[key])) {
         let newList = [];
-        for (let Id of this.status.creator.data[key]){
+        for (let Id of this.status.creator.data[key]) {
           if (relatedIds.includes(Id)) {
             newList.push(Id);
           }
         }
         for (let Id of data[key]) {
-          if (!newList.includes(Id)){
+          if (!newList.includes(Id)) {
             if (!baseIds.includes(Id)) {
               newList.push(Id);
             }
@@ -281,7 +282,7 @@ export class ObjectEditorComponent implements OnInit {
 
   private createObject(): void {
     if (!this.status.dataIsValid()) {
-      this._messages.add(new Error("Error","Invalid id"));
+      this._messages.add(new Error("Error", "Invalid id"));
       return;
     }
     this._service.saveObjects(
@@ -291,7 +292,9 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected multiLanguageDisabled(complexTypeKey: string, key: string): boolean {
-    if (this.parseValue(this.structure[key]) != "multilanguage") { return false; }
+    if (this.parseValue(this.structure[key]) != "multilanguage") {
+      return false;
+    }
     if (complexTypeKey == "unLocalized") {
       let multilanguage = this.status.creator.data[key];
       let allMultilanguageKeys = Object.keys(multilanguage).filter((entry) => entry != 'unLocalized');
@@ -306,5 +309,38 @@ export class ObjectEditorComponent implements OnInit {
 
   private exist(value: any): boolean {
     return !(value == null || value == undefined || value == "");
+  }
+
+  protected resetSearch(): void {
+    this.status.chosenEditorSearchParam = null;
+    this.status.editorSearchValue = null;
+  }
+
+  protected search(value: string, param: string, key: string, structureKey: string): OsccObject[] {
+    if (value == null || param == null) {
+      return this.getObjects(key, structureKey);
+    } else {
+      if (param == "Id") {
+        return this.status.objects.filter(entry => entry['id'].indexOf(value) > -1
+        )
+      }
+      else {
+        return this.status.objects.filter(entry => {
+          return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
+        })
+      }
+    }
+  }
+
+  protected resetFieldFilter() {
+    this.status.chosenField = null;
+  }
+
+  protected shouldShow(key: string, chosenField: string): boolean {
+    return chosenField == null || key == chosenField || key == 'Id';
+  }
+
+  protected showRows(complexTypeKey: string, key: string): number {
+    return this.multiLanguageDisabled(complexTypeKey, key) ? 1 : 3
   }
 }
