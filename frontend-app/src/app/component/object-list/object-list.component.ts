@@ -28,6 +28,8 @@ export class ObjectListComponent implements OnInit {
   protected structure: any;
   protected primitives: any[];
   protected complexStructures: any[];
+  protected filteredList: OsccObject[] = [];
+
 
   constructor(
     protected status: ObjectEditorStatus,
@@ -73,7 +75,8 @@ export class ObjectListComponent implements OnInit {
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {
-    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1)
+    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1);
+    this.search(null, null)
   }
 
   private handleGetStructuresResponse(response: VersionOfType[]) {
@@ -89,11 +92,12 @@ export class ObjectListComponent implements OnInit {
   protected chooseVersionOfType(versionOfType: VersionOfType): void {
     this.status.chosenVersionOfType = versionOfType;
     this.resetSearch();
+    this.search(null, null)
   }
 
   protected filteredObjects(): OsccObject[] {
-    return this.status.objects.filter(
-      entry => entry.versionOfType.systemId == this.status.chosenVersionOfType.systemId);
+     return this.status.chosenVersionOfType ? this.status.objects.filter(
+      entry => entry.versionOfType.systemId == this.status.chosenVersionOfType.systemId) : [];
   }
 
   protected deleteObject(object: OsccObject): void {
@@ -159,16 +163,16 @@ export class ObjectListComponent implements OnInit {
     return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId? 'right' : 'left'
   }
 
-  protected search(value: string, param: any): OsccObject[] {
+  protected search(value: string, param: any): void {
     if (value == null ||  param == null) {
-      return this.filteredObjects();
+      this.filteredList = this.filteredObjects();
     } else {
       if (param == "Id") {
-        return this.filteredObjects().filter(entry => entry['id'].indexOf(value) > -1
+        this.filteredList = this.filteredObjects().filter(entry => entry['id'].indexOf(value) > -1
         )
       }
       else {
-        return this.filteredObjects().filter(entry => {
+        this.filteredList = this.filteredObjects().filter(entry => {
           return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
         })
       }
