@@ -14,7 +14,7 @@ import {isBoolean} from "util";
 export class ObjectEditorStatus {
 
   private _editorOpened: boolean;
-  public shouldReFetch: Subject<boolean>;
+  public shouldReFetch: Subject<boolean> = new Subject<boolean>();
   private _isUpdating: boolean;
 
   public chosenField: string;
@@ -30,6 +30,7 @@ export class ObjectEditorStatus {
   public versionOfTypes: VersionOfType[];
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
+
 
   constructor(private _requestObserver: HttpClient,
               private _validator: ObjectValidator) {
@@ -80,7 +81,6 @@ export class ObjectEditorStatus {
     this.objects = [];
     this.chosenStructure = null;
     this._isUpdating = false;
-    this.shouldReFetch = new Subject<boolean>();
     this.shouldReFetch.next(true);
   }
 
@@ -89,7 +89,7 @@ export class ObjectEditorStatus {
   }
 
   public dataIsValid() {
-    this._validator.dataIsValid(this.creator.data['Id'])
+    return this._validator.dataIsValid(this.creator.data['Id'])
   }
 }
 
