@@ -236,9 +236,10 @@ public class DataLoader {
                 "\"Price\":\"number ---> \", \"Type\":\"string ---> \", \"Throttling_limit_mb\":\"number ---> \"," +
                 "\"Warning_percent\":\"number ---> \", \"Warning_text\":\"multilanguage\", \"Throttling_text\":\"multilanguage\"," +
                 "\"Throttling_accepted_text\":\"multilanguage\", \"Continue_with_throttling\":\"boolean ---> \", " +
-                "\"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", \"Online_selfcare_id\":\"string ---> \"," +
-                "\"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\", \"Pool_ids\":\"Pool-list\"," +
-                "\"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\", \"PSMCodes\":\"PSMCodes\"}}");
+                "\"Unlimited\":\"boolean ---> \", \"Active\":\"boolean ---> \", \"Featured\":\"boolean ---> \", " +
+                "\"Online_selfcare_id\":\"string ---> \", \"Upgrade_offer_ids\":\"Offer-list\", \"Addon_ids\":\"Addon-list\"," +
+                "\"Pool_ids\":\"Pool-list\", \"UnlimitedContentPackages\":\"UnlimitedContentPackage-list\", " +
+                "\"PSMCodes\":\"PSMCodes\"}}");
         versionOfTypeService.save(postOffer);
 
         OsccType postOfferConfig = new OsccType();
