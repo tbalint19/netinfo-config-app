@@ -28,8 +28,9 @@
     </h3>
     <hr>
 
-    <div class="well well-flex">
+    <div class="well well-flex btn-group">
       <select class="btn btn-{{status.chosenSearchParam ? 'info' : 'default'}}"
+              id="dropdown-group"
               [(ngModel)]="status.chosenSearchParam">
         <option [hidden] ="true" [ngValue]="null">
           Choose a search param
@@ -43,12 +44,15 @@
       <input class="form-control"
              [(ngModel)]="status.searchValue"
              (keyup)="search(status.searchValue, status.chosenSearchParam)"
-             placeholder="Value">
-      <button class="btn btn-default" (click)="resetSearch()">
+             placeholder="Value"
+             id="center-group"
+      >
+      <button class="btn btn-default" (click)="resetSearch()" id="button-group"
+      >
         All&nbsp;
         <span class="glyphicon glyphicon-refresh"></span>
       </button>
-      <button class="btn btn-default" (click)="openEditor()">
+      <button class="btn btn-default" (click)="openEditor()" id="orban-button">
         Add new {{ status.chosenVersionOfType.type.name }}&nbsp;
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
@@ -65,8 +69,8 @@
             <div class="one-line-content">
               {{ object["id"] }}
             </div>
-            <div>
-              <button class="btn btn-default" (click)="render(object)">
+            <div class="btn-group">
+              <button class="btn btn-primary" (click)="render(object)">
                 Render&nbsp;
                 <span class="glyphicon glyphicon-print"></span>
               </button>

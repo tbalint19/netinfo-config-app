@@ -41,3 +41,30 @@
     margin-top: 5px;
     text-align: center;
 }
+
+#object-editor-search {
+    display: flex;
+    justify-content: center;
+}
+
+.field-filter {
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+textarea {
+    resize: none;
+}
+
+#orban-button {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.orban {
+    margin-bottom: 10px;
+}
+

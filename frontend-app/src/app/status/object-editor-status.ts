@@ -17,8 +17,11 @@ export class ObjectEditorStatus {
   public shouldReFetch: Subject<boolean>;
   private _isUpdating: boolean;
 
+  public chosenField: string;
   public searchValue: string;
   public chosenSearchParam: string;
+  public chosenEditorSearchParam: string;
+  public editorSearchValue: string;
   public chosenRelation: string;
   public restriction: ObjectEditRestriction;
   public chosenStructure: any;
@@ -59,6 +62,7 @@ export class ObjectEditorStatus {
 
   public toggleEditor(to: boolean): void {
     this.chosenRelation = null;
+    this.chosenEditorSearchParam = null;
     this._editorOpened = to;
   }
 
@@ -67,6 +71,9 @@ export class ObjectEditorStatus {
     this.searchValue = null;
     this.chosenSearchParam = null;
     this.chosenRelation = null;
+    this.chosenEditorSearchParam = null;
+    this.editorSearchValue = null;
+    this.chosenField = null;
     this.creator = new ObjectCreator();
     this.params = new ObjectParams();
     this.versionOfTypes = [];
