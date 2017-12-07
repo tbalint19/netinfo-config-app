@@ -28,7 +28,7 @@
     </h3>
     <hr>
 
-    <div class="well well-flex btn-group">
+    <div class="well well-flex">
       <select class="btn btn-{{status.chosenSearchParam ? 'info' : 'default'}}"
               id="dropdown-group"
               [(ngModel)]="status.chosenSearchParam">
@@ -45,10 +45,8 @@
              [(ngModel)]="status.searchValue"
              (keyup)="search(status.searchValue, status.chosenSearchParam)"
              placeholder="Value"
-             id="center-group"
-      >
-      <button class="btn btn-default" (click)="resetSearch()" id="button-group"
-      >
+             id="center-group">
+      <button class="btn btn-default" (click)="resetSearch()" id="button-group">
         All&nbsp;
         <span class="glyphicon glyphicon-refresh"></span>
       </button>
@@ -58,7 +56,7 @@
       </button>
     </div>
 
-    <p-dataTable [value]="search(status.searchValue, status.chosenSearchParam)"
+    <p-dataTable [value]="filteredList"
                  [rows]="10"
                  [paginator]="true"
                  [pageLinks]="5"

@@ -25,9 +25,11 @@ import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.e
 export class ObjectEditorComponent implements OnInit {
 
   protected structure: any;
+  protected referenceStructure: any;
   protected primitives: any[];
   protected complexStructures: any[];
   protected objectStructures: any[];
+  protected filteredList: OsccObject[] =[];
 
   constructor(protected status: ObjectEditorStatus,
               private _factory: DtoFactory,
@@ -316,22 +318,45 @@ export class ObjectEditorComponent implements OnInit {
   protected resetSearch(): void {
     this.status.chosenEditorSearchParam = null;
     this.status.editorSearchValue = null;
+    this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
   }
 
-  protected search(value: string, param: string, key: string, structureKey: string): OsccObject[] {
+  protected search(value: string, param: string, key: string, structureKey: string): void {
     if (value == null || param == null) {
-      return this.getObjects(key, structureKey);
+      this.filteredList = this.getObjects(key, structureKey);
     } else {
       if (param == "Id") {
-        return this.getObjects(key, structureKey).filter(entry => entry['id'].indexOf(value) > -1
+        this.filteredList = this.getObjects(key, structureKey).filter(entry => entry['id'].indexOf(value) > -1
         )
       }
       else {
-        return this.getObjects(key, structureKey).filter(entry => {
+        this.filteredList = this.getObjects(key, structureKey).filter(entry => {
           return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
         })
       }
     }
+  }
+
+
+
+  protected referenceStructureKeys(structureKey: string): string[] {
+    if (!structureKey || (structureKey && !this.isObjectList(this.structure[structureKey]))) {
+      return [];
+    }
+    let referenceVoTName = this.structure[structureKey].split('-')[0];
+    let fullStructure = this.objectStructures
+      .find(entry => Object.keys(entry)[0] == referenceVoTName);
+    let unpackedStructure = Object.values(fullStructure)[0];
+    return Object.keys(unpackedStructure);
+  }
+
+  protected isHiddenInner(key: string, chosenRelation: string): boolean {
+    let fullStructure = this.objectStructures
+      .find(entry => Object.keys(entry)[0] == this.structure[chosenRelation].split("-list")[0]);
+    let unpackedStructure = Object.values(fullStructure)[0];
+    let isObjectlist = unpackedStructure[key].includes("-list");
+    let isComplex = !isObjectlist && !(unpackedStructure[key].includes("number")) && !(unpackedStructure[key].includes("string")) && !(unpackedStructure[key].includes("boolean"));
+    return isObjectlist || isComplex;
   }
 
   protected resetFieldFilter() {
@@ -350,4 +375,11 @@ export class ObjectEditorComponent implements OnInit {
     return text? Math.ceil(text.length/100) : 1
   }
 
+  protected keyUpSearch(value: string, param: string, key: string, structureKey: string): void {
+    setTimeout(() => {
+      if (this.status.editorSearchValue == value && this.status.chosenEditorSearchParam == param) {
+        this.search(value, param, key, structureKey)
+      }
+    }, 700)
+  }
 }

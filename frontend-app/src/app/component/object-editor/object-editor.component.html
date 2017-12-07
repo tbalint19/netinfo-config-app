@@ -1,7 +1,7 @@
 <div class="row">
   <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
     <div class="field-filter btn-group">
-      <select class="btn btn-{{status.chosenField ? 'info' : 'default'}} dropdown-toggle"
+      <select class="btn btn-{{status.chosenField ? 'info' : 'default'}} dropdown-toggle" id="kover-button"
               [(ngModel)]="status.chosenField">
         <option [hidden] ="true" [ngValue]="null">
           Choose a field
@@ -65,16 +65,15 @@
     <div class="well well-sm well-flex" id="object-editor-search">
       <div>
         <div class="reference-selector">
-          <select class="btn {{ status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle"
-                  [(ngModel)]="status.chosenRelation">
-            <option
-                    [hidden] ="true"
+          <select class="btn {{ status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
+                  [(ngModel)]="status.chosenRelation"
+                  (ngModelChange)="search(status.editorSearchValue, status.chosenEditorSearchParam, $event, parseValue(structure[$event]))">
+            <option [hidden] ="true"
                     [ngValue]="null"
                     [selected]="!status.chosenRelation">
               Choose a reference
             </option>
-            <option
-                    *ngFor="let key of structureKeys()"
+            <option *ngFor="let key of structureKeys()"
                     [hidden]="!isObjectList(parseValue(structure[key]))"
                     [ngValue]="key">
               {{ key }}
@@ -83,13 +82,14 @@
         </div>
         <div class="btn-group orban">
           <select id="orban-button" class="btn btn-{{status.chosenEditorSearchParam ? 'info' : 'default'}} dropdown-toggle"
-                  [(ngModel)]="status.chosenEditorSearchParam">
+                  [(ngModel)]="status.chosenEditorSearchParam"
+                  [disabled]="!status.chosenRelation">
             <option [hidden] ="true" [ngValue]="null">
               Choose a search param
             </option>
-            <option *ngFor="let key of structureKeys()"
+            <option *ngFor="let key of referenceStructureKeys(status.chosenRelation)"
                     [ngValue]="key"
-                    [hidden]="isObjectList(parseValue(structure[key])) || isComplex(parseValue(structure[key]))">
+                    [hidden]="isHiddenInner(key, status.chosenRelation)">
               {{ key }}
             </option>
           </select>
@@ -100,16 +100,17 @@
         </div>
 
         <input class="form-control"
-                 [(ngModel)]="status.editorSearchValue"
-                 (keyup)="search(status.editorSearchValue, status.chosenEditorSearchParam)"
-                 placeholder="Value">
+               [(ngModel)]="status.editorSearchValue"
+               placeholder="Value"
+               [disabled]="!status.chosenRelation || !status.chosenEditorSearchParam"
+               (ngModelChange)="keyUpSearch(status.editorSearchValue, status.chosenEditorSearchParam, status.chosenRelation, parseValue(structure[status.chosenRelation]))">
 
       </div>
     </div>
 
     <div *ngFor="let key of structureKeys()">
       <div class="objects-content" *ngIf="status.chosenRelation == key">
-        <p-dataTable [value]="search(status.editorSearchValue, status.chosenEditorSearchParam, key, parseValue(structure[key]))"
+        <p-dataTable [value]="filteredList"
                      [rows]="10"
                      [paginator]="true"
                      [pageLinks]="10"
