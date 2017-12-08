@@ -83,7 +83,8 @@
         <div class="btn-group orban">
           <select id="orban-button" class="btn btn-{{status.chosenEditorSearchParam ? 'info' : 'default'}} dropdown-toggle"
                   [(ngModel)]="status.chosenEditorSearchParam"
-                  [disabled]="!status.chosenRelation">
+                  [disabled]="!status.chosenRelation"
+                  (ngModelChange)="resetSearchValue()">
             <option [hidden] ="true" [ngValue]="null">
               Choose a search param
             </option>

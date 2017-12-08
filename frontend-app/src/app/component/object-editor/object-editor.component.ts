@@ -316,8 +316,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected resetSearch(): void {
-    this.status.chosenEditorSearchParam = null;
-    this.status.editorSearchValue = null;
+    this.status.resetSearch();
     this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
   }
 
@@ -372,7 +371,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   private getNumberOfRows(text: string): number {
-    return text? Math.ceil(text.length/100) : 1
+    return text? Math.ceil(text.length/90) : 1
   }
 
   protected keyUpSearch(value: string, param: string, key: string, structureKey: string): void {
@@ -381,5 +380,10 @@ export class ObjectEditorComponent implements OnInit {
         this.search(value, param, key, structureKey)
       }
     }, 700)
+  }
+
+  protected resetSearchValue(): void {
+    this.status.resetEditorSearchValue()
+    this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
   }
 }
