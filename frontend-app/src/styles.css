@@ -1,3 +1,12 @@
 .block-container {
   padding: 10px;
 }
+
+@keyframes loadingAnimation {
+  0% { transform: rotateZ(0deg); }
+  100% { transform: rotateZ(360deg); }
+}
+
+.spinning-animation {
+  animation: loadingAnimation 1s linear infinite;
+}

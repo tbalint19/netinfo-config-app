@@ -46,9 +46,9 @@
              (keyup)="search(status.searchValue, status.chosenSearchParam)"
              placeholder="Value"
              id="center-group">
-      <button class="btn btn-default" (click)="resetSearch()" id="button-group">
+      <button class="btn btn-default" (click)="reset()" id="button-group">
         All&nbsp;
-        <span class="glyphicon glyphicon-refresh"></span>
+        <span class="glyphicon glyphicon-refresh" id="list-spinner"></span>
       </button>
       <button class="btn btn-default" (click)="openEditor()" id="orban-button">
         Add new {{ status.chosenVersionOfType.type.name }}&nbsp;

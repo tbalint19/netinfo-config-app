@@ -316,6 +316,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected resetSearch(): void {
+    this.addAnimation();
     this.status.resetSearch();
     this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
   }
@@ -334,9 +335,8 @@ export class ObjectEditorComponent implements OnInit {
         })
       }
     }
+    this.stopAnimation();
   }
-
-
 
   protected referenceStructureKeys(structureKey: string): string[] {
     if (!structureKey || (structureKey && !this.isObjectList(this.structure[structureKey]))) {
@@ -383,7 +383,19 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   protected resetSearchValue(): void {
-    this.status.resetEditorSearchValue()
+    this.status.resetEditorSearchValue();
     this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
+  }
+
+  private addAnimation(): void {
+    document.getElementById('editor-spinner').classList.add("spinning-animation")
+  }
+
+  private stopAnimation(): void {
+    setTimeout(() => {
+      if (document.getElementById('editor-spinner').classList.contains("spinning-animation")) {
+        document.getElementById('editor-spinner').classList.remove("spinning-animation")
+      }
+    }, 500)
   }
 }

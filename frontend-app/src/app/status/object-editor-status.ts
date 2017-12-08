@@ -30,6 +30,8 @@ export class ObjectEditorStatus {
   public versionOfTypes: VersionOfType[];
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
+  public chosenRelationalObject: OsccObject;
+  public relationalObjectPresenter: boolean;
 
 
   constructor(private _requestObserver: HttpClient,
