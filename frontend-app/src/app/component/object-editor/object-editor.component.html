@@ -83,7 +83,8 @@
         <div class="btn-group orban">
           <select id="orban-button" class="btn btn-{{status.chosenEditorSearchParam ? 'info' : 'default'}} dropdown-toggle"
                   [(ngModel)]="status.chosenEditorSearchParam"
-                  [disabled]="!status.chosenRelation">
+                  [disabled]="!status.chosenRelation"
+                  (ngModelChange)="resetSearchValue()">
             <option [hidden] ="true" [ngValue]="null">
               Choose a search param
             </option>
@@ -93,9 +94,12 @@
               {{ key }}
             </option>
           </select>
-          <button type="button" class="btn btn-default" (click)="resetSearch()">
+          <button type="button"
+                  class="btn btn-default"
+                  (click)="resetSearch()"
+                  [disabled]="!status.chosenRelation">
             All&nbsp;
-            <span class="glyphicon glyphicon-refresh"></span>
+            <span class="glyphicon glyphicon-refresh" id="editor-spinner"></span>
           </button>
         </div>
 
@@ -123,10 +127,15 @@
                   {{ object["id"] }}
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-warning">Info</button>
-                  <button class="{{ isInList(object, key) ? 'btn btn-info' : 'btn btn-default' }}"
+                  <button class="btn btn-warning">Info&nbsp;
+                    <span class="glyphicon  glyphicon-info-sign">
+                    </span>
+
+                  </button>
+                  <button class="{{ isInList(object, key) ? 'btn btn-info ' : 'btn btn-default' }}"
                           (click)="toggleList(object, key)">
-                    Toggle
+                    Toggle&nbsp;
+                    <span class="glyphicon glyphicon-{{ isInList(object, key) ? 'check ' : 'unchecked' }}"></span>
                   </button>
                 </div>
               </div>

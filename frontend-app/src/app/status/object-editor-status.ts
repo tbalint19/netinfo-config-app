@@ -30,6 +30,8 @@ export class ObjectEditorStatus {
   public versionOfTypes: VersionOfType[];
   public chosenVersionOfType: VersionOfType;
   public params: ObjectParams;
+  public chosenRelationalObject: OsccObject;
+  public relationalObjectPresenter: boolean;
 
 
   constructor(private _requestObserver: HttpClient,
@@ -64,6 +66,7 @@ export class ObjectEditorStatus {
   public toggleEditor(to: boolean): void {
     this.chosenRelation = null;
     this.chosenEditorSearchParam = null;
+    this.editorSearchValue = null;
     this._editorOpened = to;
   }
 
@@ -90,6 +93,17 @@ export class ObjectEditorStatus {
 
   public dataIsValid() {
     return this._validator.dataIsValid(this.creator.data['Id'])
+  }
+
+  public resetSearch(): void {
+    this.chosenEditorSearchParam = null;
+    this.editorSearchValue = null;
+  }
+
+  public resetEditorSearchValue() {
+    if (!!this.editorSearchValue) {
+      this.editorSearchValue = null;
+    }
   }
 }
 

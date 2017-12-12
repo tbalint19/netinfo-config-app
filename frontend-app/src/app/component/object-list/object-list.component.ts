@@ -168,15 +168,22 @@ export class ObjectListComponent implements OnInit {
       this.filteredList = this.filteredObjects();
     } else {
       if (param == "Id") {
-        this.filteredList = this.filteredObjects().filter(entry => entry['id'].indexOf(value) > -1
-        )
+        this.filteredList = this.filteredObjects().filter(entry => entry['id'].indexOf(value) > -1)
       }
       else {
         this.filteredList = this.filteredObjects().filter(entry => {
-          return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1;
+          return JSON.stringify(JSON.parse(entry.serializedData)[param]).indexOf(value) > -1
         })
       }
     }
+    this.stopAnimation()
+  }
+
+  protected reset(): void {
+    this.addAnimation();
+    this.status.chosenSearchParam = null;
+    this.status.searchValue = null;
+    this.search(null, null)
   }
 
   protected resetSearch(): void {
@@ -220,5 +227,17 @@ export class ObjectListComponent implements OnInit {
     return this.complexStructures.filter(
       entry => entry.hasOwnProperty(key)
     ).length == 1;
+  }
+
+  private addAnimation(): void {
+    document.getElementById('list-spinner').classList.add("spinning-animation")
+  }
+
+  private stopAnimation(): void {
+    setTimeout(() => {
+      if (document.getElementById('list-spinner') && document.getElementById('list-spinner').classList.contains("spinning-animation")) {
+        document.getElementById('list-spinner').classList.remove("spinning-animation")
+      }
+    }, 500)
   }
 }
