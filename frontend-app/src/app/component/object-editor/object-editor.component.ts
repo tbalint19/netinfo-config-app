@@ -16,6 +16,7 @@ import {Observable} from "rxjs/Observable";
 import {VersionOfTypeWithIds} from "../../model/response/version-of-type-with-ids";
 import {PreUpdateObjectsResponse} from "../../model/response/pre-update-objects-response";
 import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.enum";
+import {isNullOrUndefined, isUndefined} from "util";
 
 @Component({
   selector: 'object-editor',
@@ -57,7 +58,6 @@ export class ObjectEditorComponent implements OnInit {
   protected updateRestriction(): ObjectEditRestriction {
     return ObjectEditRestriction.UPDATE;
   }
-
 
   protected complexTypeKeys(complexTypeName: string): string[] {
     let structure = this.complexStructures.filter(
@@ -252,7 +252,11 @@ export class ObjectEditorComponent implements OnInit {
   private overWrite(object: OsccObject, relatedIds: any[], baseIds: any[]): void {
     let data = JSON.parse(object.serializedData);
     for (let key of Object.keys(data)) {
-      if (Array.isArray(data[key])) {
+      if (isUndefined(this.status.creator.data[key])) {
+        let currentValue = data[key];
+        data[key] = currentValue;
+      }
+      else if (Array.isArray(data[key])) {
         let newList = [];
         for (let Id of this.status.creator.data[key]) {
           if (relatedIds.includes(Id)) {
@@ -267,7 +271,8 @@ export class ObjectEditorComponent implements OnInit {
           }
         }
         data[key] = newList;
-      } else {
+      }
+      else {
         data[key] = this.status.creator.data[key];
       }
     }
