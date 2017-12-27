@@ -2,13 +2,13 @@
   <navbar-logo></navbar-logo>
   <div class="navbar-form navbar-right" id="navbar-margin-fix">
     <div class="form-group">
-      <input
+      <input appEnter [functionToCall]="attemptLogin.bind(this)"
         [(ngModel)]="user.credential"
         type="text"
         class="form-control"
         placeholder="Username">
 
-      <input
+      <input appEnter [functionToCall]="attemptLogin.bind(this)"
         [(ngModel)]="user.password"
         type="password"
         class="form-control"

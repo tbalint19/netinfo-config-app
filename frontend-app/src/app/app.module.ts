@@ -72,6 +72,7 @@ import {ObjectValidator} from "./validator/object-validator";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DataTableModule, SharedModule} from "primeng/primeng";
 import { EscapeDirective } from './directive/escape.directive';
+import { EnterDirective } from './directive/enter.directive';
 
 @NgModule({
   declarations: [
@@ -104,7 +105,8 @@ import { EscapeDirective } from './directive/escape.directive';
     ObjectListComponent,
     ObjectPopupComponent,
     StructureRefactorComponent,
-    EscapeDirective
+    EscapeDirective,
+    EnterDirective
   ],
   imports: [
     BrowserModule,

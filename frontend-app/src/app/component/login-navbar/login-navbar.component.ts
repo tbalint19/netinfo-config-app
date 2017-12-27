@@ -27,6 +27,7 @@ export class LoginNavbarComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.status.user.reset();
   }
 
   public attemptLogin(): void {

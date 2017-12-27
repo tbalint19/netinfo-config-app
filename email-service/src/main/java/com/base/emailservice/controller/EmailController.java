@@ -9,6 +9,8 @@ import com.base.emailservice.service.TemplateRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.CompletableFuture;
+
 @RestController
 @RequestMapping("/api/send")
 public class EmailController {
