@@ -4,5 +4,6 @@ import {Injectable} from "@angular/core";
 export class ConfirmModalStatus {
   public chosenSelector: string;
   public confirmModalIsShown: boolean;
+  public data: any;
 
 }

@@ -1,5 +1,7 @@
 <div class="row">
-  <div class="scrollable-list col-xs-8 col-sm-8 col-md-8 col-lg-8">
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 {{ !status.chosenObjectToSpectate && 'scrollable-list' }}">
+    <object-info *ngIf="status.chosenObjectToSpectate"></object-info>
+
     <div class="field-filter btn-group">
       <select class="btn btn-{{status.chosenField ? 'info' : 'default'}} dropdown-toggle" id="kover-button"
               [(ngModel)]="status.chosenField">
@@ -61,7 +63,7 @@
     </div>
   </div>
 
-  <div class="scrollable-list col-xs-4 col-sm-4 col-md-4 col-lg-4">
+  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 scrollable-list">
     <div class="well well-sm well-flex" id="object-editor-search">
       <div>
         <div class="reference-selector">
@@ -109,6 +111,21 @@
                [disabled]="!status.chosenRelation || !status.chosenEditorSearchParam"
                (ngModelChange)="keyUpSearch(status.editorSearchValue, status.chosenEditorSearchParam, status.chosenRelation, parseValue(structure[status.chosenRelation]))">
 
+        <div *ngIf="status.chosenRelation" class="my-block">
+          <button
+            class="btn btn-info btn-block"
+            (click)="addAll()">
+            Add all
+          </button>
+          <button
+            class="btn btn-default btn-block"
+            id="btn-fix"
+            (click)="deleteAll()">
+            Delete all
+          </button>
+        </div>
+
+
       </div>
     </div>
 
@@ -127,11 +144,11 @@
                   {{ object["id"] }}
                 </div>
                 <div class="btn-group">
-                  <button class="btn btn-warning">Info&nbsp;
+                  <button (click)="openObjectInfo(object)" class="btn btn-warning">Info&nbsp;
                     <span class="glyphicon  glyphicon-info-sign">
                     </span>
-
                   </button>
+
                   <button class="{{ isInList(object, key) ? 'btn btn-info ' : 'btn btn-default' }}"
                           (click)="toggleList(object, key)">
                     Toggle&nbsp;
@@ -158,3 +175,6 @@
   <span class="glyphicon glyphicon-refresh" id="loading"></span>
   <p>Please wait...</p>
 </div>
+
+
+

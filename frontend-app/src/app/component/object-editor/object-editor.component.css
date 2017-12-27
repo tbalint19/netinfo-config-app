@@ -108,3 +108,13 @@ textarea {
     font-size: 4em;
     animation: loadingAnimation 2s linear infinite;
 }
+
+.my-block {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+#btn-fix {
+    margin-top:0;
+}

@@ -75,6 +75,7 @@ import { EscapeDirective } from './directive/escape.directive';
 import { EnterDirective } from './directive/enter.directive';
 import { ConfirmationModalComponent } from './component/confirmation-modal/confirmation-modal.component';
 import {ConfirmModalStatus} from "./status/confirm-modal-status";
+import { ObjectInfoComponent } from './component/object-info/object-info.component';
 
 @NgModule({
   declarations: [
@@ -109,7 +110,8 @@ import {ConfirmModalStatus} from "./status/confirm-modal-status";
     StructureRefactorComponent,
     EscapeDirective,
     EnterDirective,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    ObjectInfoComponent
   ],
   imports: [
     BrowserModule,

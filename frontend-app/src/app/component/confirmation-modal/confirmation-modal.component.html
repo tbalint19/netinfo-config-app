@@ -1,6 +1,11 @@
 <div class="my-modal" id="confirm-modal">
   <h4>Confirm</h4>
   <p>Are you sure you want to create a new {{ status.chosenSelector }}?</p>
+  <div *ngFor="let key of getKeys(status.data)">
+    <div *ngIf="status.data[key]">
+      {{key}} {{status.data[key]}}
+    </div>
+  </div>
   <div class="btn-container">
     <button class="btn-info btn" (click)="save()">confirm</button>
     <button class="btn-default btn" (click)="closeModal()">cancel</button>

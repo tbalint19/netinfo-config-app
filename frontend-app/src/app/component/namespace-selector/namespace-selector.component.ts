@@ -57,6 +57,7 @@ export class NamespaceSelectorComponent implements OnInit {
   }
 
   private confirmCreate(): void {
+    this.confirmModalStatus.data = this.status.createdNamespace;
     this.confirmModalStatus.chosenSelector = "namespace";
     this.confirmModalStatus.confirmModalIsShown = true;
   }

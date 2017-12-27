@@ -403,4 +403,18 @@ export class ObjectEditorComponent implements OnInit {
       }
     }, 500)
   }
+
+  public addAll(): void {
+    this.status.creator.data[this.status.chosenRelation] = this.filteredList.map(
+      (osccObj: OsccObject) => JSON.parse(osccObj.serializedData)["Id"]
+    );
+  }
+
+  public deleteAll(): void {
+    this.status.creator.data[this.status.chosenRelation] = [];
+  }
+
+  public openObjectInfo(object: OsccObject): void {
+    this.status.chosenObjectToSpectate = JSON.parse(object.serializedData);
+  }
 }

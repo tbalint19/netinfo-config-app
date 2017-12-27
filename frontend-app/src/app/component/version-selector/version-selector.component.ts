@@ -59,6 +59,7 @@ export class VersionSelectorComponent implements OnInit {
   }
 
   private confirmCreate(): void {
+    this.confirmModalStatus.data = this.status.createdVersion;
     this.confirmModalStatus.chosenSelector = "version";
     this.confirmModalStatus.confirmModalIsShown = true;
   }

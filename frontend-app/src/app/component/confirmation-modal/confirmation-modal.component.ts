@@ -10,7 +10,7 @@ import {ConfirmModalStatus} from "../../status/confirm-modal-status";
 export class ConfirmationModalComponent implements OnInit {
 
   @Input()
-  public saveFunction: function;
+  public saveFunction: Function;
 
   constructor(private status: ConfirmModalStatus,) {
 
@@ -33,5 +33,9 @@ export class ConfirmationModalComponent implements OnInit {
   save(): void {
     this.saveFunction();
     this.closeModal();
+  }
+
+  getKeys(object: any): string[] {
+    return Object.keys(object);
   }
 }

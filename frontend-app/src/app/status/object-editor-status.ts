@@ -23,6 +23,7 @@ export class ObjectEditorStatus {
   public chosenEditorSearchParam: string;
   public editorSearchValue: string;
   public chosenRelation: string;
+  public chosenObjectToSpectate: any;
   public restriction: ObjectEditRestriction;
   public chosenStructure: any;
   public creator: ObjectCreator;

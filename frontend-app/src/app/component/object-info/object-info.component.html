@@ -1,0 +1,11 @@
+<div class="my-card-background">
+  <div class="my-card">
+    <button (click)="close()">x</button>
+    <div *ngFor="let key of getKeys(objectEditorStatus.chosenObjectToSpectate)">
+      <div *ngIf="shouldShow(objectEditorStatus.chosenObjectToSpectate[key])">
+        {{key}} {{objectEditorStatus.chosenObjectToSpectate[key]}}
+      </div>
+    </div>
+  </div>
+</div>
+
