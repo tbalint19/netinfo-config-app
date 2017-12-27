@@ -49,3 +49,8 @@
   <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 </button>
 
+<confirmation-modal
+  *ngIf="confirmModalStatus.confirmModalIsShown && confirmModalStatus.chosenSelector == 'version'"
+  [saveFunction]="saveVersion.bind(this)">
+</confirmation-modal>
+

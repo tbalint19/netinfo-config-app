@@ -8,6 +8,7 @@ import {Success} from "../../model/message/success.model";
 import {NamespaceStatus} from "../../status/namespace-status";
 import {ObjectEditorStatus} from "../../status/object-editor-status";
 import {VersionStatus} from "../../status/version-status";
+import {ConfirmModalStatus} from "../../status/confirm-modal-status";
 
 @Component({
   selector: 'namespace-selector',
@@ -19,6 +20,7 @@ export class NamespaceSelectorComponent implements OnInit {
   constructor(
     protected objectEditorStatus: ObjectEditorStatus,
     private _versionStatus: VersionStatus,
+    private confirmModalStatus: ConfirmModalStatus,
     private nameSpaceService: NamespaceService,
     private messages: MessageService,
     protected status: NamespaceStatus) {
@@ -51,8 +53,17 @@ export class NamespaceSelectorComponent implements OnInit {
       this.suspend();
       return;
     }
+    this.confirmCreate();
+  }
+
+  private confirmCreate(): void {
+    this.confirmModalStatus.chosenSelector = "namespace";
+    this.confirmModalStatus.confirmModalIsShown = true;
+  }
+
+  public saveNamespace(): void {
     this.nameSpaceService.createNamespace(this.status.createdNamespace).subscribe(
-        (response: SuccessResponse) => this.handleCreateResponse(response.successful)
+      (response: SuccessResponse) => this.handleCreateResponse(response.successful)
     );
   }
 

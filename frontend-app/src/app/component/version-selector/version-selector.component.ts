@@ -8,6 +8,7 @@ import {Error} from "../../model/message/error.model"
 import {Success} from "../../model/message/success.model";
 import {ObjectEditorStatus} from "../../status/object-editor-status";
 import {NamespaceStatus} from "../../status/namespace-status";
+import {ConfirmModalStatus} from "../../status/confirm-modal-status";
 
 @Component({
   selector: 'version-selector',
@@ -20,7 +21,8 @@ export class VersionSelectorComponent implements OnInit {
               private messages: MessageService,
               protected objectEditorStatus: ObjectEditorStatus,
               private namespaceStatus: NamespaceStatus,
-              protected status: VersionStatus) {
+              public confirmModalStatus: ConfirmModalStatus,
+              public status: VersionStatus) {
   }
 
   ngOnInit() {
@@ -53,6 +55,15 @@ export class VersionSelectorComponent implements OnInit {
       this.suspend();
       return;
     }
+    this.confirmCreate();
+  }
+
+  private confirmCreate(): void {
+    this.confirmModalStatus.chosenSelector = "version";
+    this.confirmModalStatus.confirmModalIsShown = true;
+  }
+
+  saveVersion(): void {
     this.versionService.createVersion(this.status.createdVersion).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response.successful)
     );

@@ -73,6 +73,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {DataTableModule, SharedModule} from "primeng/primeng";
 import { EscapeDirective } from './directive/escape.directive';
 import { EnterDirective } from './directive/enter.directive';
+import { ConfirmationModalComponent } from './component/confirmation-modal/confirmation-modal.component';
+import {ConfirmModalStatus} from "./status/confirm-modal-status";
 
 @NgModule({
   declarations: [
@@ -106,7 +108,8 @@ import { EnterDirective } from './directive/enter.directive';
     ObjectPopupComponent,
     StructureRefactorComponent,
     EscapeDirective,
-    EnterDirective
+    EnterDirective,
+    ConfirmationModalComponent
   ],
   imports: [
     BrowserModule,
@@ -154,6 +157,7 @@ import { EnterDirective } from './directive/enter.directive';
     StructureValidator,
     CreatorFactory,
     ObjectValidator,
+    ConfirmModalStatus
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

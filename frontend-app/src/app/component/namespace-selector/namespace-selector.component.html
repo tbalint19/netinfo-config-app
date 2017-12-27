@@ -28,3 +28,7 @@
     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 </button>
 
+<confirmation-modal
+  *ngIf="confirmModalStatus.confirmModalIsShown && confirmModalStatus.chosenSelector=='namespace'"
+  [saveFunction]="saveNamespace.bind(this)">
+</confirmation-modal>

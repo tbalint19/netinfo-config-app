@@ -1,0 +1,9 @@
+<div class="my-modal" id="confirm-modal">
+  <h4>Confirm</h4>
+  <p>Are you sure you want to create a new {{ status.chosenSelector }}?</p>
+  <div class="btn-container">
+    <button class="btn-info btn" (click)="save()">confirm</button>
+    <button class="btn-default btn" (click)="closeModal()">cancel</button>
+  </div>
+</div>
+<div class="my-modal-background" id="confirm-modal-background"></div>
