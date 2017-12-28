@@ -17,6 +17,7 @@ import {ObjectEditRestriction} from "../../model/enums/object-edit-restriction.e
 import {OsccObject} from "../../model/object-model";
 import {StructureUpdateDto} from "../../model/structure-update-dto";
 import {VersionStatus} from "../../status/version-status";
+import {StructureEditorService} from "../../service/editor/structure-editor.service";
 
 @Component({
   selector: 'structure-editor',
@@ -56,32 +57,17 @@ export class StructureEditorComponent implements OnInit {
     let typeId = this._status.creator.type.systemId;
     this._service.preUpdate(versionId, typeId).subscribe(
       (dto: StructureUpdateDto) => {
+        let service = new StructureEditorService(this._status.creator.structure);
         let updatedVersionOfTypes = dto.versionOfTypes.map(
-          (original: VersionOfType) => {
-            let newStructure = {};
-            let name = this._status.creator.type.name;
-            newStructure[name] = this._status.creator.structure;
-            original.structure = JSON.stringify(newStructure);
-            return original;
-          }
-        );
+          (original: VersionOfType) => service.updateVersionOfTypeWhenDelete(original));
         let updatedObjects = dto.objects.map(
-          (original: OsccObject) => {
-            let newObj = {};
-            for (let key of Object.keys(JSON.parse(original.serializedData))){
-              if (Object.keys(this._status.creator.structure).includes(key)){
-                newObj[key] = JSON.parse(original.serializedData)[key];
-              }
-            }
-            original.serializedData = JSON.stringify(newObj);
-            return original;
-          }
-        );
+          (original: OsccObject) => service.updateObjectWhenDelete(original));
         let updateDTO = new StructureUpdateDto(updatedObjects, updatedVersionOfTypes);
         this.sendDto(updateDTO);
       }
     );
   }
+
   private addToStructure(): void {
     let versionId = this.versionStatus.chosenVersion.systemId;
     let typeId = this._status.creator.type.systemId;
@@ -130,7 +116,6 @@ export class StructureEditorComponent implements OnInit {
       return [];
     } else {
       let complex = {};
-      console.log(this._status.complexParsedVersionOfType);
       let complexType = this._status.complexParsedVersionOfType.filter(
         (entry) => Object.keys(entry['structure'])[0] == type
       )[0];

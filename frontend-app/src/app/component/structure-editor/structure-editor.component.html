@@ -49,7 +49,7 @@
             &nbsp;-&nbsp;{{ getName(structure['structure']) }}-list
           </option>
         </select>
-        <input [disabled]="!(status.row.value == 'string' || _status.row.value == 'number' || _status.row.value == 'boolean')"
+        <input [disabled]="!(_status.row.value == 'string' || _status.row.value == 'number' || _status.row.value == 'boolean')"
           class="form-control"
           placeholder="Default value"
           [(ngModel)]="_status.row.defaultValue">
