@@ -6,9 +6,9 @@
   <span class="glyphicon glyphicon-wrench" aria-hidden="true"></span>
 </button>
 
-<div *ngIf="status.isOpen()" class="structure-creator-background" id="background"></div>
+<div *ngIf="_status.isOpen()" class="structure-creator-background" id="background"></div>
 
-<div *ngIf="status.isOpen()" class="structure-creator-container">
+<div *ngIf="_status.isOpen()" class="structure-creator-container">
   <div class="row">
     <div class="col-xs-10 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
       <div class="structure-creator" id="creator">
@@ -20,7 +20,7 @@
         </div>
 
         <structure-manager
-          *ngIf="status.isOpen()">
+          *ngIf="_status.isOpen()">
         </structure-manager>
 
       </div>

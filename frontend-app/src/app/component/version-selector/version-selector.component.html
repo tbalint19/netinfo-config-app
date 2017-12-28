@@ -1,15 +1,15 @@
 <select
-  class="btn {{ status.chosenVersion ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
-  [(ngModel)]="status.chosenVersion"
+  class="btn {{ _status.chosenVersion ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
+  [(ngModel)]="_status.chosenVersion"
   (ngModelChange)="handleModelChange()">
   <option
     [ngValue]="null"
     hidden="true"
-    [selected]="!status.chosenVersion">Select a version</option>
+    [selected]="!_status.chosenVersion">Select a version</option>
   <option
-    *ngFor="let version of status.versions"
+    *ngFor="let version of _status.versions"
     [ngValue]="version"
-    [selected]="status.chosenVersion && status.chosenVersion.systemId == version.systemId">
+    [selected]="_status.chosenVersion && _status.chosenVersion.systemId == version.systemId">
     {{ version.name }}
   </option>
 </select>
@@ -18,24 +18,24 @@
   class="form-control"
   type="text"
   placeholder="New version - name"
-  [(ngModel)]="status.createdVersion.name">
+  [(ngModel)]="_status.createdVersion.name">
 
 <input
   class="form-control"
   type="text"
   placeholder="New version - number"
-  [(ngModel)]="status.createdVersion.number">
+  [(ngModel)]="_status.createdVersion.number">
 
 <select
   class="btn btn-default dropdown-toggle btn-block"
-  [(ngModel)]="status.createdVersionsBaseVersion"
+  [(ngModel)]="_status.createdVersionsBaseVersion"
   (ngModelChange)="updateCreatedVersion()">
   <option
     [ngValue]="null"
     [hidden] ="true"
-    [selected]="!status.createdVersionsBaseVersion">Select base</option>
+    [selected]="!_status.createdVersionsBaseVersion">Select base</option>
   <option
-    *ngFor="let version of status.versions"
+    *ngFor="let version of _status.versions"
     [ngValue]="version">
     {{ version.name }}
   </option>
@@ -44,7 +44,7 @@
 <button
   class="btn btn-default btn-block"
   (click)="createVersion()"
-  [disabled]="status.isPendingCreate() || status.isSuspended()">
+  [disabled]="_status.isPendingCreate() || _status.isSuspended()">
   Create version&nbsp;
   <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
 </button>

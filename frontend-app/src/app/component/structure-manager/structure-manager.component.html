@@ -1,12 +1,12 @@
-<div *ngIf="!status.isActive()" class="manager-container scrollable-list">
+<div *ngIf="!_status.isActive()" class="manager-container scrollable-list">
 
-  <button (click)="status.toggleEditor(true)" class="btn btn-info">
+  <button (click)="_status.toggleEditor(true)" class="btn btn-info">
     Create new type
     <span class="glyphicon glyphicon-plus-sign"></span>
   </button>
 
   <structure-selector
-    *ngFor="let versionOfType of status.objectParsedVersionOfType"
+    *ngFor="let versionOfType of _status.objectParsedVersionOfType"
     [type]="'object'"
     [versionOfType]="versionOfType">
   </structure-selector>
@@ -14,7 +14,7 @@
   <hr>
 
   <structure-selector
-    *ngFor="let versionOfType of status.complexParsedVersionOfType"
+    *ngFor="let versionOfType of _status.complexParsedVersionOfType"
     [type]="'complex'"
     [versionOfType]="versionOfType">
   </structure-selector>
@@ -22,6 +22,6 @@
 </div>
 
 <structure-editor
-  [editedStructure]="status.editedStructure"
-  *ngIf="status.isActive()">
+  [editedStructure]="_status.editedStructure"
+  *ngIf="_status.isActive()">
 </structure-editor>

@@ -19,10 +19,10 @@ export class VersionSelectorComponent implements OnInit {
 
   constructor(private versionService: VersionService,
               private messages: MessageService,
-              protected objectEditorStatus: ObjectEditorStatus,
+              public objectEditorStatus: ObjectEditorStatus,
               private namespaceStatus: NamespaceStatus,
               public confirmModalStatus: ConfirmModalStatus,
-              public status: VersionStatus) {
+              public _status: VersionStatus) {
   }
 
   ngOnInit() {
@@ -36,10 +36,10 @@ export class VersionSelectorComponent implements OnInit {
   }
 
   private handleVersionUpdate(versions: Version[]) {
-    this.status.versions = versions.sort(this.versionSort);
+    this._status.versions = versions.sort(this.versionSort);
     if (localStorage.getItem('version')) {
       let versionFromStorage = JSON.parse(localStorage.getItem('version'));
-      this.status.chosenVersion = this.status.versions.find(
+      this._status.chosenVersion = this._status.versions.find(
         (entry) => entry.systemId == versionFromStorage.systemId
       );
       this.notify();
@@ -51,7 +51,7 @@ export class VersionSelectorComponent implements OnInit {
   }
 
   public createVersion(): void {
-    if (!this.status.dataIsValid()) {
+    if (!this._status.dataIsValid()) {
       this.suspend();
       return;
     }
@@ -59,28 +59,28 @@ export class VersionSelectorComponent implements OnInit {
   }
 
   private confirmCreate(): void {
-    this.confirmModalStatus.data = this.status.createdVersion;
+    this.confirmModalStatus.data = this._status.createdVersion;
     this.confirmModalStatus.chosenSelector = "version";
     this.confirmModalStatus.confirmModalIsShown = true;
   }
 
   saveVersion(): void {
-    this.versionService.createVersion(this.status.createdVersion).subscribe(
+    this.versionService.createVersion(this._status.createdVersion).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response.successful)
     );
   }
 
   private suspend(): void {
     switch (true) {
-      case !this.status.nameIsValid(): {
+      case !this._status.nameIsValid(): {
         this.messages.add(new Error("Invalid data", "Name is invalid"));
         break;
       }
-      case !this.status.numberIsValid(): {
+      case !this._status.numberIsValid(): {
         this.messages.add(new Error("Invalid data", "Version is invalid"));
         break;
       }
-      case !this.status.orderInBundleIsValid(): {
+      case !this._status.orderInBundleIsValid(): {
         this.messages.add(new Error("Invalid data", "No base version"));
         break;
       }
@@ -94,18 +94,18 @@ export class VersionSelectorComponent implements OnInit {
     }
     this.messages.add(new Success("Success", "Version created"));
     this.updateVersions();
-    this.status.createdVersion.reset();
-    this.status.createdVersionsBaseVersion = null;
-    this.status.createdVersion.orderInBundle = 1;
+    this._status.createdVersion.reset();
+    this._status.createdVersionsBaseVersion = null;
+    this._status.createdVersion.orderInBundle = 1;
   }
 
   updateCreatedVersion() {
-    this.status.createdVersion.orderInBundle = this.status.createdVersionsBaseVersion.orderInBundle + 1;
+    this._status.createdVersion.orderInBundle = this._status.createdVersionsBaseVersion.orderInBundle + 1;
   }
 
-  protected handleModelChange(): void {
+  handleModelChange(): void {
     this.notify();
-    localStorage.setItem('version', JSON.stringify(this.status.chosenVersion));
+    localStorage.setItem('version', JSON.stringify(this._status.chosenVersion));
     this.objectEditorStatus.chosenVersionOfType = null;
   }
 

@@ -14,21 +14,21 @@ export class SignupUsernameInputComponent implements OnInit {
 
   public user: SignupUser;
 
-  constructor(private service: SignupService, protected status: SignupStatus) {
-    this.user = this.status.user;
+  constructor(private service: SignupService, public _status: SignupStatus) {
+    this.user = this._status.user;
   }
 
   ngOnInit() {
   }
 
-  protected checkUsername(): void {
-    if (!this.status.usernameIsValid()){ return; }
+  checkUsername(): void {
+    if (!this._status.usernameIsValid()){ return; }
     this.service.checkUsername(new CheckUsernameParams(this.user.username))
       .subscribe((response: CheckResponse) => this.handleResponse(response));
   }
 
   private handleResponse(response: CheckResponse): void {
-    this.status.setUsernameAvailability(response.available);
+    this._status.setUsernameAvailability(response.available);
   }
 
 }

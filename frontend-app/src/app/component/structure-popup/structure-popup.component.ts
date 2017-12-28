@@ -14,9 +14,9 @@ import {PopupStatus} from "../../status/popup-status";
 export class StructurePopupComponent implements OnInit {
 
   constructor(
-    protected status: PopupStatus,
-    protected versionStatus: VersionStatus,
-    protected namespaceStatus: NamespaceStatus,
+    public _status: PopupStatus,
+    public versionStatus: VersionStatus,
+    public namespaceStatus: NamespaceStatus,
     private _structureStatus: StructureStatus) {
   }
 
@@ -25,14 +25,14 @@ export class StructurePopupComponent implements OnInit {
 
   openPopup(): void {
     this._structureStatus.initialize();
-    this.status.toggle(true);
+    this._status.toggle(true);
   }
 
   closePopup(): void {
     document.getElementById("creator").classList.add("slideaway");
     document.getElementById("background").classList.add("disappear");
     setTimeout(()=>{
-      this.status.toggle(false);
+      this._status.toggle(false);
     }, 500);
   }
 

@@ -18,12 +18,12 @@ import {ConfirmModalStatus} from "../../status/confirm-modal-status";
 export class NamespaceSelectorComponent implements OnInit {
 
   constructor(
-    protected objectEditorStatus: ObjectEditorStatus,
+    public objectEditorStatus: ObjectEditorStatus,
     private _versionStatus: VersionStatus,
-    private confirmModalStatus: ConfirmModalStatus,
+    public confirmModalStatus: ConfirmModalStatus,
     private nameSpaceService: NamespaceService,
     private messages: MessageService,
-    protected status: NamespaceStatus) {
+    public _status: NamespaceStatus) {
   }
 
   ngOnInit() {
@@ -38,18 +38,18 @@ export class NamespaceSelectorComponent implements OnInit {
   }
 
   private handleUpdateNamespace(namespaces: Namespace[]): void {
-    this.status.namespaces = namespaces;
+    this._status.namespaces = namespaces;
     if (localStorage.getItem('namespace')) {
       let namespaceFromStorage = JSON.parse(localStorage.getItem('namespace'));
-      this.status.chosenNamespace = this.status.namespaces.find(
+      this._status.chosenNamespace = this._status.namespaces.find(
         (entry) => entry.systemId == namespaceFromStorage.systemId
       );
       this.notify();
     }
   }
 
-  protected createNamespace(): void {
-    if (!this.status.isValid() || !this.status.isAvailable()) {
+  createNamespace(): void {
+    if (!this._status.isValid() || !this._status.isAvailable()) {
       this.suspend();
       return;
     }
@@ -57,21 +57,21 @@ export class NamespaceSelectorComponent implements OnInit {
   }
 
   private confirmCreate(): void {
-    this.confirmModalStatus.data = this.status.createdNamespace;
+    this.confirmModalStatus.data = this._status.createdNamespace;
     this.confirmModalStatus.chosenSelector = "namespace";
     this.confirmModalStatus.confirmModalIsShown = true;
   }
 
   public saveNamespace(): void {
-    this.nameSpaceService.createNamespace(this.status.createdNamespace).subscribe(
+    this.nameSpaceService.createNamespace(this._status.createdNamespace).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response.successful)
     );
   }
 
   private suspend(): void {
     this.messages.add(new Error("Invalid format!", "No namespace created"));
-    this.status.setSuspended(true);
-    setTimeout(()=>{this.status.setSuspended(false)}, 5000);
+    this._status.setSuspended(true);
+    setTimeout(()=>{this._status.setSuspended(false)}, 5000);
   }
 
   private handleCreateResponse(successful: boolean): void {
@@ -80,13 +80,13 @@ export class NamespaceSelectorComponent implements OnInit {
       return;
     }
     this.messages.add(new Success("Success", "Namespace created"));
-    this.status.createdNamespace.reset();
+    this._status.createdNamespace.reset();
     this.updateNamespaces();
   }
 
-  protected handleModelChange(): void {
+  handleModelChange(): void {
     this.notify();
-    localStorage.setItem('namespace', JSON.stringify(this.status.chosenNamespace));
+    localStorage.setItem('namespace', JSON.stringify(this._status.chosenNamespace));
     this.objectEditorStatus.chosenVersionOfType = null;
   }
 

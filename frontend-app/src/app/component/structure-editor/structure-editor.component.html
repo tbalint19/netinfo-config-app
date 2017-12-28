@@ -2,71 +2,71 @@
   <div class="container-box">
     <h4>Create new type</h4>
     <div class="type-editor">
-      <input class="form-control" [(ngModel)]="status.creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) "
-             [disabled]="status.restriction != NONE()">
+      <input class="form-control" [(ngModel)]="_status.creator.type.name" placeholder="Name (for example: offer, addon, psmcodes...) "
+             [disabled]="_status.restriction != NONE()">
       <span class="check-box-label">Object</span>
       <input
         class="form-control check-box" type="checkbox"
-        [(ngModel)]="status.creator.type.complex"
+        [(ngModel)]="_status.creator.type.complex"
         (ngModelChange)="reportTypeChange()"
-        [disabled]="status.restriction != NONE()">
+        [disabled]="_status.restriction != NONE()">
 
       <span class="check-box-label">Common</span>
-      <input class="form-control check-box" type="checkbox" [(ngModel)]="status.creator.isCommon" [disabled]="status.restriction != NONE()">
+      <input class="form-control check-box" type="checkbox" [(ngModel)]="_status.creator.isCommon" [disabled]="_status.restriction != NONE()">
     </div>
   </div>
 
   <div class="container-box">
     <h4>Edit structure</h4>
     <div class="scrollable-list">
-      <div *ngFor="let key of getKeys(status.creator.structure)" class="one-field">
+      <div *ngFor="let key of getKeys(_status.creator.structure)" class="one-field">
         <span class="one-field-content">{{ key }}</span>
-        <span class="one-field-content">{{ status.creator.structure[key] }}</span>
+        <span class="one-field-content">{{ _status.creator.structure[key] }}</span>
         <span>
           <button
             class="btn btn-danger" (click)="deleteRow(key)"
-            [disabled]="status.restriction == UPDATE() || key == 'id'">
+            [disabled]="_status.restriction == UPDATE() || key == 'id'">
             Delete
           </button>
         </span>
       </div>
     </div>
 
-    <div *ngIf="status.isEdited()">
+    <div *ngIf="_status.isEdited()">
       <div class="structure-editor">
-        <input class="form-control" [(ngModel)]="status.row.name" placeholder="Name (for example: id, price, active...)">
-        <select class="btn btn-default" [(ngModel)]="status.row.value">
+        <input class="form-control" [(ngModel)]="_status.row.name" placeholder="Name (for example: id, price, active...)">
+        <select class="btn btn-default" [(ngModel)]="_status.row.value">
           <option disabled>Primitives:</option>
           <option *ngFor="let structure of primitiveStructures()" [ngValue]="getName(structure)">
             &nbsp;-&nbsp;{{ getName(structure) }}
           </option>
           <option disabled>Complex types:</option>
-          <option *ngFor="let structure of status.complexParsedVersionOfType" [ngValue]="getName(structure['structure'])">
+          <option *ngFor="let structure of _status.complexParsedVersionOfType" [ngValue]="getName(structure['structure'])">
             &nbsp;-&nbsp;{{ getName(structure['structure']) }}
           </option>
           <option disabled>Objects:</option>
-          <option *ngFor="let structure of status.objectParsedVersionOfType" [ngValue]="getName(structure['structure']) + '-list'">
+          <option *ngFor="let structure of _status.objectParsedVersionOfType" [ngValue]="getName(structure['structure']) + '-list'">
             &nbsp;-&nbsp;{{ getName(structure['structure']) }}-list
           </option>
         </select>
-        <input [disabled]="!(status.row.value == 'string' || status.row.value == 'number' || status.row.value == 'boolean')"
+        <input [disabled]="!(status.row.value == 'string' || _status.row.value == 'number' || _status.row.value == 'boolean')"
           class="form-control"
           placeholder="Default value"
-          [(ngModel)]="status.row.defaultValue">
-        <button class="btn btn-info" (click)="saveRow()" [disabled]="!status.rowIsValid()">Add</button>
+          [(ngModel)]="_status.row.defaultValue">
+        <button class="btn btn-info" (click)="saveRow()" [disabled]="!_status.rowIsValid()">Add</button>
       </div>
     </div>
 
     <div class="toggle-button-container">
       <button
         class="btn btn-default"
-        (click)="status.toggleNewRow(!status.isEdited())" [disabled]="status.restriction == DELETE()">
-        {{ status.isEdited() ? 'Cancel' : 'New field'}}
+        (click)="_status.toggleNewRow(!_status.isEdited())" [disabled]="_status.restriction == DELETE()">
+        {{ _status.isEdited() ? 'Cancel' : 'New field'}}
       </button>
     </div>
   </div>
 
 
-  <button class="btn btn-info" (click)="update()" [disabled]="!status.creatorIsValid()">Save</button>
-  <button class="btn btn-default" (click)="status.toggleEditor(false)">Cancel</button>
+  <button class="btn btn-info" (click)="update()" [disabled]="!_status.creatorIsValid()">Save</button>
+  <button class="btn btn-default" (click)="_status.toggleEditor(false)">Cancel</button>
 </div>

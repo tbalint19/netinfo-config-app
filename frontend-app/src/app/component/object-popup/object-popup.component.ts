@@ -8,7 +8,7 @@ import {ObjectEditorStatus} from "../../status/object-editor-status";
 })
 export class ObjectPopupComponent implements OnInit {
 
-  constructor(protected status: ObjectEditorStatus) { }
+  constructor(public _status: ObjectEditorStatus) { }
 
   ngOnInit() {
   }
@@ -17,7 +17,7 @@ export class ObjectPopupComponent implements OnInit {
     document.getElementById("creator").classList.add("slideaway");
     document.getElementById("background").classList.add("disappear");
     setTimeout(()=>{
-      this.status.toggleEditor(false);
+      this._status.toggleEditor(false);
     }, 500);
   }
 

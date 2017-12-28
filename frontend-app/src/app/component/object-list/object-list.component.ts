@@ -25,17 +25,17 @@ import {RenderElements} from "../../model/render-elements.enum";
 })
 export class ObjectListComponent implements OnInit {
 
-  protected structure: any;
-  protected primitives: any[];
-  protected complexStructures: any[];
-  protected filteredList: OsccObject[] = [];
+  structure: any;
+  primitives: any[];
+  complexStructures: any[];
+  filteredList: OsccObject[] = [];
 
 
   constructor(
-    protected status: ObjectEditorStatus,
-    protected namespaceStatus: NamespaceStatus,
-    protected versionStatus: VersionStatus,
-    protected structureStatus: StructureStatus,
+    public _status: ObjectEditorStatus,
+    public namespaceStatus: NamespaceStatus,
+    public versionStatus: VersionStatus,
+    public structureStatus: StructureStatus,
     private renderer: RenderService,
     private _structureService: StructureService,
     private _service: ObjectService,
@@ -48,7 +48,7 @@ export class ObjectListComponent implements OnInit {
   }
 
   private getObjects(): void {
-    this._service.getObjects(this.status.params).subscribe(
+    this._service.getObjects(this._status.params).subscribe(
       (response: OsccObject[]) => this.handleGetObjectsResponse(response)
     );
   }
@@ -60,14 +60,14 @@ export class ObjectListComponent implements OnInit {
   }
 
   private monitor(): void {
-    this.status.shouldReFetch.subscribe(should => {
+    this._status.shouldReFetch.subscribe(should => {
 
       if (should && this.namespaceStatus.chosenNamespace && this.versionStatus.chosenVersion) {
-        this.status.setReFetch(false);
+        this._status.setReFetch(false);
         this.structureStatus.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
-        this.status.params.namespaceSystemId = this.namespaceStatus.chosenNamespace.systemId;
+        this._status.params.namespaceSystemId = this.namespaceStatus.chosenNamespace.systemId;
         this.structureStatus.params.versionId = this.versionStatus.chosenVersion.systemId;
-        this.status.params.versionSystemId = this.versionStatus.chosenVersion.systemId;
+        this._status.params.versionSystemId = this.versionStatus.chosenVersion.systemId;
         this.getObjects();
         this.getVersionOfTypes();
       }
@@ -75,32 +75,32 @@ export class ObjectListComponent implements OnInit {
   }
 
   private handleGetObjectsResponse(response: OsccObject[]) {
-    this.status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1);
+    this._status.objects = response.sort((one: OsccObject, other: OsccObject) => one['id'] > other['id'] ? 1 : -1);
     this.search(null, null)
   }
 
   private handleGetStructuresResponse(response: VersionOfType[]) {
-    this.status.versionOfTypes = response;
+    this._status.versionOfTypes = response;
   }
 
-  protected objectStructures() {
-    return this.status.versionOfTypes.filter(entry => entry.type.complex)
+  objectStructures() {
+    return this._status.versionOfTypes.filter(entry => entry.type.complex)
       .sort((one: VersionOfType, other: VersionOfType) => one.type.systemId > other.type.systemId ? -1 : 1
       )
   }
 
-  protected chooseVersionOfType(versionOfType: VersionOfType): void {
-    this.status.chosenVersionOfType = versionOfType;
+  chooseVersionOfType(versionOfType: VersionOfType): void {
+    this._status.chosenVersionOfType = versionOfType;
     this.resetSearch();
     this.search(null, null)
   }
 
-  protected filteredObjects(): OsccObject[] {
-     return this.status.chosenVersionOfType ? this.status.objects.filter(
-      entry => entry.versionOfType.systemId == this.status.chosenVersionOfType.systemId) : [];
+  filteredObjects(): OsccObject[] {
+     return this._status.chosenVersionOfType ? this._status.objects.filter(
+      entry => entry.versionOfType.systemId == this._status.chosenVersionOfType.systemId) : [];
   }
 
-  protected deleteObject(object: OsccObject): void {
+  deleteObject(object: OsccObject): void {
     let orderInBundle = this.versionStatus.chosenVersion.orderInBundle;
     this._service.preDelete(object['id'], orderInBundle).subscribe(
       (response: OsccObject[]) => {
@@ -127,10 +127,10 @@ export class ObjectListComponent implements OnInit {
     );
   }
 
-  protected openEditor(object?: OsccObject): void {
-    this.status.creator = this._creatorFactory.createObjectCreator(object);
-    this.status.restriction = object ? ObjectEditRestriction.UPDATE : ObjectEditRestriction.CREATE;
-    this.status.toggleEditor(true);
+  openEditor(object?: OsccObject): void {
+    this._status.creator = this._creatorFactory.createObjectCreator(object);
+    this._status.restriction = object ? ObjectEditRestriction.UPDATE : ObjectEditRestriction.CREATE;
+    this._status.toggleEditor(true);
   }
 
   private remove(list: any[], element: any): any[] {
@@ -140,13 +140,13 @@ export class ObjectListComponent implements OnInit {
   private handleDeleteResponse(response: SuccessResponse): void {
     if (response.successful) {
       this._messages.add(new Success('Successful', 'Delete is completed'));
-      this.status.setReFetch(true);
+      this._status.setReFetch(true);
     } else {
       this._messages.add(new Error());
     }
   }
 
-  protected render(rootObject: OsccObject): void {
+  render(rootObject: OsccObject): void {
     this._service.requestPreRenderData(rootObject).subscribe(
       (dto: PreRenderDTO) => {
         this.renderer.initialize(dto.objects, dto.versionOfTypes);
@@ -155,15 +155,15 @@ export class ObjectListComponent implements OnInit {
     );
   }
 
-  protected isActive(versionOfType: VersionOfType): string {
-    return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId ? 'btn-info' : 'btn-default'
+  isActive(versionOfType: VersionOfType): string {
+    return this._status.chosenVersionOfType && this._status.chosenVersionOfType.type.systemId == versionOfType.type.systemId ? 'btn-info' : 'btn-default'
   }
 
-  protected chevronDirection(versionOfType: VersionOfType): string {
-    return this.status.chosenVersionOfType && this.status.chosenVersionOfType.type.systemId == versionOfType.type.systemId? 'right' : 'left'
+  chevronDirection(versionOfType: VersionOfType): string {
+    return this._status.chosenVersionOfType && this._status.chosenVersionOfType.type.systemId == versionOfType.type.systemId? 'right' : 'left'
   }
 
-  protected search(value: string, param: any): void {
+  search(value: string, param: any): void {
     if (value == null ||  param == null) {
       this.filteredList = this.filteredObjects();
     } else {
@@ -179,29 +179,29 @@ export class ObjectListComponent implements OnInit {
     this.stopAnimation()
   }
 
-  protected reset(): void {
+  reset(): void {
     this.addAnimation();
-    this.status.chosenSearchParam = null;
-    this.status.searchValue = null;
+    this._status.chosenSearchParam = null;
+    this._status.searchValue = null;
     this.search(null, null)
   }
 
-  protected resetSearch(): void {
-    this.status.chosenSearchParam = null;
-    this.status.searchValue = null;
+  resetSearch(): void {
+    this._status.chosenSearchParam = null;
+    this._status.searchValue = null;
   }
 
-  protected structureKeys(): string[] {
-    this.structure = JSON.parse(this.status.chosenVersionOfType.structure);
+  structureKeys(): string[] {
+    this.structure = JSON.parse(this._status.chosenVersionOfType.structure);
     this.structure = this.structure[Object.keys(this.structure)[0]];
     this.primitives = this.getPrimitives();
-    this.complexStructures = this.status.versionOfTypes.filter(
+    this.complexStructures = this._status.versionOfTypes.filter(
       (entry) => !entry.type.complex
     ).map((entry) => JSON.parse(entry.structure));
     return Object.keys(this.structure);
   }
 
-  protected parseValue(key: string): string {
+  parseValue(key: string): string {
     return key.split(" ---> ")[0];
   }
 
@@ -214,7 +214,7 @@ export class ObjectListComponent implements OnInit {
     ]
   }
 
-  protected isObjectList(key: string): boolean {
+  isObjectList(key: string): boolean {
     let listName = key.split("-")[1];
     return this.primitives.filter(
       entry => entry.hasOwnProperty(listName)
@@ -223,7 +223,7 @@ export class ObjectListComponent implements OnInit {
     )[0][listName] == RenderElements.SELECT_LIST;
   }
 
-  protected isComplex(key: string): boolean {
+  isComplex(key: string): boolean {
     return this.complexStructures.filter(
       entry => entry.hasOwnProperty(key)
     ).length == 1;

@@ -15,17 +15,17 @@ export class StructureManagerComponent implements OnInit {
   constructor(
     private versionStatus: VersionStatus,
     private namespaceStatus: NamespaceStatus,
-    protected status: StructureStatus,
+    public _status: StructureStatus,
     private service: StructureService) { }
 
   ngOnInit() {
-    this.status.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
-    this.status.params.versionId = this.versionStatus.chosenVersion.systemId;
+    this._status.params.namespaceId = this.namespaceStatus.chosenNamespace.systemId;
+    this._status.params.versionId = this.versionStatus.chosenVersion.systemId;
     this.getVersionOfTypes();
   }
 
   private getVersionOfTypes(): void {
-    this.service.getStructures(this.status.params).subscribe(
+    this.service.getStructures(this._status.params).subscribe(
       (response: VersionOfType[]) => this.handleArrivedStructures(response)
     );
   }
@@ -36,12 +36,12 @@ export class StructureManagerComponent implements OnInit {
   }
 
   private handleArrivedStructures(response: VersionOfType[]): void {
-    this.status.objectParsedVersionOfType = response
+    this._status.objectParsedVersionOfType = response
       .filter(entry => entry.type.complex).sort((one: VersionOfType, other: VersionOfType) => {
       return one.type.systemId > other.type.systemId ? -1 : 1
       })
       .map(this.parseStructure);
-    this.status.complexParsedVersionOfType = response
+    this._status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)
       .map(this.parseStructure);
   }

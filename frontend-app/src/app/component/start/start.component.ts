@@ -10,8 +10,8 @@ import {LoginStatus} from "../../status/login-status";
 export class StartComponent implements OnInit {
 
   constructor(
-    protected signupStatus: SignupStatus,
-    protected loginStatus: LoginStatus) {
+    public signupStatus: SignupStatus,
+    public loginStatus: LoginStatus) {
   }
 
   ngOnInit() {

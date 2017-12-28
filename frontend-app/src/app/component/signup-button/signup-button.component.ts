@@ -19,15 +19,15 @@ export class SignupButtonComponent implements OnInit {
   constructor(
     private service: SignupService,
     public messages: MessageService,
-    protected status: SignupStatus) {
-    this.user = this.status.user;
+    public _status: SignupStatus) {
+    this.user = this._status.user;
   }
 
   ngOnInit() {
   }
 
   public attemptSignup(): void {
-    if (!this.status.isPossible()) {
+    if (!this._status.isPossible()) {
       this.suspend();
       return;
     }
@@ -37,17 +37,17 @@ export class SignupButtonComponent implements OnInit {
   }
 
   private suspend(): void {
-    this.status.setSuspended(true);
+    this._status.setSuspended(true);
     this.messages.add(new Error("Error", "Invalid signup data"));
     setTimeout(()=>{
-      this.status.setSuspended(false);
+      this._status.setSuspended(false);
     }, 5000);
   }
 
   private handleSignupResponse(successful: boolean): void {
     if (successful) {
       this.messages.add(new Success("Successful signup", "You can log in now"));
-      this.status.user.reset();
+      this._status.user.reset();
     } else {
       this.messages.add(new Error("Ooops!", "Something went wrong"));
     }

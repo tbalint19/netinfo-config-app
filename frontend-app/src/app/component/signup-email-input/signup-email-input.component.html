@@ -3,28 +3,28 @@
   [(ngModel)]="user.email"
   (ngModelChange)="checkEmail()"
   placeholder="Email"
-  [disabled]="status.isPending()">
+  [disabled]="_status.isPending()">
 
 <input-info
-  *ngIf="!status.emailIsValid()"
+  *ngIf="!_status.emailIsValid()"
   [type]="'default'"
   [text]="'Enter your vodafone email address'">
 </input-info>
 
 <input-info
-  *ngIf="status.emailIsValid() && status.emailIsChecked()"
+  *ngIf="_status.emailIsValid() && _status.emailIsChecked()"
   [type]="'default'"
   [text]="'Checking...'">
 </input-info>
 
 <input-info
-  *ngIf="status.emailIsValid() && !status.emailIsChecked() && !status.emailIsAvailable()"
+  *ngIf="_status.emailIsValid() && !_status.emailIsChecked() && !_status.emailIsAvailable()"
   [type]="'error'"
   [text]="'Occupied'">
 </input-info>
 
 <input-info
-  *ngIf="status.emailIsValid() && !status.emailIsChecked() && status.emailIsAvailable()"
+  *ngIf="_status.emailIsValid() && !_status.emailIsChecked() && _status.emailIsAvailable()"
   [type]="'success'"
   [text]="'Available'">
 </input-info>

@@ -22,30 +22,30 @@ export class LoginNavbarComponent implements OnInit {
     private router: Router,
     private service: LoginService,
     private messages: MessageService,
-    protected status: LoginStatus) {
-    this.user = this.status.user;
+    public _status: LoginStatus) {
+    this.user = this._status.user;
   }
 
   ngOnInit() {
-    this.status.user.reset();
+    this._status.user.reset();
   }
 
   public attemptLogin(): void {
-    if (!this.status.isPossible()){
+    if (!this._status.isPossible()){
       this.suspend();
       return;
     }
     this.service.attemptLogin(this.user).subscribe(
       (response: TokenResponse) => this.handleLoginResponse(
-        response.token, this.status.user.credential)
+        response.token, this._status.user.credential)
     );
   }
 
   public suspend(): void {
-    this.status.setSuspended(true);
+    this._status.setSuspended(true);
     this.messages.add(new Error("Error", "Invalid login data"));
     setTimeout(()=>{
-      this.status.setSuspended(false);
+      this._status.setSuspended(false);
     }, 5000);
   }
 
@@ -71,7 +71,7 @@ export class LoginNavbarComponent implements OnInit {
   }
 
   public openReset(): void {
-    this.status.setResetActive(true);
+    this._status.setResetActive(true);
   }
 
 }

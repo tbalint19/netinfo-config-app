@@ -12,7 +12,7 @@ export class ConfirmationModalComponent implements OnInit {
   @Input()
   public saveFunction: Function;
 
-  constructor(private status: ConfirmModalStatus,) {
+  constructor(public _status: ConfirmModalStatus,) {
 
   }
 
@@ -25,8 +25,8 @@ export class ConfirmationModalComponent implements OnInit {
     modal.classList.add("my-modal-slide-out");
     background.classList.add("my-modal-background-disappear");
     setTimeout(() => {
-      this.status.confirmModalIsShown = false;
-      this.status.chosenSelector = null;
+      this._status.confirmModalIsShown = false;
+      this._status.chosenSelector = null;
     }, 700);
   }
 

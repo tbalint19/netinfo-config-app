@@ -25,27 +25,27 @@ import {isNullOrUndefined, isUndefined} from "util";
 })
 export class ObjectEditorComponent implements OnInit {
 
-  protected structure: any;
-  protected referenceStructure: any;
-  protected primitives: any[];
-  protected complexStructures: any[];
-  protected objectStructures: any[];
-  protected filteredList: OsccObject[] =[];
+  structure: any;
+  referenceStructure: any;
+  primitives: any[];
+  complexStructures: any[];
+  objectStructures: any[];
+  filteredList: OsccObject[] =[];
 
-  constructor(protected status: ObjectEditorStatus,
+  constructor(public _status: ObjectEditorStatus,
               private _factory: DtoFactory,
               private _service: ObjectService,
               private _messages: MessageService) {
   }
 
   ngOnInit() {
-    this.structure = JSON.parse(this.status.chosenVersionOfType.structure);
+    this.structure = JSON.parse(this._status.chosenVersionOfType.structure);
     this.structure = this.structure[Object.keys(this.structure)[0]];
     this.primitives = this.getPrimitives();
-    this.complexStructures = this.status.versionOfTypes.filter(
+    this.complexStructures = this._status.versionOfTypes.filter(
       (entry) => !entry.type.complex
     ).map((entry) => JSON.parse(entry.structure));
-    this.objectStructures = this.status.versionOfTypes.filter(
+    this.objectStructures = this._status.versionOfTypes.filter(
       (entry) => entry.type.complex
     ).map((entry) => JSON.parse(entry.structure));
     this.createBaseData();
@@ -55,17 +55,17 @@ export class ObjectEditorComponent implements OnInit {
     return Object.keys(this.structure);
   }
 
-  protected updateRestriction(): ObjectEditRestriction {
+  updateRestriction(): ObjectEditRestriction {
     return ObjectEditRestriction.UPDATE;
   }
 
-  protected complexTypeKeys(complexTypeName: string): string[] {
+  complexTypeKeys(complexTypeName: string): string[] {
     let structure = this.complexStructures.filter(
       (entry) => entry.hasOwnProperty(complexTypeName))[0];
     return Object.keys(structure[Object.keys(structure)[0]]);
   }
 
-  protected isText(key: string, complex?: string): boolean {
+  isText(key: string, complex?: string): boolean {
     let k = complex ? this.complexStructures.filter(
       (entry) => entry.hasOwnProperty(complex)
     )[0][complex][key] : key;
@@ -76,15 +76,15 @@ export class ObjectEditorComponent implements OnInit {
     )[0][k] == RenderElements.TEXT_INPUT;
   }
 
-  protected parseValue(key: string): string {
+  parseValue(key: string): string {
     return key.split(" ---> ")[0];
   }
 
-  protected getDefaultValue(key: string): string {
+  getDefaultValue(key: string): string {
     return key.split(" ---> ")[1] != "" ? key.split(" ---> ")[1] : null;
   }
 
-  protected isNumber(key: string, complex?: string): boolean {
+  isNumber(key: string, complex?: string): boolean {
     let k = complex ? this.complexStructures.filter(
       (entry) => entry.hasOwnProperty(complex)
     )[0][complex][key] : key;
@@ -95,7 +95,7 @@ export class ObjectEditorComponent implements OnInit {
     )[0][k] == RenderElements.NUMBER_INPUT;
   }
 
-  protected isBoolean(key: string, complex?: string): boolean {
+  isBoolean(key: string, complex?: string): boolean {
     let k = complex ? this.complexStructures.filter(
       (entry) => entry.hasOwnProperty(complex)
     )[0][complex][key] : key;
@@ -106,13 +106,13 @@ export class ObjectEditorComponent implements OnInit {
     )[0][k] == RenderElements.CHECK_BOX;
   }
 
-  protected isComplex(key: string): boolean {
+  isComplex(key: string): boolean {
     return this.complexStructures.filter(
       entry => entry.hasOwnProperty(key)
     ).length == 1;
   }
 
-  protected isObjectList(key: string): boolean {
+  isObjectList(key: string): boolean {
     let listName = key.split("-")[1];
     return this.primitives.filter(
       entry => entry.hasOwnProperty(listName)
@@ -122,22 +122,22 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   private createBaseData(): void {
-    this.status.creator.versionOfType = this.status.chosenVersionOfType;
+    this._status.creator.versionOfType = this._status.chosenVersionOfType;
     for (let key of this.structureKeys()) {
       if (this.isText(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this.status.creator.data[key];
+        this._status.creator.data[key] = this._status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this._status.creator.data[key];
       }
       if (this.isNumber(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this.status.creator.data[key];
+        this._status.creator.data[key] = this._status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) : this._status.creator.data[key];
       }
       if (this.isBoolean(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) == "true" ? true : false : this.status.creator.data[key];
+        this._status.creator.data[key] = this._status.creator.data[key] === undefined ? this.getDefaultValue(this.structure[key]) == "true" ? true : false : this._status.creator.data[key];
       }
       if (this.isComplex(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? {} : this.status.creator.data[key];
+        this._status.creator.data[key] = this._status.creator.data[key] === undefined ? {} : this._status.creator.data[key];
       }
       if (this.isObjectList(this.parseValue(this.structure[key]))) {
-        this.status.creator.data[key] = this.status.creator.data[key] === undefined ? [] : this.status.creator.data[key];
+        this._status.creator.data[key] = this._status.creator.data[key] === undefined ? [] : this._status.creator.data[key];
       }
     }
   }
@@ -159,8 +159,8 @@ export class ObjectEditorComponent implements OnInit {
   }
 
 
-  protected getObjects(key: string, structureKey: string): OsccObject[] {
-    return this.status.objects.filter(
+  getObjects(key: string, structureKey: string): OsccObject[] {
+    return this._status.objects.filter(
       (entry) => {
         return entry.versionOfType.type.name == structureKey.split("-")[0]
       })
@@ -170,7 +170,7 @@ export class ObjectEditorComponent implements OnInit {
       )
   }
 
-  protected getIdentification(obj: OsccObject): string {
+  getIdentification(obj: OsccObject): string {
     return JSON.parse(obj.serializedData)['Id'];
   }
 
@@ -184,7 +184,7 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   public saveObject(): void {
-    if (this.status.creator.systemId) {
+    if (this._status.creator.systemId) {
       this.updateObject();
     } else {
       this.createObject();
@@ -193,30 +193,30 @@ export class ObjectEditorComponent implements OnInit {
 
   private handleCreateResponse(response: SuccessResponse) {
     if (response.successful) {
-      this.status.reset();
+      this._status.reset();
       this._messages.add(new Success('Success', 'Object created'));
     } else {
       this._messages.add(new Error('Oops', 'Something went wrong'))
     }
   }
 
-  protected isInList(object: OsccObject, key: string): boolean {
-    return this.status.creator.data[key].includes(JSON.parse(object.serializedData)['Id']);
+  isInList(object: OsccObject, key: string): boolean {
+    return this._status.creator.data[key].includes(JSON.parse(object.serializedData)['Id']);
   }
 
   toggleList(object: OsccObject, key: string): void {
-    let list = this.status.creator.data[key];
+    let list = this._status.creator.data[key];
     let Id = JSON.parse(object.serializedData)['Id'];
     if (this.isInList(object, key)) {
       let index = list.indexOf(Id);
-      this.status.creator.data[key].splice(index, 1);
+      this._status.creator.data[key].splice(index, 1);
     } else {
       list.push(Id);
     }
   }
 
   private updateObject(): void {
-    this.status.setUpdating(true);
+    this._status.setUpdating(true);
     this.preUpdate().subscribe(
       (response: PreUpdateObjectsResponse) => {
         this.bulkOverWrite(response.objects, response.versionOfTypeWithIds);
@@ -229,9 +229,9 @@ export class ObjectEditorComponent implements OnInit {
 
   private preUpdate(): Observable<PreUpdateObjectsResponse> {
     let params = new PreUpdateObjectsParams();
-    params.objectId = this.status.creator.data['Id'];
-    params.versionSystemId = this.status.creator.versionOfType.version.systemId;
-    params.namespaceSystemId = this.status.creator.versionOfType.type.namespace.systemId;
+    params.objectId = this._status.creator.data['Id'];
+    params.versionSystemId = this._status.creator.versionOfType.version.systemId;
+    params.namespaceSystemId = this._status.creator.versionOfType.type.namespace.systemId;
     return this._service.preFetchForUpdate(params)
   }
 
@@ -252,13 +252,13 @@ export class ObjectEditorComponent implements OnInit {
   private overWrite(object: OsccObject, relatedIds: any[], baseIds: any[]): void {
     let data = JSON.parse(object.serializedData);
     for (let key of Object.keys(data)) {
-      if (isUndefined(this.status.creator.data[key])) {
+      if (isUndefined(this._status.creator.data[key])) {
         let currentValue = data[key];
         data[key] = currentValue;
       }
       else if (Array.isArray(data[key])) {
         let newList = [];
-        for (let Id of this.status.creator.data[key]) {
+        for (let Id of this._status.creator.data[key]) {
           if (relatedIds.includes(Id)) {
             newList.push(Id);
           }
@@ -273,16 +273,16 @@ export class ObjectEditorComponent implements OnInit {
         data[key] = newList;
       }
       else {
-        data[key] = this.status.creator.data[key];
+        data[key] = this._status.creator.data[key];
       }
     }
     object.serializedData = JSON.stringify(data);
   }
 
   private handleUpdateResponse(response: SuccessResponse) {
-    this.status.setUpdating(false);
+    this._status.setUpdating(false);
     if (response.successful) {
-      this.status.reset();
+      this._status.reset();
       this._messages.add(new Success('Success', 'Object updated'));
     } else {
       this._messages.add(new Error('Oops', 'Something went wrong'))
@@ -290,29 +290,29 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   private createObject(): void {
-    if (!this.status.dataIsValid()) {
+    if (!this._status.dataIsValid()) {
       this._messages.add(new Error("Error", "Invalid id"));
       return;
     }
     this._service.saveObjects(
-      this._factory.createObjectCreateDto(this.status.creator)).subscribe(
+      this._factory.createObjectCreateDto(this._status.creator)).subscribe(
       (response: SuccessResponse) => this.handleCreateResponse(response)
     );
   }
 
-  protected multiLanguageDisabled(complexTypeKey: string, key: string): boolean {
+  multiLanguageDisabled(complexTypeKey: string, key: string): boolean {
     if (this.parseValue(this.structure[key]) != "multilanguage") {
       return false;
     }
     if (complexTypeKey == "unLocalized") {
-      let multilanguage = this.status.creator.data[key];
+      let multilanguage = this._status.creator.data[key];
       let allMultilanguageKeys = Object.keys(multilanguage).filter((entry) => entry != 'unLocalized');
       let anyFieldHasValue = allMultilanguageKeys
         .map((entry) => multilanguage[entry])
         .filter(this.exist).length > 0;
       return anyFieldHasValue;
     } else {
-      return this.exist(this.status.creator.data[key]['unLocalized']);
+      return this.exist(this._status.creator.data[key]['unLocalized']);
     }
   }
 
@@ -320,13 +320,13 @@ export class ObjectEditorComponent implements OnInit {
     return !(value == null || value == undefined || value == "");
   }
 
-  protected resetSearch(): void {
+  resetSearch(): void {
     this.addAnimation();
-    this.status.resetSearch();
-    this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
+    this._status.resetSearch();
+    this.search(null, null, this._status.chosenRelation, this.parseValue(this.structure[this._status.chosenRelation]))
   }
 
-  protected search(value: string, param: string, key: string, structureKey: string): void {
+  search(value: string, param: string, key: string, structureKey: string): void {
     if (value == null || param == null) {
       this.filteredList = this.getObjects(key, structureKey);
     } else {
@@ -343,7 +343,7 @@ export class ObjectEditorComponent implements OnInit {
     this.stopAnimation();
   }
 
-  protected referenceStructureKeys(structureKey: string): string[] {
+  referenceStructureKeys(structureKey: string): string[] {
     if (!structureKey || (structureKey && !this.isObjectList(this.structure[structureKey]))) {
       return [];
     }
@@ -354,7 +354,7 @@ export class ObjectEditorComponent implements OnInit {
     return Object.keys(unpackedStructure);
   }
 
-  protected isHiddenInner(key: string, chosenRelation: string): boolean {
+  isHiddenInner(key: string, chosenRelation: string): boolean {
     let fullStructure = this.objectStructures
       .find(entry => Object.keys(entry)[0] == this.structure[chosenRelation].split("-list")[0]);
     let unpackedStructure = Object.values(fullStructure)[0];
@@ -363,15 +363,15 @@ export class ObjectEditorComponent implements OnInit {
     return isObjectlist || isComplex;
   }
 
-  protected resetFieldFilter() {
-    this.status.chosenField = null;
+  resetFieldFilter() {
+    this._status.chosenField = null;
   }
 
-  protected shouldShow(key: string, chosenField: string): boolean {
+  shouldShow(key: string, chosenField: string): boolean {
     return chosenField == null || key == chosenField || key == 'Id';
   }
 
-  protected showRows(complexTypeKey: string, key: string, text: string): number {
+  showRows(complexTypeKey: string, key: string, text: string): number {
     return this.multiLanguageDisabled(complexTypeKey, key) ? 1 : this.getNumberOfRows(text)
   }
 
@@ -379,17 +379,17 @@ export class ObjectEditorComponent implements OnInit {
     return text? Math.ceil(text.length/90) : 1
   }
 
-  protected keyUpSearch(value: string, param: string, key: string, structureKey: string): void {
+  keyUpSearch(value: string, param: string, key: string, structureKey: string): void {
     setTimeout(() => {
-      if (this.status.editorSearchValue == value && this.status.chosenEditorSearchParam == param) {
+      if (this._status.editorSearchValue == value && this._status.chosenEditorSearchParam == param) {
         this.search(value, param, key, structureKey)
       }
     }, 700)
   }
 
-  protected resetSearchValue(): void {
-    this.status.resetEditorSearchValue();
-    this.search(null, null, this.status.chosenRelation, this.parseValue(this.structure[this.status.chosenRelation]))
+  resetSearchValue(): void {
+    this._status.resetEditorSearchValue();
+    this.search(null, null, this._status.chosenRelation, this.parseValue(this.structure[this._status.chosenRelation]))
   }
 
   private addAnimation(): void {
@@ -405,16 +405,16 @@ export class ObjectEditorComponent implements OnInit {
   }
 
   public addAll(): void {
-    this.status.creator.data[this.status.chosenRelation] = this.filteredList.map(
+    this._status.creator.data[this._status.chosenRelation] = this.filteredList.map(
       (osccObj: OsccObject) => JSON.parse(osccObj.serializedData)["Id"]
     );
   }
 
   public deleteAll(): void {
-    this.status.creator.data[this.status.chosenRelation] = [];
+    this._status.creator.data[this._status.chosenRelation] = [];
   }
 
   public openObjectInfo(object: OsccObject): void {
-    this.status.chosenObjectToSpectate = JSON.parse(object.serializedData);
+    this._status.chosenObjectToSpectate = JSON.parse(object.serializedData);
   }
 }

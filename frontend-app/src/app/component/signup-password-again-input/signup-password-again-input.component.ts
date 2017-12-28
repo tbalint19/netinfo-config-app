@@ -11,8 +11,8 @@ export class SignupPasswordAgainInputComponent implements OnInit {
 
   public user: SignupUser;
 
-  constructor(protected status: SignupStatus) {
-    this.user = this.status.user;
+  constructor(public _status: SignupStatus) {
+    this.user = this._status.user;
   }
 
   ngOnInit() {

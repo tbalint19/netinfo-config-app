@@ -23,13 +23,13 @@ export class ConfirmComponent implements OnInit {
 
   constructor(
     private confirmService: ConfirmService,
-    protected status: ConfirmStatus,
+    public _status: ConfirmStatus,
     private activatedRoute: ActivatedRoute,
     private location: Location,
     private messages: MessageService,
     private router: Router) {
-    this.resendParams = this.status.params;
-    this.confirmation = this.status.confirmation;
+    this.resendParams = this._status.params;
+    this.confirmation = this._status.confirmation;
   }
 
   ngOnInit() {
@@ -47,7 +47,7 @@ export class ConfirmComponent implements OnInit {
   }
 
   public attemptConfirm(): void {
-    if (!this.status.isPossible()){
+    if (!this._status.isPossible()){
       this.suspendConfirm();
       return;
     }
@@ -76,10 +76,10 @@ export class ConfirmComponent implements OnInit {
   }
 
   private suspendConfirm(): void {
-    this.status.setSuspended(true);
+    this._status.setSuspended(true);
     this.messages.add(new Error("Error", "Invalid data"));
     setTimeout(() => {
-      this.status.setSuspended(false);
+      this._status.setSuspended(false);
     }, 5000)
   }
 

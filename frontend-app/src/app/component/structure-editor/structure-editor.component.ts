@@ -26,7 +26,7 @@ import {VersionStatus} from "../../status/version-status";
 export class StructureEditorComponent implements OnInit {
 
   constructor(
-    protected status: StructureStatus,
+    public _status: StructureStatus,
     private _factory: DtoFactory,
     private versionStatus: VersionStatus,
     private namespaceStatus: NamespaceStatus,
@@ -38,29 +38,29 @@ export class StructureEditorComponent implements OnInit {
   ngOnInit() {
   }
 
-  protected update(): void {
-    if (this.status.restriction == StructureEditRestriction.NONE){ this.saveStructure(); }
-    if (this.status.restriction == StructureEditRestriction.UPDATE){ this.addToStructure(); }
-    if (this.status.restriction == StructureEditRestriction.DELETE){ this.deleteFromStructure(); }
+  update(): void {
+    if (this._status.restriction == StructureEditRestriction.NONE){ this.saveStructure(); }
+    if (this._status.restriction == StructureEditRestriction.UPDATE){ this.addToStructure(); }
+    if (this._status.restriction == StructureEditRestriction.DELETE){ this.deleteFromStructure(); }
   }
 
   private saveStructure(): void {
     this._service.save(this._factory.createTypeCreateDto(
-      this.status.creator, this.namespaceStatus.chosenNamespace)).subscribe(
+      this._status.creator, this.namespaceStatus.chosenNamespace)).subscribe(
       (response: SuccessResponse) => this.handleResponse(response)
     );
   }
 
   private deleteFromStructure(): void {
     let versionId = this.versionStatus.chosenVersion.systemId;
-    let typeId = this.status.creator.type.systemId;
+    let typeId = this._status.creator.type.systemId;
     this._service.preUpdate(versionId, typeId).subscribe(
       (dto: StructureUpdateDto) => {
         let updatedVersionOfTypes = dto.versionOfTypes.map(
           (original: VersionOfType) => {
             let newStructure = {};
-            let name = this.status.creator.type.name;
-            newStructure[name] = this.status.creator.structure;
+            let name = this._status.creator.type.name;
+            newStructure[name] = this._status.creator.structure;
             original.structure = JSON.stringify(newStructure);
             return original;
           }
@@ -69,7 +69,7 @@ export class StructureEditorComponent implements OnInit {
           (original: OsccObject) => {
             let newObj = {};
             for (let key of Object.keys(JSON.parse(original.serializedData))){
-              if (Object.keys(this.status.creator.structure).includes(key)){
+              if (Object.keys(this._status.creator.structure).includes(key)){
                 newObj[key] = JSON.parse(original.serializedData)[key];
               }
             }
@@ -84,14 +84,14 @@ export class StructureEditorComponent implements OnInit {
   }
   private addToStructure(): void {
     let versionId = this.versionStatus.chosenVersion.systemId;
-    let typeId = this.status.creator.type.systemId;
+    let typeId = this._status.creator.type.systemId;
     this._service.preUpdate(versionId, typeId).subscribe(
       (dto: StructureUpdateDto) => {
         let updatedVersionOfTypes = dto.versionOfTypes.map(
           (original: VersionOfType) => {
             let newStructure = {};
-            let name = this.status.creator.type.name;
-            newStructure[name] = this.status.creator.structure;
+            let name = this._status.creator.type.name;
+            newStructure[name] = this._status.creator.structure;
             original.structure = JSON.stringify(newStructure);
             return original;
           }
@@ -99,11 +99,11 @@ export class StructureEditorComponent implements OnInit {
         let updatedObjects = dto.objects.map(
           (original: OsccObject) => {
             let newObj = {};
-            for (let key of Object.keys(this.status.creator.structure)){
+            for (let key of Object.keys(this._status.creator.structure)){
               if (Object.keys(JSON.parse(original.serializedData)).includes(key)){
                 newObj[key] = JSON.parse(original.serializedData)[key];
               } else {
-                newObj[key] = this.calculate(this.status.creator.structure[key]);
+                newObj[key] = this.calculate(this._status.creator.structure[key]);
               }
             }
             original.serializedData = JSON.stringify(newObj);
@@ -130,8 +130,8 @@ export class StructureEditorComponent implements OnInit {
       return [];
     } else {
       let complex = {};
-      console.log(this.status.complexParsedVersionOfType);
-      let complexType = this.status.complexParsedVersionOfType.filter(
+      console.log(this._status.complexParsedVersionOfType);
+      let complexType = this._status.complexParsedVersionOfType.filter(
         (entry) => Object.keys(entry['structure'])[0] == type
       )[0];
       for (let key of Object.keys(complexType['structure'][type])){
@@ -155,44 +155,44 @@ export class StructureEditorComponent implements OnInit {
     }
   }
 
-  protected reportTypeChange(): void {
-    if (this.status.creator.type.complex) {
-      this.status.creator.structure['Id'] = "string";
+  reportTypeChange(): void {
+    if (this._status.creator.type.complex) {
+      this._status.creator.structure['Id'] = "string";
     } else {
-      delete this.status.creator.structure['Id'];
+      delete this._status.creator.structure['Id'];
     }
   }
 
-  protected saveRow() {
-    this.status.creator.structure[this.status.row.name] = this.status.row.value + " ---> " + this.status.row.defaultValue;
-    this.status.row.reset();
-    this.status.toggleNewRow(false);
+  saveRow() {
+    this._status.creator.structure[this._status.row.name] = this._status.row.value + " ---> " + this._status.row.defaultValue;
+    this._status.row.reset();
+    this._status.toggleNewRow(false);
   }
 
-  protected getKeys(obj: any): string[] {
+  getKeys(obj: any): string[] {
     return Object.keys(obj);
   }
 
-  protected getName(obj: any) {
+  getName(obj: any) {
     return Object.keys(obj)[0];
   }
 
-  protected deleteRow(key: string): void {
-    delete this.status.creator.structure[key];
+  deleteRow(key: string): void {
+    delete this._status.creator.structure[key];
   }
 
-  protected primitiveStructures(): any[] {
-    return this.status.primitiveStructures.filter(entry => this.getName(entry) != 'list');
+  primitiveStructures(): any[] {
+    return this._status.primitiveStructures.filter(entry => this.getName(entry) != 'list');
   }
 
   private resetEditor(): void {
-    this.status.creator.reset();
-    this.status.toggleEditor(false);
+    this._status.creator.reset();
+    this._status.toggleEditor(false);
     this._popupStatus.toggle(false);
   }
 
   private updateStructures() {
-    this._service.getStructures(this.status.params).subscribe(
+    this._service.getStructures(this._status.params).subscribe(
       (response: VersionOfType[]) => this.handleArrivedStructures(response)
     );
   }
@@ -202,10 +202,10 @@ export class StructureEditorComponent implements OnInit {
   }
 
   private handleArrivedStructures(response: VersionOfType[]): void {
-    this.status.objectParsedVersionOfType = response
+    this._status.objectParsedVersionOfType = response
       .filter(entry => entry.type.complex)
       .map(this.parseStructure);
-    this.status.complexParsedVersionOfType = response
+    this._status.complexParsedVersionOfType = response
       .filter(entry => !entry.type.complex)
       .map(this.parseStructure);
   }
@@ -219,15 +219,15 @@ export class StructureEditorComponent implements OnInit {
     this._messages.add(new Success('Successful', 'Structure saved'));
   }
 
-  protected NONE(): StructureEditRestriction {
+  NONE(): StructureEditRestriction {
     return StructureEditRestriction.NONE;
   }
 
-  protected DELETE(): StructureEditRestriction {
+  DELETE(): StructureEditRestriction {
     return StructureEditRestriction.DELETE;
   }
 
-  protected UPDATE(): StructureEditRestriction {
+  UPDATE(): StructureEditRestriction {
     return StructureEditRestriction.UPDATE;
   }
 }

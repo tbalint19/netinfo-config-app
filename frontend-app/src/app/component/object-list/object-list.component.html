@@ -19,19 +19,19 @@
     </button>
   </div>
 
-  <div *ngIf="status.chosenVersionOfType" class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+  <div *ngIf="_status.chosenVersionOfType" class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
     <object-popup></object-popup>
 
     <h3 class="title">
       <span class="glyphicon glyphicon-th" aria-hidden="true"></span>
-      &nbsp;{{ status.chosenVersionOfType.type.name }}
+      &nbsp;{{ _status.chosenVersionOfType.type.name }}
     </h3>
     <hr>
 
     <div class="well well-flex">
-      <select class="btn btn-{{status.chosenSearchParam ? 'info' : 'default'}}"
+      <select class="btn btn-{{_status.chosenSearchParam ? 'info' : 'default'}}"
               id="dropdown-group"
-              [(ngModel)]="status.chosenSearchParam">
+              [(ngModel)]="_status.chosenSearchParam">
         <option [hidden] ="true" [ngValue]="null">
           Choose a search param
         </option>
@@ -42,8 +42,8 @@
         </option>
       </select>
       <input class="form-control"
-             [(ngModel)]="status.searchValue"
-             (keyup)="search(status.searchValue, status.chosenSearchParam)"
+             [(ngModel)]="_status.searchValue"
+             (keyup)="search(status.searchValue, _status.chosenSearchParam)"
              placeholder="Value"
              id="center-group">
       <button class="btn btn-default" (click)="reset()" id="button-group">
@@ -51,7 +51,7 @@
         <span class="glyphicon glyphicon-refresh" id="list-spinner"></span>
       </button>
       <button class="btn btn-default" (click)="openEditor()" id="orban-button">
-        Add new {{ status.chosenVersionOfType.type.name }}&nbsp;
+        Add new {{ _status.chosenVersionOfType.type.name }}&nbsp;
         <span class="glyphicon glyphicon-plus-sign"></span>
       </button>
     </div>

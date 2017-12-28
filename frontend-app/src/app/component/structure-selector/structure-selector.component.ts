@@ -9,7 +9,7 @@ import {StructureEditRestriction} from "../../model/enums/structure-edit-restric
 })
 export class StructureSelectorComponent implements OnInit {
 
-  constructor(protected status: StructureStatus) { }
+  constructor(public _status: StructureStatus) { }
 
   ngOnInit() {
   }
@@ -20,12 +20,12 @@ export class StructureSelectorComponent implements OnInit {
   @Input()
   public type: string;
 
-  protected getName(obj: any){
+  getName(obj: any){
       return Object.keys(obj)[0];
   }
 
   public activate(onlyUpdate: boolean): void {
-    this.status.toggleEditor(true, this.versionOfType, onlyUpdate ? StructureEditRestriction.UPDATE : StructureEditRestriction.DELETE);
+    this._status.toggleEditor(true, this.versionOfType, onlyUpdate ? StructureEditRestriction.UPDATE : StructureEditRestriction.DELETE);
   }
 
 }

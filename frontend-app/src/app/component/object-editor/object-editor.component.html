@@ -1,10 +1,10 @@
 <div class="row">
-  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 {{ !status.chosenObjectToSpectate && 'scrollable-list' }}">
-    <object-info *ngIf="status.chosenObjectToSpectate"></object-info>
+  <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 {{ !_status.chosenObjectToSpectate && 'scrollable-list' }}">
+    <object-info *ngIf="_status.chosenObjectToSpectate"></object-info>
 
     <div class="field-filter btn-group">
-      <select class="btn btn-{{status.chosenField ? 'info' : 'default'}} dropdown-toggle" id="kover-button"
-              [(ngModel)]="status.chosenField">
+      <select class="btn btn-{{_status.chosenField ? 'info' : 'default'}} dropdown-toggle" id="kover-button"
+              [(ngModel)]="_status.chosenField">
         <option [hidden] ="true" [ngValue]="null">
           Choose a field
         </option>
@@ -21,22 +21,22 @@
     </div>
     <div class="border-container">
       <div *ngFor="let key of structureKeys()">
-        <div *ngIf="isText(parseValue(structure[key])) && shouldShow(key, status.chosenField)" class="input-group">
+        <div *ngIf="isText(parseValue(structure[key])) && shouldShow(key, _status.chosenField)" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
           <input class="form-control" type="text"
-            [disabled]="(key == 'id' || key == 'Id') && status.restriction == updateRestriction()"
-            [(ngModel)]="status.creator.data[key]">
+            [disabled]="(key == 'id' || key == 'Id') && _status.restriction == updateRestriction()"
+            [(ngModel)]="_status.creator.data[key]">
         </div>
-        <div *ngIf="isNumber(parseValue(structure[key])) && shouldShow(key, status.chosenField)" class="input-group">
+        <div *ngIf="isNumber(parseValue(structure[key])) && shouldShow(key, _status.chosenField)" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
-          <input class="form-control" type="number" [(ngModel)]="status.creator.data[key]"
-                 [hidden]="key != status.chosenField">
+          <input class="form-control" type="number" [(ngModel)]="_status.creator.data[key]"
+                 [hidden]="key != _status.chosenField">
         </div>
-        <div *ngIf="isBoolean(parseValue(structure[key])) && shouldShow(key, status.chosenField)" class="input-group">
+        <div *ngIf="isBoolean(parseValue(structure[key])) && shouldShow(key, _status.chosenField)" class="input-group">
           <span class="input-group-addon">{{ key }}</span>
-          <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key]">
+          <input class="form-control" type="checkbox" [(ngModel)]="_status.creator.data[key]">
         </div>
-        <div *ngIf="isComplex(parseValue(structure[key])) && shouldShow(key, status.chosenField)">
+        <div *ngIf="isComplex(parseValue(structure[key])) && shouldShow(key, _status.chosenField)">
           <p class="complex-name">{{ key }}</p>
           <div *ngFor="let complexTypeKey of complexTypeKeys(parseValue(structure[key]))">
             <div *ngIf="isText(complexTypeKey, parseValue(structure[key]))" class="input-group">
@@ -44,21 +44,21 @@
               <textarea
                 [disabled]="multiLanguageDisabled(complexTypeKey, key)"
                 class="form-control"
-                [(ngModel)]="status.creator.data[key][complexTypeKey]"
-                [rows]="showRows(complexTypeKey, key, status.creator.data[key][complexTypeKey])">
+                [(ngModel)]="_status.creator.data[key][complexTypeKey]"
+                [rows]="showRows(complexTypeKey, key, _status.creator.data[key][complexTypeKey])">
               </textarea>
             </div>
             <div *ngIf="isNumber(complexTypeKey, parseValue(structure[key]))" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
-              <input class="form-control" type="number" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+              <input class="form-control" type="number" [(ngModel)]="_status.creator.data[key][complexTypeKey]">
             </div>
             <div *ngIf="isBoolean(complexTypeKey, parseValue(structure[key]))" class="input-group">
               <span class="input-group-addon">{{ complexTypeKey }}</span>
-              <input class="form-control" type="checkbox" [(ngModel)]="status.creator.data[key][complexTypeKey]">
+              <input class="form-control" type="checkbox" [(ngModel)]="_status.creator.data[key][complexTypeKey]">
             </div>
           </div>
         </div>
-        <hr *ngIf="!isObjectList(parseValue(structure[key])) && shouldShow(key, status.chosenField)">
+        <hr *ngIf="!isObjectList(parseValue(structure[key])) && shouldShow(key, _status.chosenField)">
       </div>
     </div>
   </div>
@@ -67,12 +67,12 @@
     <div class="well well-sm well-flex" id="object-editor-search">
       <div>
         <div class="reference-selector">
-          <select class="btn {{ status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
-                  [(ngModel)]="status.chosenRelation"
-                  (ngModelChange)="search(status.editorSearchValue, status.chosenEditorSearchParam, $event, parseValue(structure[$event]))">
+          <select class="btn {{ _status.chosenRelation ? 'btn-info' : 'btn-default' }} dropdown-toggle btn-block"
+                  [(ngModel)]="_status.chosenRelation"
+                  (ngModelChange)="search(_status.editorSearchValue, _status.chosenEditorSearchParam, $event, parseValue(structure[$event]))">
             <option [hidden] ="true"
                     [ngValue]="null"
-                    [selected]="!status.chosenRelation">
+                    [selected]="!_status.chosenRelation">
               Choose a reference
             </option>
             <option *ngFor="let key of structureKeys()"
@@ -83,35 +83,35 @@
           </select>
         </div>
         <div class="btn-group orban">
-          <select id="orban-button" class="btn btn-{{status.chosenEditorSearchParam ? 'info' : 'default'}} dropdown-toggle"
-                  [(ngModel)]="status.chosenEditorSearchParam"
-                  [disabled]="!status.chosenRelation"
+          <select id="orban-button" class="btn btn-{{_status.chosenEditorSearchParam ? 'info' : 'default'}} dropdown-toggle"
+                  [(ngModel)]="_status.chosenEditorSearchParam"
+                  [disabled]="!_status.chosenRelation"
                   (ngModelChange)="resetSearchValue()">
             <option [hidden] ="true" [ngValue]="null">
               Choose a search param
             </option>
-            <option *ngFor="let key of referenceStructureKeys(status.chosenRelation)"
+            <option *ngFor="let key of referenceStructureKeys(_status.chosenRelation)"
                     [ngValue]="key"
-                    [hidden]="isHiddenInner(key, status.chosenRelation)">
+                    [hidden]="isHiddenInner(key, _status.chosenRelation)">
               {{ key }}
             </option>
           </select>
           <button type="button"
                   class="btn btn-default"
                   (click)="resetSearch()"
-                  [disabled]="!status.chosenRelation">
+                  [disabled]="!_status.chosenRelation">
             All&nbsp;
             <span class="glyphicon glyphicon-refresh" id="editor-spinner"></span>
           </button>
         </div>
 
         <input class="form-control"
-               [(ngModel)]="status.editorSearchValue"
+               [(ngModel)]="_status.editorSearchValue"
                placeholder="Value"
-               [disabled]="!status.chosenRelation || !status.chosenEditorSearchParam"
-               (ngModelChange)="keyUpSearch(status.editorSearchValue, status.chosenEditorSearchParam, status.chosenRelation, parseValue(structure[status.chosenRelation]))">
+               [disabled]="!_status.chosenRelation || !_status.chosenEditorSearchParam"
+               (ngModelChange)="keyUpSearch(_status.editorSearchValue, _status.chosenEditorSearchParam, _status.chosenRelation, parseValue(structure[_status.chosenRelation]))">
 
-        <div *ngIf="status.chosenRelation" class="my-block">
+        <div *ngIf="_status.chosenRelation" class="my-block">
           <button
             class="btn btn-info btn-block"
             (click)="addAll()">
@@ -130,7 +130,7 @@
     </div>
 
     <div *ngFor="let key of structureKeys()">
-      <div class="objects-content" *ngIf="status.chosenRelation == key">
+      <div class="objects-content" *ngIf="_status.chosenRelation == key">
         <p-dataTable [value]="filteredList"
                      [rows]="10"
                      [paginator]="true"
@@ -169,8 +169,8 @@
   <button class="btn btn-info" (click)="saveObject()">Save</button>
 </div>
 
-<div *ngIf="status.isUpdating()" class="disabled-window-background"></div>
-<div *ngIf="status.isUpdating()" class="disabled-window-message">
+<div *ngIf="_status.isUpdating()" class="disabled-window-background"></div>
+<div *ngIf="_status.isUpdating()" class="disabled-window-message">
   <h4>Objects are currently updated</h4>
   <span class="glyphicon glyphicon-refresh" id="loading"></span>
   <p>Please wait...</p>

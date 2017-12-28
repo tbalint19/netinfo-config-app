@@ -24,9 +24,9 @@ export class ResetComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private messages: MessageService,
-    protected status: ResetStatus,
+    public rstatus: ResetStatus,
     private location: Location) {
-    this.reset = this.status.reset;
+    this.reset = this.rstatus.reset;
   }
 
   ngOnInit() {
@@ -42,7 +42,7 @@ export class ResetComponent implements OnInit {
   }
 
   public attemptReset(): void {
-    if (!this.status.isPossible()) {
+    if (!this.rstatus.isPossible()) {
       this.suspend();
       return;
     }
@@ -53,9 +53,9 @@ export class ResetComponent implements OnInit {
 
   private suspend(): void {
     this.messages.add(new Error("Error", "Unsuccessful password reset attempt"));
-    this.status.setSuspended(true);
+    this.rstatus.setSuspended(true);
     setTimeout(()=>{
-      this.status.setSuspended(false);
+      this.rstatus.setSuspended(false);
     }, 5000)
   }
 

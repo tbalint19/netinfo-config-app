@@ -16,12 +16,12 @@ import {Success} from "../../model/message/success.model";
 })
 export class ResetPopupComponent implements OnInit {
 
-  protected params: ResetEmailParams;
+  params: ResetEmailParams;
 
   constructor(
     private service: ResetService,
     private messages: MessageService,
-    protected resetStatus: ResetStartStatus) {
+    public resetStatus: ResetStartStatus) {
     this.params = resetStatus.params;
   }
 

@@ -1,9 +1,9 @@
 <div class="my-modal" id="confirm-modal">
   <h4>Confirm</h4>
-  <p>Are you sure you want to create a new {{ status.chosenSelector }}?</p>
-  <div *ngFor="let key of getKeys(status.data)">
-    <div *ngIf="status.data[key]">
-      {{key}} {{status.data[key]}}
+  <p>Are you sure you want to create a new {{ _status.chosenSelector }}?</p>
+  <div *ngFor="let key of getKeys(_status.data)">
+    <div *ngIf="_status.data[key]">
+      {{key}} {{_status.data[key]}}
     </div>
   </div>
   <div class="btn-container">

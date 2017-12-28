@@ -32,7 +32,7 @@
       <div class="button-container">
         <button
           class="btn btn-success"
-          [disabled]="status.isPendingCreate() || status.isSuspended()"
+          [disabled]="rstatus.isPending() || rstatus.isSuspended()"
           (click)="attemptReset()">
           Reset password
         </button>
