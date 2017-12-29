@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw';
 import {HttpRequest} from "../model/http-request.model";
-import _ from 'lodash';
+import * as _ from 'lodash';
 
 @Injectable()
 export class HttpClient {

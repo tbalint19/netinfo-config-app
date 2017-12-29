@@ -40,7 +40,7 @@ describe('StructureEditorService', () => {
     let result = service.updateVersionOfTypeWhenDelete(versionOfType);
 
     let resultStructure = JSON.parse(result.structure)["offer"];
-    expect(resultStructure["name"]).toBe(undefined);
+    expect(resultStructure["name"]).toBeUndefined();
   });
 
   it("should update empty object with one KV pair not modifies Id", () => {
@@ -74,7 +74,7 @@ describe('StructureEditorService', () => {
     let result = service.updateVersionOfTypeWhenDelete(versionOfType);
 
     let resultStructure = JSON.parse(result.structure)["offer"];
-    expect(resultStructure["name"]).toBe(undefined);
+    expect(resultStructure["name"]).toBeUndefined();
   });
 
   it("should update object with the new structure", () => {

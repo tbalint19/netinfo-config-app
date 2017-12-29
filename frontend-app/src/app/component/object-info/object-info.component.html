@@ -1,6 +1,12 @@
 <div class="my-card-background">
   <div class="my-card">
-    <button (click)="close()">x</button>
+    <div class="my-card-header">
+      <button type="button" class="close" aria-label="Close">
+        <span aria-hidden="true" (click)="close()">&times;</span>
+      </button>
+      <h4>Information about </h4>
+    </div>
+
     <div *ngFor="let key of getKeys(objectEditorStatus.chosenObjectToSpectate)">
       <div *ngIf="shouldShow(objectEditorStatus.chosenObjectToSpectate[key])">
         {{key}} {{objectEditorStatus.chosenObjectToSpectate[key]}}

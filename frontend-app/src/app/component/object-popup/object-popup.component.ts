@@ -14,6 +14,7 @@ export class ObjectPopupComponent implements OnInit {
   }
 
   closePopup(): void {
+    this._status.chosenObjectToSpectate = null;
     document.getElementById("creator").classList.add("slideaway");
     document.getElementById("background").classList.add("disappear");
     setTimeout(()=>{

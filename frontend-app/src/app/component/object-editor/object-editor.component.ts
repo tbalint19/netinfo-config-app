@@ -10,7 +10,7 @@ import {SuccessResponse} from "../../model/response/success-response.model";
 import {MessageService} from "../../service/message.service";
 import {Success} from "../../model/message/success.model";
 import {Error} from "../../model/message/error.model";
-import _ from 'lodash';
+import * as _ from 'lodash';
 import {PreUpdateObjectsParams} from "../../model/get-request/pre-update-objects-params";
 import {Observable} from "rxjs/Observable";
 import {VersionOfTypeWithIds} from "../../model/response/version-of-type-with-ids";
